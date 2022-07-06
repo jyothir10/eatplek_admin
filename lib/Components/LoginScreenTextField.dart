@@ -33,14 +33,7 @@ class LoginScreenTextField extends StatelessWidget {
           fontFamily: 'SFUIText',
         ),
         decoration: InputDecoration(
-          focusedBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(20),
-            ),
-            borderSide: BorderSide(
-              color: Color(0xf3ffffff),
-            ),
-          ),
+          border: InputBorder.none,
           hintText: text,
           hintStyle: const TextStyle(
             color: Color(0x89042e60),
