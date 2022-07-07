@@ -12,6 +12,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
   var items = ["Open", "Closed"];
   String dropdownvalue = 'Open';
   bool open = true;
+  bool setTimer = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,13 +110,19 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                   ),
                 ),
                 Row(
-                  children: const [
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: Colors.black,
-                      size: 12,
-                    ),
-                    Text(
+                  children: [
+                    setTimer == false
+                        ? const Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.black,
+                            size: 12,
+                          )
+                        : const Icon(
+                            Icons.keyboard_arrow_down,
+                            color: Colors.black,
+                            size: 12,
+                          ),
+                    const Text(
                       'Set Timer',
                       style: TextStyle(
                         color: Colors.black,
@@ -123,8 +130,22 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                         fontFamily: 'SFUIText',
                       ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 7),
+                      child: Switch(
+                        value: setTimer,
+                        onChanged: (value) {
+                          setState(() {
+                            setTimer = value;
+                          });
+                        },
+                        activeColor: Colors.green,
+                        inactiveThumbColor: Colors.red,
+                        inactiveTrackColor: Color(0xffffcccb),
+                      ),
+                    ),
                   ],
-                )
+                ),
               ],
             ),
           ),
