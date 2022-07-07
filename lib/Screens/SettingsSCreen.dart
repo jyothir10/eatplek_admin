@@ -1,3 +1,4 @@
+import 'package:eatplek_admin/Components/BottomBar.dart';
 import 'package:eatplek_admin/Components/SettingsCard.dart';
 import 'package:eatplek_admin/Screens/EditProfileScreen.dart';
 import 'package:eatplek_admin/Screens/MenuChangeScreen.dart';
@@ -17,6 +18,9 @@ class _SettingsSCreenState extends State<SettingsSCreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: BottomBar(
+        index: 3,
+      ),
       appBar: PreferredSize(
         preferredSize:
             Size.fromHeight(MediaQuery.of(context).size.height * .11),
