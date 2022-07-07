@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:numberpicker/numberpicker.dart';
 
 class TimeChangeScreen extends StatefulWidget {
   static const String id = '/time_change';
@@ -13,6 +14,34 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
   String dropdownvalue = 'Open';
   bool open = true;
   bool setTimer = false;
+  int oth = 2;
+  int otm = 5;
+  int cth = 2;
+  int ctm = 5;
+  final list = ['AM', 'PM'];
+  String dropdownval = "AM";
+  final list1 = ['AM', 'PM'];
+  String dropdownval1 = "AM";
+  final days = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday'
+  ];
+  String day = 'Monday';
+  final days1 = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday'
+  ];
+  String day1 = 'Monday';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +78,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                   padding: const EdgeInsets.only(bottom: 27),
                   child: Row(
                     children: [
-                      Text(
+                      const Text(
                         'Status',
                         style: TextStyle(
                           color: Colors.black,
@@ -146,6 +175,449 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                     ),
                   ],
                 ),
+                setTimer == true
+                    ? Container(
+                        height: 195,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(bottom: 9, top: 21),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: const [
+                                  Text(
+                                    'Opening Time',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 12,
+                                      fontFamily: 'SFUIText',
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 5),
+                                    child: Text(
+                                      'Closing Time',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontFamily: 'SFUIText',
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 3),
+                                    child: Text(
+                                      'From',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontFamily: 'SFUIText',
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    'To',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 12,
+                                      fontFamily: 'SFUIText',
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 4.5),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 25),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Container(
+                                          height: 45,
+                                          width: 45,
+                                          decoration: const BoxDecoration(
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black,
+                                                  blurRadius: 2.0,
+                                                  spreadRadius: 0.0,
+                                                  offset: Offset(0.0,
+                                                      1.0), // shadow direction: bottom right
+                                                )
+                                              ],
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10))),
+                                          child: NumberPicker(
+                                              textStyle: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12,
+                                                fontFamily: 'SFUIText',
+                                              ),
+                                              selectedTextStyle:
+                                                  const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12,
+                                                fontFamily: 'SFUIText',
+                                              ),
+                                              zeroPad: true,
+                                              haptics: true,
+                                              infiniteLoop: true,
+                                              value: oth,
+                                              minValue: 1,
+                                              maxValue: 12,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  oth = value;
+                                                });
+                                              }),
+                                        ),
+                                        const Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 9),
+                                          child: Text(
+                                            ":",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12,
+                                                fontFamily: 'SFUIText',
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 45,
+                                          width: 45,
+                                          decoration: const BoxDecoration(
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black,
+                                                  blurRadius: 2.0,
+                                                  spreadRadius: 0.0,
+                                                  offset: Offset(0.0,
+                                                      1.0), // shadow direction: bottom right
+                                                )
+                                              ],
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10))),
+                                          child: NumberPicker(
+                                              zeroPad: true,
+                                              step: 5,
+                                              textStyle: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12,
+                                                fontFamily: 'SFUIText',
+                                              ),
+                                              selectedTextStyle:
+                                                  const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12,
+                                                fontFamily: 'SFUIText',
+                                              ),
+                                              haptics: true,
+                                              infiniteLoop: true,
+                                              value: otm,
+                                              minValue: 0,
+                                              maxValue: 59,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  otm = value;
+                                                });
+                                              }),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 18),
+                                          child: Container(
+                                              height: 45,
+                                              width: 45,
+                                              decoration: const BoxDecoration(
+                                                  color: Colors.white,
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.black,
+                                                      blurRadius: 2.0,
+                                                      spreadRadius: 0.0,
+                                                      offset: Offset(0.0,
+                                                          1.0), // shadow direction: bottom right
+                                                    )
+                                                  ],
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(10))),
+                                              child: Center(
+                                                child:
+                                                    DropdownButtonHideUnderline(
+                                                  child: DropdownButton(
+                                                    iconSize: 0,
+                                                    style: const TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 12,
+                                                      fontFamily: 'SFUIText',
+                                                    ),
+                                                    value: dropdownval,
+                                                    items: list
+                                                        .map((String items) {
+                                                      return DropdownMenuItem(
+                                                        value: items,
+                                                        child: Text(items),
+                                                      );
+                                                    }).toList(),
+                                                    onChanged:
+                                                        (String? newValue) {
+                                                      setState(() {
+                                                        dropdownval = newValue!;
+                                                      });
+                                                    },
+                                                  ),
+                                                ),
+                                              )),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Container(
+                                          height: 45,
+                                          width: 45,
+                                          decoration: const BoxDecoration(
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black,
+                                                  blurRadius: 2.0,
+                                                  spreadRadius: 0.0,
+                                                  offset: Offset(0.0,
+                                                      1.0), // shadow direction: bottom right
+                                                )
+                                              ],
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10))),
+                                          child: NumberPicker(
+                                              textStyle: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12,
+                                                fontFamily: 'SFUIText',
+                                              ),
+                                              selectedTextStyle:
+                                                  const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12,
+                                                fontFamily: 'SFUIText',
+                                              ),
+                                              zeroPad: true,
+                                              haptics: true,
+                                              infiniteLoop: true,
+                                              value: cth,
+                                              minValue: 1,
+                                              maxValue: 12,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  cth = value;
+                                                });
+                                              }),
+                                        ),
+                                        const Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 9),
+                                          child: Text(
+                                            ":",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12,
+                                                fontFamily: 'SFUIText',
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 45,
+                                          width: 45,
+                                          decoration: const BoxDecoration(
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black,
+                                                  blurRadius: 2.0,
+                                                  spreadRadius: 0.0,
+                                                  offset: Offset(0.0,
+                                                      1.0), // shadow direction: bottom right
+                                                )
+                                              ],
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10))),
+                                          child: NumberPicker(
+                                              zeroPad: true,
+                                              step: 5,
+                                              textStyle: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12,
+                                                fontFamily: 'SFUIText',
+                                              ),
+                                              selectedTextStyle:
+                                                  const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12,
+                                                fontFamily: 'SFUIText',
+                                              ),
+                                              haptics: true,
+                                              infiniteLoop: true,
+                                              value: ctm,
+                                              minValue: 0,
+                                              maxValue: 59,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  ctm = value;
+                                                });
+                                              }),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 18),
+                                          child: Container(
+                                              height: 45,
+                                              width: 45,
+                                              decoration: const BoxDecoration(
+                                                  color: Colors.white,
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.black,
+                                                      blurRadius: 2.0,
+                                                      spreadRadius: 0.0,
+                                                      offset: Offset(0.0,
+                                                          1.0), // shadow direction: bottom right
+                                                    )
+                                                  ],
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(10))),
+                                              child: Center(
+                                                child:
+                                                    DropdownButtonHideUnderline(
+                                                  child: DropdownButton(
+                                                    iconSize: 0,
+                                                    style: const TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 12,
+                                                      fontFamily: 'SFUIText',
+                                                    ),
+                                                    value: dropdownval1,
+                                                    items: list1
+                                                        .map((String items) {
+                                                      return DropdownMenuItem(
+                                                        value: items,
+                                                        child: Text(items),
+                                                      );
+                                                    }).toList(),
+                                                    onChanged:
+                                                        (String? newValue) {
+                                                      setState(() {
+                                                        dropdownval1 =
+                                                            newValue!;
+                                                      });
+                                                    },
+                                                  ),
+                                                ),
+                                              )),
+                                        ),
+                                      ],
+                                    ),
+                                    Container(
+                                        height: 35,
+                                        width: 100,
+                                        decoration: const BoxDecoration(
+                                            color: Colors.white,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black,
+                                                blurRadius: 2.0,
+                                                spreadRadius: 0.0,
+                                                offset: Offset(0.0,
+                                                    1.0), // shadow direction: bottom right
+                                              )
+                                            ],
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10))),
+                                        child: Center(
+                                          child: DropdownButtonHideUnderline(
+                                            child: DropdownButton(
+                                              icon: Icon(Icons.arrow_drop_down),
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12,
+                                                fontFamily: 'SFUIText',
+                                              ),
+                                              value: day,
+                                              items: days.map((String items) {
+                                                return DropdownMenuItem(
+                                                  value: items,
+                                                  child: Text(items),
+                                                );
+                                              }).toList(),
+                                              onChanged: (String? newValue) {
+                                                setState(() {
+                                                  day = newValue!;
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                        )),
+                                    Container(
+                                        height: 35,
+                                        width: 100,
+                                        decoration: const BoxDecoration(
+                                            color: Colors.white,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black,
+                                                blurRadius: 2.0,
+                                                spreadRadius: 0.0,
+                                                offset: Offset(0.0,
+                                                    1.0), // shadow direction: bottom right
+                                              )
+                                            ],
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10))),
+                                        child: Center(
+                                          child: DropdownButtonHideUnderline(
+                                            child: DropdownButton(
+                                              icon: Icon(Icons.arrow_drop_down),
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12,
+                                                fontFamily: 'SFUIText',
+                                              ),
+                                              value: day1,
+                                              items: days1.map((String items) {
+                                                return DropdownMenuItem(
+                                                  value: items,
+                                                  child: Text(items),
+                                                );
+                                              }).toList(),
+                                              onChanged: (String? newValue) {
+                                                setState(() {
+                                                  day1 = newValue!;
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                        )),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                    : Container()
               ],
             ),
           ),
