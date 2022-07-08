@@ -8,6 +8,7 @@ import 'Screens/EditProfileScreen.dart';
 import 'Screens/LoginScreen.dart';
 import 'Screens/MenuChangeScreen.dart';
 import 'Screens/NotificationScreen.dart';
+import 'Screens/ExpensesScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: InventoryScreen.id,
+        initialRoute: ExpensesScreen.id,
         routes: {
           OnboardingScreen.id: (context) => OnboardingScreen(),
           LoginScreen.id: (context) => LoginScreen(),
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
           TimeChangeScreen.id: (context) => TimeChangeScreen(),
           SettingsSCreen.id: (context) => SettingsSCreen(),
           InventoryScreen.id: (context) => InventoryScreen(),
+          ExpensesScreen.id: (context) => ExpensesScreen(),
         });
   }
 }
