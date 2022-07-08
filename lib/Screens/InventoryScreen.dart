@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eatplek_admin/Components/BottomBar.dart';
 
 class InventoryScreen extends StatefulWidget {
   static const String id = '/invent';
@@ -219,6 +220,9 @@ class _InventoryScreenState extends State<InventoryScreen> {
               ):Container(),
             ],
           ),
+        ),
+        bottomNavigationBar: BottomBar(
+          index: 1,
         ),
       ),
     );
