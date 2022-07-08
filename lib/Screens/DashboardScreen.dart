@@ -10,6 +10,32 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return DefaultTabController(
+        length: 4,
+        child: Scaffold(
+          appBar: AppBar(
+            bottom: (const TabBar(
+              labelStyle: TextStyle(
+                color: Colors.white,
+                fontSize: 10,
+                fontFamily: 'SFUIText',
+              ),
+              tabs: [
+                Tab(
+                  text: "All",
+                ),
+                Tab(
+                  text: "Preparing",
+                ),
+                Tab(
+                  text: "Delivered",
+                ),
+                Tab(
+                  text: "Delay",
+                ),
+              ],
+            )),
+          ),
+        ));
   }
 }
