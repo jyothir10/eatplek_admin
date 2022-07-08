@@ -1,3 +1,7 @@
+import 'package:eatplek_admin/Screens/DashboardScreen.dart';
+import 'package:eatplek_admin/Screens/ExpensesScreen.dart';
+import 'package:eatplek_admin/Screens/InventoryScreen.dart';
+import 'package:eatplek_admin/Screens/SettingsSCreen.dart';
 import 'package:flutter/material.dart';
 
 class BottomBar extends StatefulWidget {
@@ -10,23 +14,24 @@ class BottomBar extends StatefulWidget {
 
 class _BottomBarState extends State<BottomBar> {
   int _selectedIndex = 0;
-  // final pages = [
-  //   DashBoardScreen.id,
-  //   OrderScreen.id,
-  //   OrderHistoryScreen.id,
-  //   ProfileScreen.id
-  // ];
-  //
-  // void _onItemTapped(int index) {
-  //   setState(() {
-  //     _selectedIndex = index;
-  //     Navigator.pushReplacementNamed(context, pages[index]);
-  //   });
-  // }
+  final pages = [
+    DashboardScreen.id,
+    InventoryScreen.id,
+    ExpensesScreen.id,
+    SettingsSCreen.id,
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      Navigator.pushReplacementNamed(context, pages[index]);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      //onTap: _onItemTapped,
+      onTap: _onItemTapped,
       type: BottomNavigationBarType.fixed,
       currentIndex: widget.index,
       selectedLabelStyle: const TextStyle(
