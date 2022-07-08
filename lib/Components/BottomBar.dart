@@ -1,4 +1,5 @@
 import 'package:eatplek_admin/Screens/DashboardScreen.dart';
+import 'package:eatplek_admin/Screens/ExpensesScreen.dart';
 import 'package:eatplek_admin/Screens/InventoryScreen.dart';
 import 'package:eatplek_admin/Screens/SettingsSCreen.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ class _BottomBarState extends State<BottomBar> {
   final pages = [
     DashboardScreen.id,
     InventoryScreen.id,
-    DashboardScreen.id,
+    ExpensesScreen.id,
     SettingsSCreen.id,
   ];
 
