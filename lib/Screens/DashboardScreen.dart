@@ -1,3 +1,4 @@
+import 'package:eatplek_admin/Components/YellowButton.dart';
 import 'package:flutter/material.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -49,6 +50,68 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   decoration: BoxDecoration(
                     color: Color(0x23ffffff),
                     borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 18),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text(
+                              'The Smocky Shack',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'SFUIText',
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 5),
+                              child: Text(
+                                'Chengannur',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 8,
+                                  fontFamily: 'SFUIText',
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            YellowButton(text: "Open", onTap: () {}),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 7, top: 7),
+                              child: InkWell(
+                                onTap: () {
+                                  //todo:change
+                                },
+                                child: const Text(
+                                  'Change',
+                                  style: TextStyle(
+                                    shadows: [
+                                      Shadow(
+                                          color: Colors.white,
+                                          offset: Offset(0, -5))
+                                    ],
+                                    color: Colors.transparent,
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: Color(0x23ffffff),
+                                    decorationThickness: 5,
+                                    fontSize: 6,
+                                    fontFamily: 'SFUIText',
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 (const TabBar(
