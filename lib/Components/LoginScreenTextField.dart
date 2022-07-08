@@ -19,10 +19,6 @@ class LoginScreenTextField extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width * .752,
       height: MediaQuery.of(context).size.height * .053,
-      decoration: BoxDecoration(
-        color: const Color(0xf3ffffff),
-        borderRadius: BorderRadius.circular(20),
-      ),
       child: TextField(
         obscureText: obscure,
         onChanged: onchanged,
@@ -33,12 +29,14 @@ class LoginScreenTextField extends StatelessWidget {
           fontFamily: 'SFUIText',
         ),
         decoration: InputDecoration(
-          focusedBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(20),
-            ),
-            borderSide: BorderSide(
-              color: Color(0xf3ffffff),
+          contentPadding: EdgeInsets.all(8),
+          filled: true,
+          fillColor: const Color(0xf3ffffff),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: const BorderSide(
+              width: 0,
+              style: BorderStyle.none,
             ),
           ),
           hintText: text,

@@ -38,17 +38,25 @@ class _LoginScreenState extends State<LoginScreen> {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              LoginScreenTextField(
-                  text: "Username",
-                  onchanged: (value) {},
-                  type: TextInputType.name,
-                  obscure: false),
-              LoginScreenTextField(
-                text: "Password",
-                onchanged: (value) {},
-                type: TextInputType.name,
-                obscure: true,
+              Column(
+                children: [
+                  LoginScreenTextField(
+                      text: "Username",
+                      onchanged: (value) {},
+                      type: TextInputType.name,
+                      obscure: false),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 25),
+                    child: LoginScreenTextField(
+                      text: "Password",
+                      onchanged: (value) {},
+                      type: TextInputType.name,
+                      obscure: true,
+                    ),
+                  ),
+                ],
               ),
+
               LoginButton(
                 onPressed: () {},
                 text: 'Get OTP',
