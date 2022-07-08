@@ -30,7 +30,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
                 Icons.arrow_back_outlined,
               ),
             ),
-            title: Text(
+            title: const Text(
               'Inventory',
               style: TextStyle(
                 color: Colors.white,
@@ -105,7 +105,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
                                 Icons.arrow_drop_down_circle_outlined,
                                 color: Colors.black,
                                 size: 13,
-                              ))
+                              ),),
                         ],
                       ),
                     ],
