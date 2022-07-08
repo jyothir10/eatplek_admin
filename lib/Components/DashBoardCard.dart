@@ -3,21 +3,23 @@ import 'package:flutter/material.dart';
 
 class DashBoardCard extends StatefulWidget {
   bool isExpanded = false;
-  bool isDelivered = false;
+  double n = 3;
+  bool isDelivered;
   final String name;
   final String date;
   final String phone;
   final String time;
   final String guest;
 
-  DashBoardCard(
-      {Key? key,
-      required this.name,
-      required this.time,
-      required this.date,
-      required this.guest,
-      required this.phone})
-      : super(key: key);
+  DashBoardCard({
+    Key? key,
+    required this.name,
+    required this.time,
+    required this.date,
+    required this.guest,
+    required this.phone,
+    required this.isDelivered,
+  }) : super(key: key);
 
   @override
   State<DashBoardCard> createState() => _DashBoardCardState();
@@ -29,7 +31,7 @@ class _DashBoardCardState extends State<DashBoardCard> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15),
       child: Container(
-        height: 230,
+        height: widget.isExpanded == false ? 230 : (230 + (widget.n * 15)),
         width: MediaQuery.of(context).size.width * .932,
         decoration: BoxDecoration(
           color: Color(0xffeeeeee),
@@ -45,7 +47,7 @@ class _DashBoardCardState extends State<DashBoardCard> {
                 children: [
                   Text(
                     widget.name,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black,
                       fontFamily: 'SFUIText',
                       fontWeight: FontWeight.w600,
@@ -53,7 +55,7 @@ class _DashBoardCardState extends State<DashBoardCard> {
                   ),
                   Text(
                     widget.date,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 9,
                       fontFamily: 'SFUIText',
@@ -67,7 +69,7 @@ class _DashBoardCardState extends State<DashBoardCard> {
                 children: [
                   Text(
                     widget.phone,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 10,
                       fontFamily: 'SFUIText',
@@ -75,7 +77,7 @@ class _DashBoardCardState extends State<DashBoardCard> {
                   ),
                   Text(
                     widget.time,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 9,
                       fontFamily: 'SFUIText',
@@ -88,7 +90,7 @@ class _DashBoardCardState extends State<DashBoardCard> {
                 children: [
                   Text(
                     'No of Guests : ${widget.guest}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 10,
                       fontFamily: 'SFUIText',
@@ -97,7 +99,8 @@ class _DashBoardCardState extends State<DashBoardCard> {
                 ],
               ),
               Container(
-                height: 88,
+                height:
+                    widget.isExpanded == false ? 88 : (88 + (widget.n * 15)),
                 width: MediaQuery.of(context).size.width * .83,
                 decoration: BoxDecoration(
                   color: Color(0x56e0e0e0),
@@ -146,22 +149,24 @@ class _DashBoardCardState extends State<DashBoardCard> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(left: 15, top: 7),
-                            child: InkWell(
-                              onTap: () {
-                                setState(() {
-                                  widget.isExpanded = true;
-                                });
-                              },
-                              child: Text(
-                                '+3 more',
-                                style: TextStyle(
-                                  color: Color(0xff284aff),
-                                  fontSize: 8,
-                                  fontFamily: 'SFUIText',
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
+                            child: widget.isExpanded == false
+                                ? InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        widget.isExpanded = true;
+                                      });
+                                    },
+                                    child: Text(
+                                      '+3 more',
+                                      style: TextStyle(
+                                        color: Color(0xff284aff),
+                                        fontSize: 8,
+                                        fontFamily: 'SFUIText',
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  )
+                                : Container(),
                           ),
                         ],
                       ),

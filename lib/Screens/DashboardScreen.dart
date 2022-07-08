@@ -1,3 +1,4 @@
+import 'package:eatplek_admin/Components/BottomBar.dart';
 import 'package:eatplek_admin/Components/DashBoardCard.dart';
 import 'package:eatplek_admin/Components/YellowButton.dart';
 import 'package:flutter/material.dart';
@@ -11,13 +12,14 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  bool isExpanded = false;
-  bool isDelivered = false;
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
+        bottomNavigationBar: BottomBar(
+          index: 0,
+        ),
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: Color(0xff042e60),
@@ -151,17 +153,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 child: Column(
                   children: [
                     DashBoardCard(
-                        name: "Vinod Kumar",
-                        time: '10:00 AM',
-                        date: '21-10-2022',
-                        guest: "3",
-                        phone: '9865123548'),
+                      name: "Vinod Kumar",
+                      time: '10:00 AM',
+                      date: '21-10-2022',
+                      guest: "3",
+                      phone: '9865123548',
+                      isDelivered: false,
+                    ),
                     DashBoardCard(
-                        name: "Vinod Kumar",
-                        time: '10:00 AM',
-                        date: '21-10-2022',
-                        guest: "3",
-                        phone: '9865123548'),
+                      name: "Vinod Kumar",
+                      time: '10:00 AM',
+                      date: '21-10-2022',
+                      guest: "3",
+                      phone: '9865123548',
+                      isDelivered: false,
+                    ),
                   ],
                 ),
               ),
