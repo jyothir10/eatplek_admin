@@ -31,7 +31,7 @@ class _DashBoardCardState extends State<DashBoardCard> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15),
       child: Container(
-        height: widget.isExpanded == false ? 230 : (230 + (widget.n * 15)),
+        height: widget.isExpanded == false ? 231 : (231 + (widget.n * 15)),
         width: MediaQuery.of(context).size.width * .932,
         decoration: BoxDecoration(
           color: Color(0xffeeeeee),
@@ -100,7 +100,7 @@ class _DashBoardCardState extends State<DashBoardCard> {
               ),
               Container(
                 height:
-                    widget.isExpanded == false ? 88 : (88 + (widget.n * 15)),
+                    widget.isExpanded == false ? 89 : (89 + (widget.n * 15)),
                 width: MediaQuery.of(context).size.width * .83,
                 decoration: BoxDecoration(
                   color: Color(0x56e0e0e0),
