@@ -131,9 +131,6 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
                             Container(
                               height: 25,
                               width: MediaQuery.of(context).size.width * .446,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
                               child: TextField(
                                 style: const TextStyle(
                                   color: Color(0xff8a8a8a),
