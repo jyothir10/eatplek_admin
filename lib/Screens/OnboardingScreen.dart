@@ -31,19 +31,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      key: _scaffoldKey,
-      onWillPop: onWillPop,
-      child: EasySplashScreen(
-        showLoader: false,
-        backgroundColor: const Color(0xff042e60),
-        logo: Image.asset(
-          "images/logo.png",
-        ),
-        logoSize: MediaQuery.of(context).size.height * .43,
-        navigator: LoginScreen(),
-        durationInSeconds: 5,
-      ),
-    );
+        onWillPop: onWillPop,
+        child: Scaffold(
+          key: _scaffoldKey,
+          body: EasySplashScreen(
+            showLoader: false,
+            backgroundColor: const Color(0xff042e60),
+            logo: Image.asset(
+              "images/logo.png",
+            ),
+            logoSize: MediaQuery.of(context).size.height * .43,
+            navigator: LoginScreen(),
+            durationInSeconds: 5,
+          ),
+        ));
   }
 }
 // SplashScreen(
