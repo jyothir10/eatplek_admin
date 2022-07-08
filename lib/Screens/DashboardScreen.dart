@@ -1,3 +1,4 @@
+import 'package:eatplek_admin/Components/DashBoardCard.dart';
 import 'package:eatplek_admin/Components/YellowButton.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +11,8 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  bool isExpanded = false;
+  bool isDelivered = false;
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -142,7 +145,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ),
         body: TabBarView(
           children: [
-            Container(),
+            Padding(
+              padding: const EdgeInsets.only(top: 18),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    DashBoardCard(
+                        name: "Vinod Kumar",
+                        time: '10:00 AM',
+                        date: '21-10-2022',
+                        guest: "3",
+                        phone: '9865123548'),
+                    DashBoardCard(
+                        name: "Vinod Kumar",
+                        time: '10:00 AM',
+                        date: '21-10-2022',
+                        guest: "3",
+                        phone: '9865123548'),
+                  ],
+                ),
+              ),
+            ),
             Container(),
             Container(),
             Container(),

@@ -660,10 +660,22 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      PlainButton(text: "Cancel", onTap: () {}),
-                      BlueButton(
-                        text: "Save",
-                        onTap: () {},
+                      Container(
+                        width: MediaQuery.of(context).size.width * .41,
+                        child: PlainButton(
+                            text: "Cancel",
+                            onTap: () {
+                              //todo: cancel
+                            }),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * .41,
+                        child: BlueButton(
+                          text: "Save",
+                          onTap: () {
+                            //todo: save
+                          },
+                        ),
                       )
                     ],
                   ),
