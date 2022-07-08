@@ -1,6 +1,6 @@
 import 'package:eatplek_admin/Screens/TimeChangeScreen.dart';
 import 'package:flutter/material.dart';
-
+import 'Screens/InventoryScreen.dart';
 import 'Screens/EditProfileScreen.dart';
 import 'Screens/LoginScreen.dart';
 import 'Screens/MenuChangeScreen.dart';
@@ -16,13 +16,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: TimeChangeScreen.id,
+        initialRoute: InventoryScreen.id,
         routes: {
           LoginScreen.id: (context) => LoginScreen(),
           NotificationScreen.id: (context) => NotificationScreen(),
           EditProfileScreen.id: (context) => EditProfileScreen(),
           MenuChangeScreen.id: (context) => MenuChangeScreen(),
           TimeChangeScreen.id: (context) => TimeChangeScreen(),
+          InventoryScreen.id: (context) => InventoryScreen(),
         });
   }
 }
