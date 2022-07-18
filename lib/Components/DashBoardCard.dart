@@ -217,7 +217,8 @@ class _DashBoardCardState extends State<DashBoardCard> {
                             ),
                           )
                         : Container(
-                            width: MediaQuery.of(context).size.width * .2136,
+                            width: MediaQuery.of(context).size.width * .25,
+                            height: 29,
                             child: BlueButton(
                                 text: "Mark Done",
                                 fontSize: 10.75,
