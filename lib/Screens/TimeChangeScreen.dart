@@ -666,6 +666,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                             text: "Cancel",
                             onTap: () {
                               //todo: cancel
+                              Navigator.pop(context);
                             }),
                       ),
                       Container(
@@ -674,6 +675,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                           text: "Save",
                           onTap: () {
                             //todo: save
+                            Navigator.pop(context);
                           },
                         ),
                       )

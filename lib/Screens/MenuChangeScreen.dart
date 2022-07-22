@@ -43,22 +43,22 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          Container(
-            color: Color(0xfffff5f5),
-            height: MediaQuery.of(context).size.height * .0475,
-            width: MediaQuery.of(context).size.width,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 15),
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    if (expanded1 == true) {
-                      expanded1 = false;
-                    } else {
-                      expanded1 = true;
-                    }
-                  });
-                },
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                if (expanded1 == true) {
+                  expanded1 = false;
+                } else {
+                  expanded1 = true;
+                }
+              });
+            },
+            child: Container(
+              color: Color(0xfffff5f5),
+              height: MediaQuery.of(context).size.height * .0475,
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15),
                 child: Row(
                   children: [
                     Icon(
@@ -252,22 +252,22 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
               : Container(
                   height: 13,
                 ),
-          Container(
-            color: Color(0xfffff5f5),
-            height: MediaQuery.of(context).size.height * .0475,
-            width: MediaQuery.of(context).size.width,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 15),
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    if (expanded2 == true) {
-                      expanded2 = false;
-                    } else {
-                      expanded2 = true;
-                    }
-                  });
-                },
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                if (expanded2 == true) {
+                  expanded2 = false;
+                } else {
+                  expanded2 = true;
+                }
+              });
+            },
+            child: Container(
+              color: Color(0xfffff5f5),
+              height: MediaQuery.of(context).size.height * .0475,
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15),
                 child: Row(
                   children: [
                     Icon(
