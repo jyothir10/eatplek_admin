@@ -17,13 +17,13 @@ class ProfileButton extends StatelessWidget {
         backgroundColor:
         MaterialStateProperty.all<Color>(const Color(0xff042e60)),
         shape: MaterialStateProperty.all(
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.1))),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(7),),),
       ),
       child: Text(
         text,
         style: const TextStyle(
           color: Colors.white,
-          fontSize: 13,
+          fontSize: 15,
           fontFamily: 'SFUIText',
         ),
       ),

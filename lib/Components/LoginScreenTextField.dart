@@ -25,7 +25,7 @@ class LoginScreenTextField extends StatelessWidget {
         keyboardType: type,
         textAlign: TextAlign.center,
         style: const TextStyle(
-          color: Color(0x89042e60),
+          color: Color(0xff042e60),
           fontFamily: 'SFUIText',
         ),
         decoration: InputDecoration(
