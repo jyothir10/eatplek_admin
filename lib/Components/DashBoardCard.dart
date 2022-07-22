@@ -31,14 +31,14 @@ class _DashBoardCardState extends State<DashBoardCard> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15),
       child: Container(
-        height: widget.isExpanded == false ? 231 : (231 + (widget.n * 15)),
+        height: widget.isExpanded == false ? 235 : (235 + (widget.n * 16)),
         width: MediaQuery.of(context).size.width * .932,
         decoration: BoxDecoration(
           color: Color(0xffeeeeee),
           borderRadius: BorderRadius.circular(14),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -48,16 +48,16 @@ class _DashBoardCardState extends State<DashBoardCard> {
                   Text(
                     widget.name,
                     style: const TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'SFUIText',
-                      fontWeight: FontWeight.w600,
-                    ),
+                        color: Colors.black,
+                        fontFamily: 'SFUIText',
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14.3),
                   ),
                   Text(
                     widget.date,
                     style: const TextStyle(
                       color: Colors.black,
-                      fontSize: 9,
+                      fontSize: 10,
                       fontFamily: 'SFUIText',
                       fontWeight: FontWeight.w500,
                     ),
@@ -71,7 +71,7 @@ class _DashBoardCardState extends State<DashBoardCard> {
                     widget.phone,
                     style: const TextStyle(
                       color: Colors.black,
-                      fontSize: 10,
+                      fontSize: 11,
                       fontFamily: 'SFUIText',
                     ),
                   ),
@@ -79,7 +79,7 @@ class _DashBoardCardState extends State<DashBoardCard> {
                     widget.time,
                     style: const TextStyle(
                       color: Colors.black,
-                      fontSize: 9,
+                      fontSize: 10,
                       fontFamily: 'SFUIText',
                       fontWeight: FontWeight.w500,
                     ),
@@ -92,7 +92,7 @@ class _DashBoardCardState extends State<DashBoardCard> {
                     'No of Guests : ${widget.guest}',
                     style: const TextStyle(
                       color: Colors.black,
-                      fontSize: 10,
+                      fontSize: 11,
                       fontFamily: 'SFUIText',
                     ),
                   ),
@@ -100,7 +100,7 @@ class _DashBoardCardState extends State<DashBoardCard> {
               ),
               Container(
                 height:
-                    widget.isExpanded == false ? 89 : (89 + (widget.n * 15)),
+                    widget.isExpanded == false ? 93 : (93 + (widget.n * 16)),
                 width: MediaQuery.of(context).size.width * .83,
                 decoration: BoxDecoration(
                   color: Color(0x56e0e0e0),
@@ -129,7 +129,7 @@ class _DashBoardCardState extends State<DashBoardCard> {
                                 'Zinger Burger',
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 10,
+                                  fontSize: 11,
                                   fontFamily: 'SFUIText',
                                 ),
                               ),
@@ -139,7 +139,7 @@ class _DashBoardCardState extends State<DashBoardCard> {
                             '₹ 250',
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 10,
+                              fontSize: 11,
                               fontFamily: 'SFUIText',
                             ),
                           ),
@@ -160,7 +160,7 @@ class _DashBoardCardState extends State<DashBoardCard> {
                                       '+3 more',
                                       style: TextStyle(
                                         color: Color(0xff284aff),
-                                        fontSize: 8,
+                                        fontSize: 10,
                                         fontFamily: 'SFUIText',
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -180,7 +180,7 @@ class _DashBoardCardState extends State<DashBoardCard> {
                             '₹ 540',
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 10,
+                              fontSize: 11,
                               fontFamily: 'SFUIText',
                             ),
                           ),
@@ -207,7 +207,7 @@ class _DashBoardCardState extends State<DashBoardCard> {
                                       offset: Offset(0, -5))
                                 ],
                                 color: Colors.transparent,
-                                fontSize: 8,
+                                fontSize: 11,
                                 fontFamily: 'SFUIText',
                                 fontWeight: FontWeight.w500,
                                 decoration: TextDecoration.underline,

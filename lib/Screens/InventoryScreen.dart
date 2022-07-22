@@ -1,4 +1,6 @@
 import 'package:eatplek_admin/Components/BottomBar.dart';
+import 'package:eatplek_admin/Components/OutofStockCard.dart';
+import 'package:eatplek_admin/Constants.dart';
 import 'package:eatplek_admin/Screens/DashboardScreen.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +15,7 @@ class InventoryScreen extends StatefulWidget {
 class _InventoryScreenState extends State<InventoryScreen> {
   bool expanded = false;
   bool setFries = false;
+  int outofstock = 2;
   List<bool> fries = [false, false, false];
   @override
   Widget build(BuildContext context) {
@@ -21,51 +24,51 @@ class _InventoryScreenState extends State<InventoryScreen> {
         Navigator.pushReplacementNamed(context, DashboardScreen.id);
         return false;
       },
-      child: SafeArea(
-        child: Scaffold(
-          appBar: PreferredSize(
-            preferredSize:
-                Size.fromHeight(MediaQuery.of(context).size.height * .107),
-            child: AppBar(
-              backgroundColor: Color(0xff042e60),
-              leading: InkWell(
-                onTap: () {
-                  Navigator.pushReplacementNamed(context, DashboardScreen.id);
-                },
-                child: const Icon(
-                  Icons.arrow_back_outlined,
-                ),
+      child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize:
+              Size.fromHeight(MediaQuery.of(context).size.height * .107),
+          child: AppBar(
+            backgroundColor: primaryClr,
+            leading: InkWell(
+              onTap: () {
+                Navigator.pushReplacementNamed(context, DashboardScreen.id);
+              },
+              child: const Icon(
+                Icons.arrow_back_outlined,
               ),
-              title: const Text(
-                'Inventory',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontFamily: 'SFUIText',
-                  fontWeight: FontWeight.w500,
-                ),
+            ),
+            title: const Text(
+              'Inventory',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 15,
+                fontFamily: 'SFUIText',
+                fontWeight: FontWeight.w500,
               ),
-              centerTitle: true,
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 10),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Icon(
-                      Icons.search_rounded,
-                    ),
+            ),
+            centerTitle: true,
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(
+                    Icons.search_rounded,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          body: WillPopScope(
-            onWillPop: () async {
-              Navigator.pushReplacementNamed(context, DashboardScreen.id);
-              return false;
-            },
+        ),
+        body: WillPopScope(
+          onWillPop: () async {
+            Navigator.pushReplacementNamed(context, DashboardScreen.id);
+            return false;
+          },
+          child: SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -76,57 +79,58 @@ class _InventoryScreenState extends State<InventoryScreen> {
                     color: Color(0xfff0ecec),
                     child: Padding(
                       padding: const EdgeInsets.only(left: 10, right: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            'Out of stock items',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 10,
-                              fontFamily: 'SFUIText',
-                              fontWeight: FontWeight.w500,
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            if (expanded == true) {
+                              expanded = false;
+                            } else {
+                              expanded = true;
+                            }
+                          });
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              'Out of stock items',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 13,
+                                fontFamily: 'SFUIText',
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
-                          ),
-                          Row(
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.only(right: 8),
-                                child: Text(
-                                  '2',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontFamily: 'SFUIText',
-                                    fontWeight: FontWeight.w600,
+                            Row(
+                              children: const [
+                                Padding(
+                                  padding: EdgeInsets.only(right: 8),
+                                  child: Text(
+                                    '2',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 13,
+                                      fontFamily: 'SFUIText',
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    if (expanded == true) {
-                                      expanded = false;
-                                    } else {
-                                      expanded = true;
-                                    }
-                                  });
-                                },
-                                child: const Icon(
+                                Icon(
                                   Icons.arrow_drop_down_circle_outlined,
                                   color: Colors.black,
-                                  size: 13,
+                                  size: 16,
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                   expanded
                       ? Container(
-                          height: MediaQuery.of(context).size.height * .07,
+                          height: MediaQuery.of(context).size.height *
+                              (outofstock * .039),
                           width: MediaQuery.of(context).size.width,
                           color: Color(0xfff3f3f3),
                           child: Padding(
@@ -135,50 +139,14 @@ class _InventoryScreenState extends State<InventoryScreen> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: const [
-                                    Text(
-                                      'Biriyani',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 8,
-                                        fontFamily: 'SFUIText',
-                                      ),
-                                    ),
-                                    Text(
-                                      '₹ 160',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 8,
-                                        fontFamily: 'SFUIText',
-                                      ),
-                                    ),
-                                  ],
+                                OutofStockCard(
+                                  item: 'Biriyani',
+                                  price: '₹ 160',
                                 ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: const [
-                                    Text(
-                                      'Biriyani',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 8,
-                                        fontFamily: 'SFUIText',
-                                      ),
-                                    ),
-                                    Text(
-                                      '₹ 160',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 8,
-                                        fontFamily: 'SFUIText',
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                OutofStockCard(
+                                  item: 'Biriyani',
+                                  price: '₹ 160',
+                                )
                               ],
                             ),
                           ),
@@ -201,7 +169,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
                             style: TextStyle(
                               color:
                                   setFries ? Colors.black : Color(0x7f000000),
-                              fontSize: 12,
+                              fontSize: 13,
                               fontFamily: 'SFUIText',
                               fontWeight: FontWeight.w600,
                             ),
@@ -243,9 +211,9 @@ class _InventoryScreenState extends State<InventoryScreen> {
               ),
             ),
           ),
-          bottomNavigationBar: BottomBar(
-            index: 1,
-          ),
+        ),
+        bottomNavigationBar: BottomBar(
+          index: 1,
         ),
       ),
     );
@@ -310,7 +278,7 @@ class _InventoryItemsState extends State<InventoryItems> {
               widget.rate,
               style: TextStyle(
                 color: widget.selected ? Colors.black : Color(0x7f000000),
-                fontSize: 10,
+                fontSize: 11,
                 fontFamily: 'SFUIText',
               ),
             ),

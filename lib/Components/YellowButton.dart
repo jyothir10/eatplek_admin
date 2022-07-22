@@ -26,7 +26,7 @@ class YellowButton extends StatelessWidget {
           text,
           style: const TextStyle(
             color: Colors.white,
-            fontSize: 10,
+            fontSize: 10.5,
             fontFamily: 'SFUIText',
             fontWeight: FontWeight.w500,
           ),
