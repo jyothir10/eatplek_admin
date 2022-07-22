@@ -104,7 +104,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                                     'Today’s Revenue',
                                     style: TextStyle(
                                       color: Colors.black,
-                                      fontSize: 7.849205017089844,
+                                      fontSize: 8,
                                       fontFamily: 'SFUIText',
                                     ),
                                   ),
@@ -112,7 +112,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                                     '₹ 4500',
                                     style: TextStyle(
                                       color: Color(0xff1d1d1d),
-                                      fontSize: 18.838092803955078,
+                                      fontSize: 18.8,
                                       fontFamily: 'SFUIText',
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -127,7 +127,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                                     'Total number\n    of orders',
                                     style: TextStyle(
                                       color: Colors.black,
-                                      fontSize: 6.906872272491455,
+                                      fontSize: 7,
                                       fontFamily: 'SFUIText',
                                     ),
                                   ),
@@ -135,7 +135,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                                     '14',
                                     style: TextStyle(
                                       color: Color(0xff1d1d1d),
-                                      fontSize: 13.81374454498291,
+                                      fontSize: 14,
                                       fontFamily: 'SFUIText',
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -152,7 +152,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                           'Orders',
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 10,
+                            fontSize: 11,
                             fontFamily: 'SFUIText',
                             fontWeight: FontWeight.w500,
                           ),
@@ -290,7 +290,7 @@ class ExpenseScreenCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3),
       child: Container(
-        height: MediaQuery.of(context).size.height * .064,
+        height: MediaQuery.of(context).size.height * .07,
         width: MediaQuery.of(context).size.width * .9,
         decoration: BoxDecoration(
           color: Color(0xffe6e6e6),
@@ -309,7 +309,7 @@ class ExpenseScreenCard extends StatelessWidget {
                     name,
                     style: const TextStyle(
                       color: Colors.black,
-                      fontSize: 10,
+                      fontSize: 11,
                       fontFamily: 'SFUIText',
                       fontWeight: FontWeight.w500,
                     ),
@@ -318,7 +318,7 @@ class ExpenseScreenCard extends StatelessWidget {
                     '2 items',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 8,
+                      fontSize: 9,
                       fontFamily: 'SFUIText',
                     ),
                   ),
