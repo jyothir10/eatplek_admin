@@ -42,7 +42,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
               'Inventory',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 15,
+                fontSize: 16,
                 fontFamily: 'SFUIText',
                 fontWeight: FontWeight.w500,
               ),

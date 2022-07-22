@@ -48,7 +48,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               'Order Summary',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 15.6,
+                fontSize: 16,
                 fontFamily: 'SFUIText',
                 fontWeight: FontWeight.w500,
               ),

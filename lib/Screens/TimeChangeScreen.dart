@@ -66,7 +66,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                 fontWeight: FontWeight.w600,
                 fontFamily: "SFUIText",
                 fontStyle: FontStyle.normal,
-                fontSize: 14.0),
+                fontSize: 16.0),
             textAlign: TextAlign.left),
       ),
       body: SafeArea(
@@ -80,14 +80,14 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                 Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 27),
+                      padding: const EdgeInsets.only(bottom: 12),
                       child: Row(
                         children: [
                           const Text(
                             'Status',
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 12,
+                              fontSize: 13.5,
                               fontFamily: 'SFUIText',
                             ),
                           ),
@@ -150,18 +150,18 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                             ? const Icon(
                                 Icons.arrow_forward_ios,
                                 color: Colors.black,
-                                size: 12,
+                                size: 14,
                               )
                             : const Icon(
                                 Icons.keyboard_arrow_down,
                                 color: Colors.black,
-                                size: 12,
+                                size: 14,
                               ),
                         const Text(
                           'Set Timer',
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 12,
+                            fontSize: 13.5,
                             fontFamily: 'SFUIText',
                           ),
                         ),
@@ -183,7 +183,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                     ),
                     setTimer == true
                         ? Container(
-                            height: 195,
+                            height: 230,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
@@ -200,7 +200,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                         'Opening Time',
                                         style: TextStyle(
                                           color: Colors.black,
-                                          fontSize: 12,
+                                          fontSize: 13,
                                           fontFamily: 'SFUIText',
                                         ),
                                       ),
@@ -210,7 +210,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                           'Closing Time',
                                           style: TextStyle(
                                             color: Colors.black,
-                                            fontSize: 12,
+                                            fontSize: 13,
                                             fontFamily: 'SFUIText',
                                           ),
                                         ),
@@ -221,7 +221,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                           'From',
                                           style: TextStyle(
                                             color: Colors.black,
-                                            fontSize: 12,
+                                            fontSize: 13,
                                             fontFamily: 'SFUIText',
                                           ),
                                         ),
@@ -230,7 +230,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                         'To',
                                         style: TextStyle(
                                           color: Colors.black,
-                                          fontSize: 12,
+                                          fontSize: 13,
                                           fontFamily: 'SFUIText',
                                         ),
                                       ),
@@ -257,7 +257,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                                   boxShadow: [
                                                     BoxShadow(
                                                       color: Colors.black,
-                                                      blurRadius: 2.0,
+                                                      blurRadius: 1.0,
                                                       spreadRadius: 0.0,
                                                       offset: Offset(0.0,
                                                           1.0), // shadow direction: bottom right
@@ -311,7 +311,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                                   boxShadow: [
                                                     BoxShadow(
                                                       color: Colors.black,
-                                                      blurRadius: 2.0,
+                                                      blurRadius: 1.0,
                                                       spreadRadius: 0.0,
                                                       offset: Offset(0.0,
                                                           1.0), // shadow direction: bottom right
@@ -358,7 +358,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                                             BoxShadow(
                                                               color:
                                                                   Colors.black,
-                                                              blurRadius: 2.0,
+                                                              blurRadius: 1.0,
                                                               spreadRadius: 0.0,
                                                               offset: Offset(
                                                                   0.0,
@@ -412,7 +412,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                                   boxShadow: [
                                                     BoxShadow(
                                                       color: Colors.black,
-                                                      blurRadius: 2.0,
+                                                      blurRadius: 1.0,
                                                       spreadRadius: 0.0,
                                                       offset: Offset(0.0,
                                                           1.0), // shadow direction: bottom right
@@ -466,7 +466,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                                   boxShadow: [
                                                     BoxShadow(
                                                       color: Colors.black,
-                                                      blurRadius: 2.0,
+                                                      blurRadius: 1.0,
                                                       spreadRadius: 0.0,
                                                       offset: Offset(0.0,
                                                           1.0), // shadow direction: bottom right
@@ -513,7 +513,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                                             BoxShadow(
                                                               color:
                                                                   Colors.black,
-                                                              blurRadius: 2.0,
+                                                              blurRadius: 1.0,
                                                               spreadRadius: 0.0,
                                                               offset: Offset(
                                                                   0.0,
@@ -565,7 +565,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                                 boxShadow: [
                                                   BoxShadow(
                                                     color: Colors.black,
-                                                    blurRadius: 2.0,
+                                                    blurRadius: 1.0,
                                                     spreadRadius: 0.0,
                                                     offset: Offset(0.0,
                                                         1.0), // shadow direction: bottom right
@@ -609,7 +609,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                                 boxShadow: [
                                                   BoxShadow(
                                                     color: Colors.black,
-                                                    blurRadius: 2.0,
+                                                    blurRadius: 1.0,
                                                     spreadRadius: 0.0,
                                                     offset: Offset(0.0,
                                                         1.0), // shadow direction: bottom right

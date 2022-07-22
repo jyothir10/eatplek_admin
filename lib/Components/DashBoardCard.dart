@@ -79,9 +79,9 @@ class _DashBoardCardState extends State<DashBoardCard> {
                     widget.time,
                     style: const TextStyle(
                       color: Colors.black,
-                      fontSize: 10,
+                      fontSize: 11,
                       fontFamily: 'SFUIText',
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],
