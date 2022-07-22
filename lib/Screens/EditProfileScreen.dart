@@ -33,38 +33,39 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.white,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Padding(
-                padding: EdgeInsets.only(right: 39),
-                child: Text(
-                  'Edit Profile',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'SFUIText',
-                    fontWeight: FontWeight.w600,
-                  ),
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Padding(
+              padding: EdgeInsets.only(right: 39),
+              child: Text(
+                'Edit Profile',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontFamily: 'SFUIText',
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-            ],
-          ),
-          leading: InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: const Icon(
-              Icons.arrow_back,
-              color: Color(0xff1A191A),
             ),
+          ],
+        ),
+        leading: InkWell(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: const Icon(
+            Icons.arrow_back,
+            color: Color(0xff1A191A),
           ),
         ),
-        body: SingleChildScrollView(
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Container(
             width: MediaQuery.of(context).size.width,
             color: Colors.white,
@@ -118,7 +119,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   type: TextInputType.emailAddress,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 21,top: 10),
+                  padding: const EdgeInsets.only(left: 21,top: 12),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: const [
