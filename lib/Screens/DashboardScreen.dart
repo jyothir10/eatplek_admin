@@ -183,6 +183,31 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         isDelivered: false,
                       ),
                       DashBoardCard(
+                        name: "Rajesh K",
+                        time: '09:00 AM',
+                        date: '21-10-2022',
+                        guest: "5",
+                        phone: '9865123548',
+                        isDelivered: true,
+                      ),
+                      DashBoardCard(
+                        name: "Vinod Kumar",
+                        time: '10:00 AM',
+                        date: '21-10-2022',
+                        guest: "3",
+                        phone: '9865123548',
+                        isDelivered: true,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 18),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      DashBoardCard(
                         name: "Vinod Kumar",
                         time: '10:00 AM',
                         date: '21-10-2022',
@@ -194,8 +219,31 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                 ),
               ),
-              Container(),
-              Container(),
+              Padding(
+                padding: const EdgeInsets.only(top: 18),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      DashBoardCard(
+                        name: "Vinod Kumar",
+                        time: '10:00 AM',
+                        date: '21-10-2022',
+                        guest: "3",
+                        phone: '9865123548',
+                        isDelivered: true,
+                      ),
+                      DashBoardCard(
+                        name: "Rajesh K",
+                        time: '09:00 AM',
+                        date: '21-10-2022',
+                        guest: "5",
+                        phone: '9865123548',
+                        isDelivered: true,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               Container(),
             ],
           ),

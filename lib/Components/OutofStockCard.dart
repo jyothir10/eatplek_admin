@@ -20,7 +20,7 @@ class OutofStockCard extends StatelessWidget {
             item,
             style: const TextStyle(
               color: Colors.black,
-              fontSize: 11,
+              fontSize: 12,
               fontFamily: 'SFUIText',
             ),
           ),
@@ -28,7 +28,7 @@ class OutofStockCard extends StatelessWidget {
             price,
             style: TextStyle(
               color: Colors.black,
-              fontSize: 11,
+              fontSize: 12,
               fontFamily: 'SFUIText',
             ),
           ),
