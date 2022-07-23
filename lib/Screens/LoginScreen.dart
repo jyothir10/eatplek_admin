@@ -31,18 +31,19 @@ class _LoginScreenState extends State<LoginScreen> {
     return Future.value(true);
   }
 
+  Color buttonColour = Color(0xffc6c6cc);
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: onWillPop,
-      child: SafeArea(
-
-        child: Scaffold(
-          key: _scaffoldKey,
-          body: Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            color: Color(0xff042e60),
+      child: Scaffold(
+        key: _scaffoldKey,
+        body: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          color: Color(0xff042e60),
+          child: SafeArea(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -68,6 +69,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         text: "Username",
                         onchanged: (value) {
                           username = value;
+                          if (username.isNotEmpty && password.isNotEmpty) {
+                            setState(() {
+                              buttonColour = Colors.white;
+                            });
+                          }
                         },
                         type: TextInputType.name,
                         obscure: false),
@@ -77,6 +83,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         text: "Password",
                         onchanged: (value) {
                           password = value;
+                          if (username.isNotEmpty && password.isNotEmpty) {
+                            setState(() {
+                              buttonColour = Colors.white;
+                            });
+                          }
                         },
                         type: TextInputType.name,
                         obscure: true,
@@ -85,8 +96,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
                 LoginButton(
+                  clr: buttonColour,
                   onPressed: () {
-                    print("Pressed");
                     if (username.isNotEmpty && password.isNotEmpty) {
                       Navigator.pushReplacementNamed(
                           context, DashboardScreen.id);

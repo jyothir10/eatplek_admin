@@ -1,6 +1,7 @@
 import 'package:eatplek_admin/Components/BottomBar.dart';
 import 'package:eatplek_admin/Components/DashBoardCard.dart';
 import 'package:eatplek_admin/Components/YellowButton.dart';
+import 'package:eatplek_admin/Constants.dart';
 import 'package:flutter/material.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -42,12 +43,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
           appBar: AppBar(
             centerTitle: true,
-            backgroundColor: Color(0xff042e60),
+            backgroundColor: primaryClr,
             title: const Text(
               'Order Summary',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 20.597015380859375,
+                fontSize: 16,
                 fontFamily: 'SFUIText',
                 fontWeight: FontWeight.w500,
               ),
@@ -88,10 +89,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               Text(
                                 'The Smocky Shack',
                                 style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'SFUIText',
-                                  fontWeight: FontWeight.w500,
-                                ),
+                                    color: Colors.white,
+                                    fontFamily: 'SFUIText',
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 13),
                               ),
                               Padding(
                                 padding: EdgeInsets.only(top: 5),
@@ -99,7 +100,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   'Chengannur',
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 8,
+                                    fontSize: 9,
                                     fontFamily: 'SFUIText',
                                   ),
                                 ),
@@ -110,7 +111,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             children: [
                               YellowButton(text: "Open", onTap: () {}),
                               Padding(
-                                padding: const EdgeInsets.only(left: 7, top: 7),
+                                padding:
+                                    const EdgeInsets.only(left: 12, top: 7),
                                 child: InkWell(
                                   onTap: () {
                                     //todo:change
@@ -127,7 +129,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       decoration: TextDecoration.underline,
                                       decorationColor: Color(0x23ffffff),
                                       decorationThickness: 5,
-                                      fontSize: 6,
+                                      fontSize: 9,
                                       fontFamily: 'SFUIText',
                                     ),
                                   ),
@@ -143,7 +145,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     indicatorColor: Color(0xff59f5ff),
                     labelStyle: TextStyle(
                       color: Colors.white,
-                      fontSize: 10,
+                      fontSize: 12,
                       fontFamily: 'SFUIText',
                     ),
                     tabs: [
@@ -181,6 +183,31 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         isDelivered: false,
                       ),
                       DashBoardCard(
+                        name: "Rajesh K",
+                        time: '09:00 AM',
+                        date: '21-10-2022',
+                        guest: "5",
+                        phone: '9865123548',
+                        isDelivered: true,
+                      ),
+                      DashBoardCard(
+                        name: "Vinod Kumar",
+                        time: '10:00 AM',
+                        date: '21-10-2022',
+                        guest: "3",
+                        phone: '9865123548',
+                        isDelivered: true,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 18),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      DashBoardCard(
                         name: "Vinod Kumar",
                         time: '10:00 AM',
                         date: '21-10-2022',
@@ -192,8 +219,31 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                 ),
               ),
-              Container(),
-              Container(),
+              Padding(
+                padding: const EdgeInsets.only(top: 18),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      DashBoardCard(
+                        name: "Vinod Kumar",
+                        time: '10:00 AM',
+                        date: '21-10-2022',
+                        guest: "3",
+                        phone: '9865123548',
+                        isDelivered: true,
+                      ),
+                      DashBoardCard(
+                        name: "Rajesh K",
+                        time: '09:00 AM',
+                        date: '21-10-2022',
+                        guest: "5",
+                        phone: '9865123548',
+                        isDelivered: true,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               Container(),
             ],
           ),

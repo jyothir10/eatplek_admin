@@ -7,3 +7,5 @@ const TextStyle editprofilestyle = TextStyle(
   fontFamily: 'SFUIText',
   fontWeight: FontWeight.w500,
 );
+
+const Color primaryClr = Color(0xff042e60);
