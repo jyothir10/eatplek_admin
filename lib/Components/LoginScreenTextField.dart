@@ -5,13 +5,15 @@ class LoginScreenTextField extends StatelessWidget {
   final void Function(String)? onchanged;
   final TextInputType type;
   final bool obscure;
+  final TextEditingController controller;
 
   const LoginScreenTextField({
     Key? key,
     required this.text,
     required this.onchanged,
     required this.type,
-    required this.obscure
+    required this.obscure,
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -23,6 +25,7 @@ class LoginScreenTextField extends StatelessWidget {
         obscureText: obscure,
         onChanged: onchanged,
         keyboardType: type,
+        controller: controller,
         textAlign: TextAlign.center,
         style: const TextStyle(
           color: Color(0xff042e60),
