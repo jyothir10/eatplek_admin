@@ -5,6 +5,7 @@ import 'package:eatplek_admin/Components/LoginScreenTextField.dart';
 import 'package:eatplek_admin/Constants.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Exceptions/api_exception.dart';
@@ -24,6 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String username = "";
   String password = "";
   bool status = false;
+  bool showSpinner = false;
   DateTime? currentBackPressTime;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -32,6 +34,9 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   signin() async {
+    setState(() {
+      showSpinner = true;
+    });
     String url = "${URL_Latest}/admin/login/";
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, String> headers = {
@@ -48,9 +53,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
     var res = await http.post(urlfinal, headers: headers, body: body);
 
-    // int statusCode = res.statusCode;
-    // print('This is the statuscode: $statusCode');
-    //
     final responseBody = json.decode(res.body);
     print(res.body);
 
@@ -63,6 +65,13 @@ class _LoginScreenState extends State<LoginScreen> {
       print(responseBody['user']['id']);
       sharedPreferences.setString("token", token);
       sharedPreferences.setString("id", id);
+
+      namecontroller.clear();
+      passwordcontroller.clear();
+
+      setState(() {
+        showSpinner = false;
+      });
 
       if (token != null) {
         print(token);
@@ -80,6 +89,9 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           );
+          setState(() {
+            showSpinner = false;
+          });
           print(status);
         }
         throw APIException(res.statusCode, jsonDecode(res.body));
@@ -94,6 +106,9 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       );
+      setState(() {
+        showSpinner = false;
+      });
       throw APIException(res.statusCode, jsonDecode(res.body));
     }
   }
@@ -120,79 +135,83 @@ class _LoginScreenState extends State<LoginScreen> {
       onWillPop: onWillPop,
       child: Scaffold(
         key: _scaffoldKey,
-        body: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          color: Color(0xff042e60),
-          child: SafeArea(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                MediaQuery.of(context).viewInsets.bottom == 0
-                    ? Image(
-                        image: AssetImage("images/logo.png"),
-                        width: MediaQuery.of(context).size.width * .717,
-                        height: MediaQuery.of(context).size.height * .372,
-                      )
-                    : Container(),
-                const Text(
-                  'Log in',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 26,
-                    fontFamily: 'SFUIText',
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                Column(
-                  children: [
-                    LoginScreenTextField(
-                        controller: namecontroller,
-                        text: "Username",
-                        onchanged: (value) {
-                          username = value;
-                          if (username.isNotEmpty && password.isNotEmpty) {
-                            setState(() {
-                              buttonColour = Colors.white;
-                            });
-                          }
-                        },
-                        type: TextInputType.name,
-                        obscure: false),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 25),
-                      child: LoginScreenTextField(
-                        controller: passwordcontroller,
-                        text: "Password",
-                        onchanged: (value) {
-                          password = value;
-                          if (username.isNotEmpty && password.isNotEmpty) {
-                            setState(() {
-                              buttonColour = Colors.white;
-                            });
-                          }
-                        },
-                        type: TextInputType.name,
-                        obscure: true,
-                      ),
+        body: ModalProgressHUD(
+          inAsyncCall: showSpinner,
+          color: primaryClr,
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            color: Color(0xff042e60),
+            child: SafeArea(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  MediaQuery.of(context).viewInsets.bottom == 0
+                      ? Image(
+                          image: AssetImage("images/logo.png"),
+                          width: MediaQuery.of(context).size.width * .717,
+                          height: MediaQuery.of(context).size.height * .372,
+                        )
+                      : Container(),
+                  const Text(
+                    'Log in',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 26,
+                      fontFamily: 'SFUIText',
+                      fontWeight: FontWeight.w700,
                     ),
-                  ],
-                ),
-                LoginButton(
-                  clr: buttonColour,
-                  onPressed: () {
-                    if (username.isNotEmpty && password.isNotEmpty) {
-                      signin();
-                    } else {
-                      _scaffoldKey.currentState?.showSnackBar(const SnackBar(
-                          behavior: SnackBarBehavior.floating,
-                          duration: Duration(seconds: 1),
-                          content: Text("Invalid username or password")));
-                    }
-                  },
-                  text: 'Get OTP',
-                )
-              ],
+                  ),
+                  Column(
+                    children: [
+                      LoginScreenTextField(
+                          controller: namecontroller,
+                          text: "Username",
+                          onchanged: (value) {
+                            username = value;
+                            if (username.isNotEmpty && password.isNotEmpty) {
+                              setState(() {
+                                buttonColour = Colors.white;
+                              });
+                            }
+                          },
+                          type: TextInputType.name,
+                          obscure: false),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 25),
+                        child: LoginScreenTextField(
+                          controller: passwordcontroller,
+                          text: "Password",
+                          onchanged: (value) {
+                            password = value;
+                            if (username.isNotEmpty && password.isNotEmpty) {
+                              setState(() {
+                                buttonColour = Colors.white;
+                              });
+                            }
+                          },
+                          type: TextInputType.name,
+                          obscure: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                  LoginButton(
+                    clr: buttonColour,
+                    onPressed: () {
+                      if (username.isNotEmpty && password.isNotEmpty) {
+                        signin();
+                      } else {
+                        _scaffoldKey.currentState?.showSnackBar(const SnackBar(
+                            behavior: SnackBarBehavior.floating,
+                            duration: Duration(seconds: 1),
+                            content: Text("Invalid username or password")));
+                      }
+                    },
+                    text: 'Get OTP',
+                  )
+                ],
+              ),
             ),
           ),
         ),
