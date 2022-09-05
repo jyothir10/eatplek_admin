@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:eatplek_admin/Components/LoginButton.dart';
 import 'package:eatplek_admin/Components/LoginScreenTextField.dart';
 import 'package:eatplek_admin/Constants.dart';
@@ -145,10 +145,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   MediaQuery.of(context).viewInsets.bottom == 0
-                      ? Image(
-                          image: AssetImage("images/logo.png"),
-                          width: MediaQuery.of(context).size.width * .717,
-                          height: MediaQuery.of(context).size.height * .372,
+                      ? Hero(
+                          tag: "logo",
+                          child: SvgPicture.asset(
+                            "images/042e60.svg",
+                            width: MediaQuery.of(context).size.width * .717,
+                            height: MediaQuery.of(context).size.height * .372,
+                          ),
                         )
                       : Container(),
                   const Text(
