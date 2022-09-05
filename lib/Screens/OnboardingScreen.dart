@@ -47,11 +47,3 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         ));
   }
 }
-// SplashScreen(
-// navigateAfterSeconds: ,
-// seconds: 5,
-// backgroundColor:
-// image:
-// useLoader: false,
-// photoSize: MediaQuery.of(context).size.height * .25,
-// )

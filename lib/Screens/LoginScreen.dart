@@ -58,8 +58,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (isRequestSucceeded(res.statusCode)) {
       status = true;
-      namecontroller.clear();
-      passwordcontroller.clear();
       final token = await responseBody["user"]["token"];
       final id = await responseBody["user"]["id"];
       print(responseBody['user']['id']);
@@ -85,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
               behavior: SnackBarBehavior.floating,
               duration: Duration(seconds: 1),
               content: Text(
-                responseBody["user"]["message"].toString(),
+                responseBody["message"].toString(),
               ),
             ),
           );
