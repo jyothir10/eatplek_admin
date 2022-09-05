@@ -1,10 +1,16 @@
-import 'package:easy_splash_screen/easy_splash_screen.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:eatplek_admin/Constants.dart';
+import 'package:eatplek_admin/Screens/LoginScreen.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
 
 import 'LoginScreen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   static const String id = '/splash';
+
+  OnboardingScreen({Key? key}) : super(key: key);
 
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();
@@ -13,6 +19,19 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   DateTime? currentBackPressTime;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    startTime();
+  }
+
+  startTime() async {
+    var _duration = Duration(seconds: 4);
+    return Timer(_duration, () {
+      //Navigate to another screen or anyOther function, like i set duration 4 sec so this function run after 4 sec
+      Navigator.pushReplacementNamed(context, LoginScreen.id);
+    });
+  }
 
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
@@ -31,27 +50,31 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-        onWillPop: onWillPop,
-        child: Scaffold(
-          key: _scaffoldKey,
-          body: EasySplashScreen(
-            showLoader: false,
-            backgroundColor: const Color(0xff042e60),
-            logo: Image.asset(
-              "images/logo.png",
+      onWillPop: onWillPop,
+      child: Scaffold(
+        key: _scaffoldKey,
+        body: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.height,
+          color: primaryClr,
+          child: AnimatedContainer(
+            duration: Duration(milliseconds: 300),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Hero(
+                  tag: "logo",
+                  child: SvgPicture.asset(
+                    "images/042e60.svg",
+                    width: MediaQuery.of(context).size.width * .8,
+                    height: MediaQuery.of(context).size.height * .5, //just like you define in pubspec.yaml file
+                  ),
+                ),
+              ],
             ),
-            logoSize: MediaQuery.of(context).size.height * .43,
-            navigator: LoginScreen(),
-            durationInSeconds: 5,
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
-// SplashScreen(
-// navigateAfterSeconds: ,
-// seconds: 5,
-// backgroundColor:
-// image:
-// useLoader: false,
-// photoSize: MediaQuery.of(context).size.height * .25,
-// )
