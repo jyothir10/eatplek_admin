@@ -1,8 +1,14 @@
+import 'dart:convert';
+
 import 'package:eatplek_admin/Components/BottomBar.dart';
 import 'package:eatplek_admin/Components/DashBoardCard.dart';
 import 'package:eatplek_admin/Components/YellowButton.dart';
 import 'package:eatplek_admin/Constants.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../Exceptions/api_exception.dart';
 
 class DashboardScreen extends StatefulWidget {
   static const String id = '/dashboard';
@@ -15,6 +21,10 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   DateTime? currentBackPressTime;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  var restaurant;
+  bool isEmpty = false;
+  bool showList = false;
+  static const except = {'exc': 'An error occured'};
 
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
@@ -28,6 +38,40 @@ class _DashboardScreenState extends State<DashboardScreen> {
       return Future.value(false);
     }
     return Future.value(true);
+  }
+
+  getRestaurant() async {
+    SharedPreferences sharedpreferences = await SharedPreferences.getInstance();
+    String? id = sharedpreferences.getString("id");
+    Map<String, String> headers = {
+      "Content-Type": "application/json",
+    };
+    var urlfinal = Uri.https(URL_Latest, '/restaurant/cbmd47lao9qte2voo9dg');
+
+    http.Response response = await http.get(urlfinal, headers: headers);
+
+    print(response.statusCode);
+
+    if ((response.statusCode >= 200) && (response.statusCode < 300)) {
+      final jsonData = jsonDecode(response.body);
+      restaurant = await jsonData['restaurant'];
+
+      if (restaurant.length == 0) {
+        isEmpty = true;
+        showList = true;
+      } else {
+        showList = true;
+      }
+      setState(() {});
+    } else
+      APIException(response.statusCode, except);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getRestaurant();
+    super.initState();
   }
 
   @override
@@ -70,77 +114,82 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    height: 65,
-                    width: MediaQuery.of(context).size.width * .943,
-                    decoration: BoxDecoration(
-                      color: Color(0x23ffffff),
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 18),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text(
-                                'The Smocky Shack',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'SFUIText',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 13),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(top: 5),
-                                child: Text(
-                                  'Chengannur',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 9,
-                                    fontFamily: 'SFUIText',
-                                  ),
-                                ),
-                              ),
-                            ],
+                  showList == true
+                      ? Container(
+                          height: 65,
+                          width: MediaQuery.of(context).size.width * .943,
+                          decoration: BoxDecoration(
+                            color: Color(0x23ffffff),
+                            borderRadius: BorderRadius.circular(6),
                           ),
-                          Row(
-                            children: [
-                              YellowButton(text: "Open", onTap: () {}),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 12, top: 7),
-                                child: InkWell(
-                                  onTap: () {
-                                    //todo:change
-                                  },
-                                  child: const Text(
-                                    'Change',
-                                    style: TextStyle(
-                                      shadows: [
-                                        Shadow(
-                                            color: Colors.white,
-                                            offset: Offset(0, -5))
-                                      ],
-                                      color: Colors.transparent,
-                                      decoration: TextDecoration.underline,
-                                      decorationColor: Color(0x23ffffff),
-                                      decorationThickness: 5,
-                                      fontSize: 9,
-                                      fontFamily: 'SFUIText',
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 18),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      restaurant["name"],
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'SFUIText',
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 13),
                                     ),
-                                  ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 5),
+                                      child: Text(
+                                        restaurant["location"],
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 9,
+                                          fontFamily: 'SFUIText',
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
+                                Row(
+                                  children: [
+                                    YellowButton(text: "Open", onTap: () {}),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 12, top: 7),
+                                      child: InkWell(
+                                        onTap: () {
+                                          //todo:change
+                                        },
+                                        child: const Text(
+                                          'Change',
+                                          style: TextStyle(
+                                            shadows: [
+                                              Shadow(
+                                                  color: Colors.white,
+                                                  offset: Offset(0, -5))
+                                            ],
+                                            color: Colors.transparent,
+                                            decoration:
+                                                TextDecoration.underline,
+                                            decorationColor: Color(0x23ffffff),
+                                            decorationThickness: 5,
+                                            fontSize: 9,
+                                            fontFamily: 'SFUIText',
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                      : Container(
+                          child: CircularProgressIndicator(),
+                        ),
                   (const TabBar(
                     indicatorColor: Color(0xff59f5ff),
                     labelStyle: TextStyle(
