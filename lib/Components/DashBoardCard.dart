@@ -31,7 +31,7 @@ class _DashBoardCardState extends State<DashBoardCard> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15),
       child: Container(
-        height: widget.isExpanded == false ? 235 : (235 + (widget.n * 16)),
+        height: widget.isExpanded == false ? 190 : (235 + (widget.n * 16)),
         width: MediaQuery.of(context).size.width * .932,
         decoration: BoxDecoration(
           color: Color(0xffeeeeee),
@@ -98,98 +98,98 @@ class _DashBoardCardState extends State<DashBoardCard> {
                   ),
                 ],
               ),
-              Container(
-                height:
-                    widget.isExpanded == false ? 93 : (93 + (widget.n * 16)),
-                width: MediaQuery.of(context).size.width * .83,
-                decoration: BoxDecoration(
-                  color: Color(0x56e0e0e0),
-                  border: Border.all(
-                    color: Color(0x19000000),
-                    width: 1,
-                  ),
-                  borderRadius: BorderRadius.circular(7),
-                ),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 7),
-                                child: Image.asset("images/index.png"),
-                              ),
-                              Text(
-                                'Zinger Burger',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 11,
-                                  fontFamily: 'SFUIText',
-                                ),
-                              ),
-                            ],
-                          ),
-                          Text(
-                            '₹ 250',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 11,
-                              fontFamily: 'SFUIText',
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15, top: 7),
-                            child: widget.isExpanded == false
-                                ? InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        widget.isExpanded = true;
-                                      });
-                                    },
-                                    child: Text(
-                                      '+3 more',
-                                      style: TextStyle(
-                                        color: Color(0xff284aff),
-                                        fontSize: 10,
-                                        fontFamily: 'SFUIText',
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  )
-                                : Container(),
-                          ),
-                        ],
-                      ),
-                      Divider(
-                        thickness: 1.5,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            '₹ 540',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 11,
-                              fontFamily: 'SFUIText',
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
+              // Container(
+              //   height:
+              //       widget.isExpanded == false ? 93 : (93 + (widget.n * 16)),
+              //   width: MediaQuery.of(context).size.width * .83,
+              //   decoration: BoxDecoration(
+              //     color: Color(0x56e0e0e0),
+              //     border: Border.all(
+              //       color: Color(0x19000000),
+              //       width: 1,
+              //     ),
+              //     borderRadius: BorderRadius.circular(7),
+              //   ),
+              //   child: Padding(
+              //     padding:
+              //         const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
+              //     child: Column(
+              //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //       children: [
+              //         Row(
+              //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //           children: [
+              //             Row(
+              //               children: [
+              //                 Padding(
+              //                   padding: const EdgeInsets.only(right: 7),
+              //                   child: Image.asset("images/index.png"),
+              //                 ),
+              //                 Text(
+              //                   'Zinger Burger',
+              //                   style: TextStyle(
+              //                     color: Colors.black,
+              //                     fontSize: 11,
+              //                     fontFamily: 'SFUIText',
+              //                   ),
+              //                 ),
+              //               ],
+              //             ),
+              //             Text(
+              //               '₹ 250',
+              //               style: TextStyle(
+              //                 color: Colors.black,
+              //                 fontSize: 11,
+              //                 fontFamily: 'SFUIText',
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //         Row(
+              //           children: [
+              //             Padding(
+              //               padding: const EdgeInsets.only(left: 15, top: 7),
+              //               child: widget.isExpanded == false
+              //                   ? InkWell(
+              //                       onTap: () {
+              //                         setState(() {
+              //                           widget.isExpanded = true;
+              //                         });
+              //                       },
+              //                       child: Text(
+              //                         '+3 more',
+              //                         style: TextStyle(
+              //                           color: Color(0xff284aff),
+              //                           fontSize: 10,
+              //                           fontFamily: 'SFUIText',
+              //                           fontWeight: FontWeight.w500,
+              //                         ),
+              //                       ),
+              //                     )
+              //                   : Container(),
+              //             ),
+              //           ],
+              //         ),
+              //         Divider(
+              //           thickness: 1.5,
+              //         ),
+              //         Row(
+              //           mainAxisAlignment: MainAxisAlignment.end,
+              //           children: [
+              //             Text(
+              //               '₹ 540',
+              //               style: TextStyle(
+              //                 color: Colors.black,
+              //                 fontSize: 11,
+              //                 fontFamily: 'SFUIText',
+              //               ),
+              //             ),
+              //           ],
+              //         )
+              //       ],
+              //     ),
+              //   ),
+              // ),
               Padding(
                 padding: const EdgeInsets.only(top: 5),
                 child: Row(
