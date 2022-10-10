@@ -210,7 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             content: Text("Invalid username or password")));
                       }
                     },
-                    text: 'Get OTP',
+                    text: 'Log In',
                   )
                 ],
               ),
