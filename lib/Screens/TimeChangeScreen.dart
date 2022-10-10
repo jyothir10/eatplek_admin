@@ -94,6 +94,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                           Padding(
                             padding: const EdgeInsets.only(left: 30),
                             child: Container(
+                              height: 33,
                               decoration: BoxDecoration(
                                 color: dropdownvalue == "Open"
                                     ? Colors.green
@@ -174,9 +175,9 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                 setTimer = value;
                               });
                             },
-                            activeColor: Colors.green,
-                            inactiveThumbColor: Colors.red,
-                            inactiveTrackColor: Color(0xffffcccb),
+                            activeColor: Color(0xffFFB800),
+                            inactiveThumbColor: Colors.black12,
+                            inactiveTrackColor: Colors.black12,
                           ),
                         ),
                       ],
