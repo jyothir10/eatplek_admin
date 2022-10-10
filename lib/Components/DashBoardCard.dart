@@ -10,6 +10,7 @@ class DashBoardCard extends StatefulWidget {
   final String phone;
   final String time;
   final String guest;
+  void Function() onTap;
 
   DashBoardCard({
     Key? key,
@@ -19,6 +20,7 @@ class DashBoardCard extends StatefulWidget {
     required this.guest,
     required this.phone,
     required this.isDelivered,
+    required this.onTap,
   }) : super(key: key);
 
   @override
@@ -196,23 +198,26 @@ class _DashBoardCardState extends State<DashBoardCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     widget.isDelivered == true
-                        ? const Padding(
-                            padding: EdgeInsets.only(top: 3),
-                            child: Text(
-                              'View Bill',
-                              style: TextStyle(
-                                shadows: [
-                                  Shadow(
-                                      color: Color(0xff284aff),
-                                      offset: Offset(0, -5))
-                                ],
-                                color: Colors.transparent,
-                                fontSize: 11,
-                                fontFamily: 'SFUIText',
-                                fontWeight: FontWeight.w500,
-                                decoration: TextDecoration.underline,
-                                decorationColor: Color(0xff284aff),
-                                decorationThickness: 5,
+                        ? Padding(
+                            padding: const EdgeInsets.only(top: 3),
+                            child: InkWell(
+                              onTap: widget.onTap,
+                              child: const Text(
+                                'View Bill',
+                                style: TextStyle(
+                                  shadows: [
+                                    Shadow(
+                                        color: Color(0xff284aff),
+                                        offset: Offset(0, -5))
+                                  ],
+                                  color: Colors.transparent,
+                                  fontSize: 11,
+                                  fontFamily: 'SFUIText',
+                                  fontWeight: FontWeight.w500,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: Color(0xff284aff),
+                                  decorationThickness: 5,
+                                ),
                               ),
                             ),
                           )
