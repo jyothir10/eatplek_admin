@@ -53,7 +53,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     Map<String, String> headers = {
       "Content-Type": "application/json",
     };
-    var urlfinal = Uri.https(URL_Latest, '/restaurant/cbmd47lao9qte2voo9dg');
+    var urlfinal = Uri.https(URL_Latest, '/restaurant/$id');
 
     http.Response response = await http.get(urlfinal, headers: headers);
 
@@ -223,46 +223,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
           body: TabBarView(
             children: [
-              // Padding(
-              //   padding: const EdgeInsets.only(top: 18, left: 18, right: 18),
-              //   child: showList1 == true
-              //       ? SingleChildScrollView(
-              //           child: Container(
-              //             height: 500, //todo: height
-              //             child: isEmpty1 == false
-              //                 ? StreamBuilder(
-              //                     stream: Stream.periodic(Duration(seconds: 5))
-              //                         .asyncMap((i) =>
-              //                             getOrders()), // i is null here (check periodic docs)
-              //                     builder: (context, snapshot) {
-              //                       return ListView.builder(
-              //                           itemCount: orders.length,
-              //                           itemBuilder: (context, index) {
-              //                             return DashBoardCard(
-              //                               name: orders[index]['user']['name'],
-              //                               time: "2pm",
-              //                               date: "12-02-23",
-              //                               guest: "3",
-              //                               phone: orders[index]['user']
-              //                                   ['phone'],
-              //                               isDelivered: false,
-              //                               onTap: () {},
-              //                             );
-              //                           });
-              //                     } // builder should also handle the case when data is not fetched yet
-              //                     )
-              //                 : Container(
-              //                     child: Text("No orders"),
-              //                   ),
-              //           ),
-              //         )
-              //       : Center(
-              //           child: SizedBox(
-              //               height: 30,
-              //               width: 30,
-              //               child: CircularProgressIndicator()),
-              //         ),
-              // ),
               AllOrderScreen(),
               PreparingScreen(),
               DeliveredOrdersScreen(),

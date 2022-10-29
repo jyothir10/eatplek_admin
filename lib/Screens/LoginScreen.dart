@@ -38,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       showSpinner = true;
     });
-    String url = "${URL_Latest}/admin/login/";
+    String url = "${URL_Latest}/restaurant/login/";
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, String> headers = {
       "Content-Type": "application/json",
@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     final body = jsonEncode(body1);
 
-    var urlfinal = Uri.https(URL_Latest, '/admin/login');
+    var urlfinal = Uri.https(URL_Latest, '/restaurant/login');
 
     var res = await http.post(urlfinal, headers: headers, body: body);
 
@@ -59,9 +59,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (isRequestSucceeded(res.statusCode)) {
       status = true;
-      final token = await responseBody["user"]["token"];
-      final id = await responseBody["user"]["id"];
-      print(responseBody['user']['id']);
+      final token = await responseBody["result"]["token"];
+      final id = await responseBody["result"]["id"];
+      print(responseBody['result']['id']);
       sharedPreferences.setString("token", token);
       sharedPreferences.setString("id", id);
 
