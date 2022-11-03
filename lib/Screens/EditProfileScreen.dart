@@ -1,6 +1,13 @@
+import 'dart:convert';
+
 import 'package:eatplek_admin/Components/EditProfileTextField.dart';
 import 'package:eatplek_admin/Components/ProfileButton.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../Constants.dart';
+import '../Exceptions/api_exception.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({Key? key}) : super(key: key);
@@ -17,6 +24,29 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final myController4 = TextEditingController();
   final myController5 = TextEditingController();
   final myController6 = TextEditingController();
+  String? id, token;
+  static const except = {'exc': 'An error occured'};
+
+  getProfile() async {
+    SharedPreferences sharedpreferences = await SharedPreferences.getInstance();
+    id = sharedpreferences.getString("id");
+    token = sharedpreferences.getString("token");
+    Map<String, String> headers = {
+      "Content-Type": "application/json",
+    };
+    var urlfinal = Uri.https(URL_Latest, '/restaurant/$id');
+
+    http.Response response = await http.get(urlfinal, headers: headers);
+
+    if ((response.statusCode >= 200) && (response.statusCode < 300)) {
+      final jsonData = jsonDecode(response.body);
+
+      print(jsonData);
+
+      setState(() {});
+    } else
+      APIException(response.statusCode, except);
+  }
 
   @override
   void dispose() {
@@ -75,33 +105,33 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               children: [
                 MediaQuery.of(context).viewInsets.bottom == 0
                     ? Stack(
-                  children: [
-                    const CircleAvatar(
-                      backgroundColor: Color(0xffefeeee),
-                      radius: 51.2,
-                      child: Text(
-                        "S",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 35.826087951660156,
-                          fontFamily: 'SFUIText',
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 65,
-                      left: 65,
-                      child: InkWell(
-                        onTap: () {},
-                        child: Image.asset(
-                          "images/edit_profile.png",
-                          height: 45,
-                        ),
-                      ),
-                    )
-                  ],
-                )
+                        children: [
+                          const CircleAvatar(
+                            backgroundColor: Color(0xffefeeee),
+                            radius: 51.2,
+                            child: Text(
+                              "S",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 35.826087951660156,
+                                fontFamily: 'SFUIText',
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: 65,
+                            left: 65,
+                            child: InkWell(
+                              onTap: () {},
+                              child: Image.asset(
+                                "images/edit_profile.png",
+                                height: 45,
+                              ),
+                            ),
+                          )
+                        ],
+                      )
                     : Container(),
                 EditProfileTextField(
                   myController: myController1,
@@ -119,11 +149,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   type: TextInputType.emailAddress,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 21,top: 12),
+                  padding: const EdgeInsets.only(left: 21, top: 12),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: const [
-                      Text('Residential address',
+                      Text(
+                        'Residential address',
                         style: TextStyle(
                           color: Color(0x60000000),
                           fontSize: 16,
@@ -149,11 +180,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   text: 'Town/Area',
                   type: TextInputType.streetAddress,
                 ),
-                ProfileButton(
-                    text: "       Save       ",
-                    onTap: () {
-
-                    }),
+                ProfileButton(text: "       Save       ", onTap: () {}),
               ],
             ),
           ),

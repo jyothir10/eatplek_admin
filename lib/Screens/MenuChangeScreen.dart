@@ -36,8 +36,7 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
     Map<String, String> headers = {
       "Content-Type": "application/json",
     };
-    var urlfinal = Uri.https(
-        URL_Latest, '/restaurant/cbmd47lao9qte2voo9dg'); //todo:change id.
+    var urlfinal = Uri.https(URL_Latest, '/restaurant/$id'); //todo:change id.
 
     http.Response response = await http.get(urlfinal, headers: headers);
 
@@ -53,6 +52,69 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
   }
 
   requestAddItem() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map<String, String> headers = {
+      "Content-Type": "application/json",
+      "Token": sharedPreferences.getString("token").toString(),
+    };
+    var urlfinal = Uri.https(URL_Latest, '/request');
+
+    print(urlfinal);
+
+    Map body1 = {
+      "user_id": sharedPreferences.getString("id"),
+      "name": itemnamecontroller.text.trim(),
+      "price": ratecontroller.text.trim(),
+      "description": descriptioncontroller.text.trim(),
+      "restaurant": resname,
+      "restaurant_id": id
+    };
+    final body = jsonEncode(body1);
+
+    http.Response response =
+        await http.post(urlfinal, headers: headers, body: body);
+
+    print(response.body);
+    print(response.statusCode);
+
+    if ((response.statusCode >= 200) && (response.statusCode < 300)) {
+      print("Hello");
+      final jsonData = await jsonDecode(response.body);
+      print(jsonData);
+      print(jsonData['message']);
+
+      if (jsonData['message'] == "request created") {
+        _scaffoldKey.currentState?.showSnackBar(
+          const SnackBar(
+            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 1),
+            content: Text(
+              "Successfully placed add item request",
+            ),
+          ),
+        );
+        itemnamecontroller.clear();
+        ratecontroller.clear();
+        descriptioncontroller.clear();
+      } else {
+        _scaffoldKey.currentState?.showSnackBar(
+          const SnackBar(
+            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 1),
+            content: Text(
+              "Error in placing add item request",
+            ),
+          ),
+        );
+      }
+
+      setState(() {});
+    } else
+      APIException(response.statusCode, except);
+  }
+
+  requestUpdateItem() async {
+    //todo: Update item API
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, String> headers = {
       "Content-Type": "application/json",
