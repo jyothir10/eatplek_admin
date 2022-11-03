@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
+
 import 'package:eatplek_admin/Constants.dart';
 import 'package:eatplek_admin/Screens/LoginScreen.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 
 import 'LoginScreen.dart';
 
@@ -67,7 +67,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   child: SvgPicture.asset(
                     "images/042e60.svg",
                     width: MediaQuery.of(context).size.width * .8,
-                    height: MediaQuery.of(context).size.height * .5, //just like you define in pubspec.yaml file
+                    height: MediaQuery.of(context).size.height *
+                        .5, //just like you define in pubspec.yaml file
                   ),
                 ),
               ],

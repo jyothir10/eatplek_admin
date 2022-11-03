@@ -1,7 +1,14 @@
+import 'dart:convert';
+
 import 'package:eatplek_admin/Components/BlueButton.dart';
 import 'package:eatplek_admin/Components/PlainButton.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:numberpicker/numberpicker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../Constants.dart';
+import '../Exceptions/api_exception.dart';
 
 class TimeChangeScreen extends StatefulWidget {
   static const String id = '/time_change';
@@ -13,7 +20,7 @@ class TimeChangeScreen extends StatefulWidget {
 
 class _TimeChangeScreenState extends State<TimeChangeScreen> {
   var items = ["Open", "Closed"];
-  String dropdownvalue = 'Open';
+  String dropdownvalue = 'Open', msg = "", open_time = "", close_time = "";
   bool open = true;
   bool setTimer = false;
   int oth = 2;
@@ -44,6 +51,43 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
     'Sunday'
   ];
   String day1 = 'Monday';
+  List opendays = [];
+  static const except = {'exc': 'An error occured'};
+
+  timeChange() async {
+    SharedPreferences sharedpreferences = await SharedPreferences.getInstance();
+    String? id = sharedpreferences.getString("id");
+    String? token = sharedpreferences.getString("token");
+    Map<String, String> headers = {
+      "Content-Type": "application/json",
+      "Token": token.toString(),
+    };
+
+    Map body1 = {
+      "days_open": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+      "opening_time": open_time,
+      "closing_time": close_time
+    };
+
+    final body = jsonEncode(body1);
+
+    var urlfinal = Uri.https(URL_Latest, '/restaurant/timings');
+
+    http.Response response =
+        await http.put(urlfinal, headers: headers, body: body);
+
+    if ((response.statusCode >= 200) && (response.statusCode < 300)) {
+      final jsonData = jsonDecode(response.body);
+      msg = await jsonData['message'];
+
+      if (msg == "timings updated") {
+        print(msg);
+      }
+    } else {
+      APIException(response.statusCode, except);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,6 +138,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                           Padding(
                             padding: const EdgeInsets.only(left: 30),
                             child: Container(
+                              height: 33,
                               decoration: BoxDecoration(
                                 color: dropdownvalue == "Open"
                                     ? Colors.green
@@ -174,9 +219,9 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                 setTimer = value;
                               });
                             },
-                            activeColor: Colors.green,
-                            inactiveThumbColor: Colors.red,
-                            inactiveTrackColor: Color(0xffffcccb),
+                            activeColor: Color(0xffFFB800),
+                            inactiveThumbColor: Colors.black12,
+                            inactiveTrackColor: Colors.black12,
                           ),
                         ),
                       ],
@@ -602,53 +647,52 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                               ),
                                             )),
                                         Container(
-                                            height: 35,
-                                            width: 100,
-                                            decoration: const BoxDecoration(
-                                                color: Colors.white,
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Colors.black,
-                                                    blurRadius: 1.0,
-                                                    spreadRadius: 0.0,
-                                                    offset: Offset(0.0,
-                                                        1.0), // shadow direction: bottom right
-                                                  )
-                                                ],
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(10))),
-                                            child: Center(
-                                              child:
-                                                  DropdownButtonHideUnderline(
-                                                child: DropdownButton(
-                                                  icon: Icon(
-                                                      Icons.arrow_drop_down),
-                                                  style: const TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 12,
-                                                    fontFamily: 'SFUIText',
-                                                  ),
-                                                  value: day1,
-                                                  items:
-                                                      days1.map((String items) {
-                                                    return DropdownMenuItem(
-                                                      value: items,
-                                                      child: Text(items),
-                                                    );
-                                                  }).toList(),
-                                                  onChanged:
-                                                      (String? newValue) {
-                                                    setState(() {
-                                                      day1 = newValue!;
-                                                    });
-                                                  },
+                                          height: 35,
+                                          width: 100,
+                                          decoration: const BoxDecoration(
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black,
+                                                  blurRadius: 1.0,
+                                                  spreadRadius: 0.0,
+                                                  offset: Offset(0.0,
+                                                      1.0), // shadow direction: bottom right
+                                                )
+                                              ],
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10))),
+                                          child: Center(
+                                            child: DropdownButtonHideUnderline(
+                                              child: DropdownButton(
+                                                icon: const Icon(
+                                                    Icons.arrow_drop_down),
+                                                style: const TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 12,
+                                                  fontFamily: 'SFUIText',
                                                 ),
+                                                value: day1,
+                                                items:
+                                                    days1.map((String items) {
+                                                  return DropdownMenuItem(
+                                                    value: items,
+                                                    child: Text(items),
+                                                  );
+                                                }).toList(),
+                                                onChanged: (String? newValue) {
+                                                  setState(() {
+                                                    day1 = newValue!;
+                                                  });
+                                                },
                                               ),
-                                            )),
+                                            ),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           )
@@ -674,7 +718,9 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                         child: BlueButton(
                           text: "Save",
                           onTap: () {
-                            //todo: save
+                            open_time = "$oth:$otm $dropdownval";
+                            close_time = "$cth:$ctm $dropdownval1";
+                            timeChange();
                             Navigator.pop(context);
                           },
                         ),

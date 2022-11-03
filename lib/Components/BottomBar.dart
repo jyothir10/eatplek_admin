@@ -71,7 +71,7 @@ class _BottomBarState extends State<BottomBar> {
             'images/bottomnavigationbar/expenses.png',
             height: 23,
           ),
-          label: ' Expenses',
+          label: ' Revenue',
           activeIcon: Image.asset(
             'images/bottomnavigationbar/expenses1.png',
             height: 23,

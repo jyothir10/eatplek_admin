@@ -1,9 +1,12 @@
 import 'dart:convert';
 
 import 'package:eatplek_admin/Components/BottomBar.dart';
-import 'package:eatplek_admin/Components/DashBoardCard.dart';
 import 'package:eatplek_admin/Components/YellowButton.dart';
 import 'package:eatplek_admin/Constants.dart';
+import 'package:eatplek_admin/Screens/AllOrderScreen.dart';
+import 'package:eatplek_admin/Screens/DelayedOrdersScreen.dart';
+import 'package:eatplek_admin/Screens/DeliveredOrdersScreen.dart';
+import 'package:eatplek_admin/Screens/PreparingScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -50,7 +53,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     Map<String, String> headers = {
       "Content-Type": "application/json",
     };
-    var urlfinal = Uri.https(URL_Latest, '/restaurant/cbmd47lao9qte2voo9dg');
+    var urlfinal = Uri.https(URL_Latest, '/restaurant/$id');
 
     http.Response response = await http.get(urlfinal, headers: headers);
 
@@ -69,41 +72,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
       APIException(response.statusCode, except);
   }
 
-  getOrders() async {
-    SharedPreferences sharedpreferences = await SharedPreferences.getInstance();
-    String? id = sharedpreferences.getString("id");
-    String? token = sharedpreferences.getString("token");
-    Map<String, String> headers = {
-      "Content-Type": "application/json",
-      "Token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2NjM5MjA0MzV9.-RccKptlcoqox1-TjzwrZM4FCEvsJ8dP3RV26Tzvba8"
-    };
-    var urlfinal =
-        Uri.https(URL_Latest, '/order/restaurant/cbmd47lao9qte2voo9dg');
-
-    http.Response response = await http.get(urlfinal, headers: headers);
-
-    if ((response.statusCode >= 200) && (response.statusCode < 300)) {
-      final jsonData = jsonDecode(response.body);
-      orders = await jsonData['result'];
-
-      if (orders.length == 0) {
-        isEmpty1 = true;
-        showList1 = true;
-        return response;
-      } else {
-        showList1 = true;
-      }
-      setState(() {});
-    } else
-      APIException(response.statusCode, except);
-  }
-
   @override
   void initState() {
     // TODO: implement initState
     getRestaurant();
-    getOrders();
     super.initState();
   }
 
@@ -251,82 +223,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
           body: TabBarView(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 18, left: 18, right: 18),
-                child: showList1 == true
-                    ? SingleChildScrollView(
-                        child: Container(
-                          height: 500, //todo: height
-                          child: StreamBuilder(
-                              stream: Stream.periodic(Duration(seconds: 5))
-                                  .asyncMap((i) =>
-                                      getOrders()), // i is null here (check periodic docs)
-                              builder: (context, snapshot) {
-                                return ListView.builder(
-                                    itemCount: orders.length,
-                                    itemBuilder: (context, index) {
-                                      return DashBoardCard(
-                                          name: orders[index]['user']['name'],
-                                          time: "2pm",
-                                          date: "12-02-23",
-                                          guest: "3",
-                                          phone: orders[index]['user']['phone'],
-                                          isDelivered: false);
-                                    });
-                              } // builder should also handle the case when data is not fetched yet
-                              ),
-                        ),
-                      )
-                    : Center(
-                        child: SizedBox(
-                            height: 30,
-                            width: 30,
-                            child: CircularProgressIndicator()),
-                      ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 18),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      DashBoardCard(
-                        name: "Vinod Kumar",
-                        time: '10:00 AM',
-                        date: '21-10-2022',
-                        guest: "3",
-                        phone: '9865123548',
-                        isDelivered: false,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 18),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      DashBoardCard(
-                        name: "Vinod Kumar",
-                        time: '10:00 AM',
-                        date: '21-10-2022',
-                        guest: "3",
-                        phone: '9865123548',
-                        isDelivered: true,
-                      ),
-                      DashBoardCard(
-                        name: "Rajesh K",
-                        time: '09:00 AM',
-                        date: '21-10-2022',
-                        guest: "5",
-                        phone: '9865123548',
-                        isDelivered: true,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Container(),
+              AllOrderScreen(),
+              PreparingScreen(),
+              DeliveredOrdersScreen(),
+              DelayedOrdersScreen(),
             ],
           ),
         ),

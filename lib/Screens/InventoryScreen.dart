@@ -1,8 +1,14 @@
+import 'dart:convert';
+
 import 'package:eatplek_admin/Components/BottomBar.dart';
 import 'package:eatplek_admin/Components/OutofStockCard.dart';
 import 'package:eatplek_admin/Constants.dart';
 import 'package:eatplek_admin/Screens/DashboardScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../Exceptions/api_exception.dart';
 
 class InventoryScreen extends StatefulWidget {
   static const String id = '/invent';
@@ -16,7 +22,64 @@ class _InventoryScreenState extends State<InventoryScreen> {
   bool expanded = false;
   bool setFries = false;
   int outofstock = 2;
+  List foods = [];
+  List categories = [];
+  List categorylist = [];
+  List categoryids = [];
+  static const except = {'exc': 'An error occured'};
+  bool isEmpty = false;
+  bool showList = false;
+  bool isEmpty1 = false;
+  bool showList1 = false;
+  bool isCategory = false;
   List<bool> fries = [false, false, false];
+
+  var categorymap = {};
+
+  getFood() async {
+    SharedPreferences sharedpreferences = await SharedPreferences.getInstance();
+    String? id = sharedpreferences.getString("id");
+    Map<String, String> headers = {
+      "Content-Type": "application/json",
+    };
+    var urlfinal = Uri.https(URL_Latest, '/food/filter/restaurant/$id');
+
+    http.Response response = await http.get(urlfinal, headers: headers);
+    if ((response.statusCode >= 200) && (response.statusCode < 300)) {
+      final jsonData = jsonDecode(response.body);
+
+      if (jsonData['foods'] == null) {
+        isEmpty1 = true;
+        showList1 = true;
+      } else {
+        foods = await jsonData['foods'];
+        showList1 = true;
+        categories.clear();
+        categoryids.clear();
+        categorylist.clear();
+        for (int i = 0; i < foods.length; i++) {
+          categories.add(foods[i]['category_name']);
+          categorylist.add(foods[i]['category_name']);
+          categoryids.add(foods[i]['category_id']);
+        }
+      }
+
+      print(categories);
+
+      setState(() {
+        isCategory = false;
+      });
+    } else
+      APIException(response.statusCode, except);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getFood();
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

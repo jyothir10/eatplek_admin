@@ -15,7 +15,7 @@ class EditProfileTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 21,vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 10),
       child: Column(
         children: [
           Row(
@@ -39,12 +39,6 @@ class EditProfileTextField extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
             decoration: InputDecoration(
-              suffixIcon: InkWell(
-                onTap: () {
-                  myController.clear();
-                },
-                child: Image.asset("images/cross.png"),
-              ),
               enabledBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: Color(0x80000000)),
               ),
