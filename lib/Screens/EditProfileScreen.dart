@@ -4,6 +4,7 @@ import 'package:eatplek_admin/Components/EditProfileTextField.dart';
 import 'package:eatplek_admin/Components/ProfileButton.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Constants.dart';
@@ -18,14 +19,14 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  final myController1 = TextEditingController();
-  final myController2 = TextEditingController();
-  final myController3 = TextEditingController();
-  final myController4 = TextEditingController();
-  final myController5 = TextEditingController();
-  final myController6 = TextEditingController();
+  final nameController = TextEditingController();
+  final phoneController = TextEditingController();
+  final locationController = TextEditingController();
+  bool showSpinner = false;
+  String msg = "";
   String? id, token;
   static const except = {'exc': 'An error occured'};
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   getProfile() async {
     SharedPreferences sharedpreferences = await SharedPreferences.getInstance();
@@ -48,22 +49,66 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       APIException(response.statusCode, except);
   }
 
+  updateRes() async {
+    showSpinner = true;
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String? token = sharedPreferences.getString("token");
+
+    Map<String, String> headers = {
+      "Content-Type": "application/json",
+      "Token": token.toString(),
+    };
+    Map body1 = {
+      "name": nameController.text.trim(),
+      "location": locationController.text.trim(),
+      "phone": phoneController.text.trim(),
+    };
+
+    final body = jsonEncode(body1);
+    var urlfinal = Uri.https(URL_Latest, '/restaurant/profile');
+
+    http.Response response =
+        await http.put(urlfinal, headers: headers, body: body);
+
+    if ((response.statusCode >= 200) && (response.statusCode < 300)) {
+      final jsonData = jsonDecode(response.body);
+      msg = await jsonData['message'];
+      if (msg == "profile updated") {
+        _scaffoldKey.currentState?.showSnackBar(const SnackBar(
+            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 1),
+            content: Text("Restaurant profile updated successfully")));
+        nameController.clear();
+        phoneController.clear();
+        locationController.clear();
+      } else {
+        _scaffoldKey.currentState?.showSnackBar(const SnackBar(
+            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 1),
+            content: Text("Could not update restaurant")));
+      }
+
+      setState(() {
+        showSpinner = false;
+      });
+    }
+  }
+
   @override
   void dispose() {
     // Clean up the controller when the widget is removed from the
     // widget tree.
-    myController1.dispose();
-    myController2.dispose();
-    myController3.dispose();
-    myController4.dispose();
-    myController5.dispose();
-    myController6.dispose();
+    nameController.dispose();
+    phoneController.dispose();
+    locationController.dispose();
+
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
@@ -94,10 +139,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           ),
         ),
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
+      body: ModalProgressHUD(
+        inAsyncCall: showSpinner,
+        child: SafeArea(
           child: Container(
             width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
             color: Colors.white,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -134,53 +181,25 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       )
                     : Container(),
                 EditProfileTextField(
-                  myController: myController1,
+                  myController: nameController,
                   text: 'Name',
                   type: TextInputType.name,
                 ),
                 EditProfileTextField(
-                  myController: myController2,
+                  myController: phoneController,
                   text: 'Phone',
                   type: TextInputType.number,
                 ),
                 EditProfileTextField(
-                  myController: myController3,
-                  text: 'E-mail(Optional)',
-                  type: TextInputType.emailAddress,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 21, top: 12),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: const [
-                      Text(
-                        'Residential address',
-                        style: TextStyle(
-                          color: Color(0x60000000),
-                          fontSize: 16,
-                          fontFamily: 'SFUIText',
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                EditProfileTextField(
-                  myController: myController4,
-                  text: 'Address 1',
+                  myController: locationController,
+                  text: 'Location',
                   type: TextInputType.streetAddress,
                 ),
-                EditProfileTextField(
-                  myController: myController5,
-                  text: 'Town/Area',
-                  type: TextInputType.streetAddress,
-                ),
-                EditProfileTextField(
-                  myController: myController6,
-                  text: 'Town/Area',
-                  type: TextInputType.streetAddress,
-                ),
-                ProfileButton(text: "       Save       ", onTap: () {}),
+                ProfileButton(
+                    text: "       Save       ",
+                    onTap: () {
+                      updateRes();
+                    }),
               ],
             ),
           ),

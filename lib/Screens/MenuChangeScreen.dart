@@ -74,14 +74,8 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
     http.Response response =
         await http.post(urlfinal, headers: headers, body: body);
 
-    print(response.body);
-    print(response.statusCode);
-
     if ((response.statusCode >= 200) && (response.statusCode < 300)) {
-      print("Hello");
       final jsonData = await jsonDecode(response.body);
-      print(jsonData);
-      print(jsonData['message']);
 
       if (jsonData['message'] == "request created") {
         _scaffoldKey.currentState?.showSnackBar(
@@ -256,7 +250,7 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
             expanded1
                 ? Container(
                     color: Colors.white,
-                    height: 246,
+                    height: 250,
                     width: MediaQuery.of(context).size.width,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 22),
@@ -503,184 +497,211 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
             expanded2
                 ? Container(
                     color: Colors.white,
-                    height: 193,
+                    height: 250,
                     width: MediaQuery.of(context).size.width,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 22),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      child: Column(
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Padding(
-                                padding: EdgeInsets.only(top: 5),
-                                child: Text(
-                                  'Name',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 13,
-                                    fontFamily: 'SFUIText',
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 28),
-                                child: Text(
-                                  'Rate',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 13,
-                                    fontFamily: 'SFUIText',
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                'Description',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 13,
-                                  fontFamily: 'SFUIText',
-                                ),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Container(
-                                height: 30,
-                                width: MediaQuery.of(context).size.width * .49,
-                                decoration: BoxDecoration(
-                                  color: Color(0xff17000000),
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: DropdownButtonHideUnderline(
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10),
-                                    child: DropdownButton(
-                                        hint: const Text(
-                                          'Name of item',
-                                          style: TextStyle(
-                                            color: Color(0xff8a8a8a),
-                                            fontSize: 12,
-                                            fontFamily: 'SFUIText',
-                                          ),
-                                        ),
-                                        value: dropdownvalue,
-                                        iconSize: 18,
-                                        iconEnabledColor: Color(0xff8a8a8a),
-                                        iconDisabledColor: Color(0xff8a8a8a),
-                                        icon: Icon(
-                                            Icons.keyboard_arrow_down_outlined),
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 12,
-                                          fontFamily: 'SFUIText',
-                                        ),
-                                        items: items.map((String items) {
-                                          return DropdownMenuItem(
-                                            value: items,
-                                            child: Text(items),
-                                          );
-                                        }).toList(),
-                                        onChanged: (String? value) {
-                                          setState(() {
-                                            dropdownvalue = value!;
-                                          });
-                                        }),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 15),
-                                child: Row(
-                                  children: [
-                                    const Text(
-                                      'RS  ',
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: const [
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 5),
+                                    child: Text(
+                                      'Name',
                                       style: TextStyle(
                                         color: Colors.black,
-                                        fontSize: 12,
+                                        fontSize: 13,
                                         fontFamily: 'SFUIText',
-                                        fontWeight: FontWeight.w500,
                                       ),
                                     ),
-                                    Container(
-                                      height: 30,
-                                      width: MediaQuery.of(context).size.width *
-                                          .15,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      child: TextField(
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 12,
-                                          fontFamily: 'SFUIText',
-                                        ),
-                                        keyboardType: TextInputType.number,
-                                        decoration: InputDecoration(
-                                          filled: true,
-                                          fillColor: Color(0xff17000000),
-                                          contentPadding: EdgeInsets.all(5),
-                                          border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            borderSide: const BorderSide(
-                                              width: 0,
-                                              style: BorderStyle.none,
-                                            ),
-                                          ),
-                                          hintText: "Rate",
-                                          hintStyle: const TextStyle(
-                                            color: Color(0xff8a8a8a),
-                                            fontSize: 12,
-                                            fontFamily: 'SFUIText',
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width * .633,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: TextField(
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 12,
-                                    fontFamily: 'SFUIText',
-                                    height: 1.5,
                                   ),
-                                  keyboardType: TextInputType.multiline,
-                                  maxLines: 3,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.only(left: 5),
-                                    filled: true,
-                                    fillColor: Color(0xff17000000),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(5),
-                                      borderSide: const BorderSide(
-                                        width: 0,
-                                        style: BorderStyle.none,
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 28),
+                                    child: Text(
+                                      'Rate',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontFamily: 'SFUIText',
                                       ),
                                     ),
-                                    hintText: "Short description",
-                                    hintStyle: const TextStyle(
-                                      color: Color(0xff8a8a8a),
-                                      fontSize: 12,
+                                  ),
+                                  Text(
+                                    'Description',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 13,
                                       fontFamily: 'SFUIText',
                                     ),
                                   ),
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: 30,
+                                    width:
+                                        MediaQuery.of(context).size.width * .49,
+                                    decoration: BoxDecoration(
+                                      color: Color(0xff17000000),
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: DropdownButtonHideUnderline(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        child: DropdownButton(
+                                            hint: const Text(
+                                              'Name of item',
+                                              style: TextStyle(
+                                                color: Color(0xff8a8a8a),
+                                                fontSize: 12,
+                                                fontFamily: 'SFUIText',
+                                              ),
+                                            ),
+                                            value: dropdownvalue,
+                                            iconSize: 18,
+                                            iconEnabledColor: Color(0xff8a8a8a),
+                                            iconDisabledColor:
+                                                Color(0xff8a8a8a),
+                                            icon: Icon(Icons
+                                                .keyboard_arrow_down_outlined),
+                                            style: const TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 12,
+                                              fontFamily: 'SFUIText',
+                                            ),
+                                            items: items.map((String items) {
+                                              return DropdownMenuItem(
+                                                value: items,
+                                                child: Text(items),
+                                              );
+                                            }).toList(),
+                                            onChanged: (String? value) {
+                                              setState(() {
+                                                dropdownvalue = value!;
+                                              });
+                                            }),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 15),
+                                    child: Row(
+                                      children: [
+                                        const Text(
+                                          'RS  ',
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                            fontFamily: 'SFUIText',
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 30,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              .15,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                          ),
+                                          child: TextField(
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 12,
+                                              fontFamily: 'SFUIText',
+                                            ),
+                                            keyboardType: TextInputType.number,
+                                            decoration: InputDecoration(
+                                              filled: true,
+                                              fillColor: Color(0xff17000000),
+                                              contentPadding: EdgeInsets.all(5),
+                                              border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                borderSide: const BorderSide(
+                                                  width: 0,
+                                                  style: BorderStyle.none,
+                                                ),
+                                              ),
+                                              hintText: "Rate",
+                                              hintStyle: const TextStyle(
+                                                color: Color(0xff8a8a8a),
+                                                fontSize: 12,
+                                                fontFamily: 'SFUIText',
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        .633,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: TextField(
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 12,
+                                        fontFamily: 'SFUIText',
+                                        height: 1.5,
+                                      ),
+                                      keyboardType: TextInputType.multiline,
+                                      maxLines: 3,
+                                      decoration: InputDecoration(
+                                        contentPadding:
+                                            EdgeInsets.only(left: 5),
+                                        filled: true,
+                                        fillColor: Color(0xff17000000),
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          borderSide: const BorderSide(
+                                            width: 0,
+                                            style: BorderStyle.none,
+                                          ),
+                                        ),
+                                        hintText: "Short description",
+                                        hintStyle: const TextStyle(
+                                          color: Color(0xff8a8a8a),
+                                          fontSize: 12,
+                                          fontFamily: 'SFUIText',
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 5),
+                                child: BlueButton(
+                                  text: "Update Item",
+                                  onTap: () {
+                                    requestUpdateItem();
+                                  },
                                 ),
                               ),
                             ],
