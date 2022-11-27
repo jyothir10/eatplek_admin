@@ -1,28 +1,94 @@
-import 'dart:math' as math;
+import 'dart:convert';
 
 import 'package:eatplek_admin/Components/BlueButton.dart';
 import 'package:eatplek_admin/Components/BottomBar.dart';
+import 'package:eatplek_admin/Constants.dart';
 import 'package:eatplek_admin/Screens/DashboardScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class ExpensesScreen extends StatefulWidget {
+import '../Exceptions/api_exception.dart';
+
+class RevenueScreen extends StatefulWidget {
   static const String id = '/expenses';
 
-  const ExpensesScreen({Key? key}) : super(key: key);
+  const RevenueScreen({Key? key}) : super(key: key);
 
   @override
-  State<ExpensesScreen> createState() => _ExpensesScreenState();
+  State<RevenueScreen> createState() => _RevenueScreenState();
 }
 
-class _ExpensesScreenState extends State<ExpensesScreen> {
-  TextEditingController dateInput = TextEditingController();
+class _RevenueScreenState extends State<RevenueScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  TextEditingController startdateInput = TextEditingController();
+  TextEditingController enddateInput = TextEditingController();
   String startDate = "", endDate = "";
+  bool isEmpty1 = false;
+  bool showList1 = false, showSpinner = false;
+  static const except = {'exc': 'An error occured'};
+  String total = "0";
+  int noOfOrders = 0;
+  List orders = [];
+  getRevenue() async {
+    setState(() {
+      showSpinner = true;
+    });
+    SharedPreferences sharedpreferences = await SharedPreferences.getInstance();
+    String? token = sharedpreferences.getString("token");
+    Map<String, String> headers = {
+      "Content-Type": "application/json",
+      "Token": token.toString(),
+    };
+
+    Map body1 = {
+      "start_date": startDate,
+      "end_date": endDate,
+    };
+
+    final body = jsonEncode(body1);
+
+    var urlfinal = Uri.https(URL_Latest, '/hotel/revenue'); //todo:change id.
+
+    http.Response response =
+        await http.post(urlfinal, headers: headers, body: body);
+
+    if ((response.statusCode >= 200) && (response.statusCode < 300)) {
+      final jsonData = jsonDecode(response.body);
+
+      total = jsonData['Total'].toString();
+
+      if (jsonData['Orders'] == null) {
+        isEmpty1 = true;
+        showList1 = true;
+      } else if (jsonData['Orders'].length == 0) {
+        isEmpty1 = true;
+        showList1 = true;
+        orders = [];
+        noOfOrders = 0;
+      } else {
+        showList1 = true;
+        orders = jsonData['Orders'];
+        noOfOrders = orders.length;
+      }
+      setState(() {
+        showSpinner = false;
+      });
+    } else {
+      isEmpty1 = true;
+      showList1 = true;
+      APIException(response.statusCode, except);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: Color(0xff042e60),
@@ -61,7 +127,8 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
             Navigator.pushReplacementNamed(context, DashboardScreen.id);
             return false;
           },
-          child: SingleChildScrollView(
+          child: ModalProgressHUD(
+            inAsyncCall: showSpinner,
             child: Column(
               children: [
                 Container(
@@ -69,7 +136,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                   height: MediaQuery.of(context).size.width / 5,
                   child: Center(
                     child: TextField(
-                      controller: dateInput,
+                      controller: startdateInput,
                       //editing controller of this TextField
                       decoration: InputDecoration(
                           icon: Icon(Icons.calendar_today), //icon of text field
@@ -88,11 +155,12 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 
                         if (pickedDate != null) {
                           startDate = pickedDate.toIso8601String();
+                          startDate += "+00:00";
                           String formattedDate =
-                              DateFormat('yyyy-MM-dd').format(pickedDate);
+                              DateFormat('dd-MM-yyyy').format(pickedDate);
 
                           setState(() {
-                            dateInput.text = formattedDate;
+                            startdateInput.text = formattedDate;
                           });
                         }
                       },
@@ -106,7 +174,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                   height: MediaQuery.of(context).size.width / 5,
                   child: Center(
                     child: TextField(
-                      controller: dateInput,
+                      controller: enddateInput,
                       //editing controller of this TextField
                       decoration: InputDecoration(
                           icon: Icon(Icons.calendar_today), //icon of text field
@@ -125,11 +193,12 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 
                         if (pickedDate != null) {
                           endDate = pickedDate.toIso8601String();
+                          endDate += "+00:00";
                           String formattedDate =
-                              DateFormat('yyyy-MM-dd').format(pickedDate);
+                              DateFormat('dd-MM-yyyy').format(pickedDate);
 
                           setState(() {
-                            dateInput.text = formattedDate;
+                            enddateInput.text = formattedDate;
                           });
                         } else {}
                       },
@@ -139,7 +208,23 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    BlueButton(text: "Show Revenue", onTap: () {}),
+                    BlueButton(
+                        text: "Show Revenue",
+                        onTap: () {
+                          if (startDate.isNotEmpty && endDate.isNotEmpty) {
+                            getRevenue();
+                          } else {
+                            _scaffoldKey.currentState?.showSnackBar(
+                              SnackBar(
+                                behavior: SnackBarBehavior.floating,
+                                duration: Duration(seconds: 1),
+                                content: Text(
+                                  "Enter start date and end date.",
+                                ),
+                              ),
+                            );
+                          }
+                        }),
                   ],
                 ),
                 Padding(
@@ -164,9 +249,9 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
-                                  children: const [
-                                    Text(
-                                      'Today’s Revenue',
+                                  children: [
+                                    const Text(
+                                      'Total Revenue',
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 8,
@@ -174,8 +259,8 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                                       ),
                                     ),
                                     Text(
-                                      '₹ 4500',
-                                      style: TextStyle(
+                                      total.toString(),
+                                      style: const TextStyle(
                                         color: Color(0xff1d1d1d),
                                         fontSize: 18.8,
                                         fontFamily: 'SFUIText',
@@ -187,8 +272,8 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                                 Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                  children: const [
-                                    Text(
+                                  children: [
+                                    const Text(
                                       'Total number\n    of orders',
                                       style: TextStyle(
                                         color: Colors.black,
@@ -197,8 +282,8 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                                       ),
                                     ),
                                     Text(
-                                      '14',
-                                      style: TextStyle(
+                                      noOfOrders.toString(),
+                                      style: const TextStyle(
                                         color: Color(0xff1d1d1d),
                                         fontSize: 14,
                                         fontFamily: 'SFUIText',
@@ -223,112 +308,27 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                             ),
                           ),
                         ),
-                        const ExpenseScreenCard(
-                          name: 'Vinod Kumar ',
-                          price: '₹ 520',
-                        ),
-                        const ExpenseScreenCard(
-                          name: 'Vinod Kumar ',
-                          price: '₹ 520',
-                        ),
+                        SingleChildScrollView(
+                          child: Container(
+                            height: 300,
+                            width: MediaQuery.of(context).size.width,
+                            child: ListView.builder(
+                                itemCount: orders.length,
+                                itemBuilder: (context, index) {
+                                  return ExpenseScreenCard(
+                                    name: orders[index]['name'].toString(),
+                                    price:
+                                        orders[index]['totalamount'].toString(),
+                                    noOfItems: orders[index]['numberofitems']
+                                        .toString(),
+                                  );
+                                }),
+                          ),
+                        )
                       ],
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: MediaQuery.of(context).size.height * .084,
-                          width: MediaQuery.of(context).size.width * .9,
-                          decoration: BoxDecoration(
-                            color: Color(0xffe6e6e6),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: const [
-                                    Text(
-                                      'Today’s Revenue',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 7.849205017089844,
-                                        fontFamily: 'SFUIText',
-                                      ),
-                                    ),
-                                    Text(
-                                      '₹ 4500',
-                                      style: TextStyle(
-                                        color: Color(0xff1d1d1d),
-                                        fontSize: 18.838092803955078,
-                                        fontFamily: 'SFUIText',
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: const [
-                                    Text(
-                                      'Total number\n    of orders',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 6.906872272491455,
-                                        fontFamily: 'SFUIText',
-                                      ),
-                                    ),
-                                    Text(
-                                      '14',
-                                      style: TextStyle(
-                                        color: Color(0xff1d1d1d),
-                                        fontSize: 13.81374454498291,
-                                        fontFamily: 'SFUIText',
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 12),
-                          child: Text(
-                            'Orders',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 10,
-                              fontFamily: 'SFUIText',
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        const ExpenseScreenCard(
-                          name: 'Vinod Kumar ',
-                          price: '₹ 520',
-                        ),
-                        const ExpenseScreenCard(
-                          name: 'Vinod Kumar ',
-                          price: '₹ 520',
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Container(),
               ],
             ),
           ),
@@ -344,10 +344,12 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 class ExpenseScreenCard extends StatelessWidget {
   final String name;
   final String price;
+  final String noOfItems;
 
   const ExpenseScreenCard({
     required this.name,
     required this.price,
+    required this.noOfItems,
     Key? key,
   }) : super(key: key);
 
@@ -380,9 +382,9 @@ class ExpenseScreenCard extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  const Text(
-                    '2 items',
-                    style: TextStyle(
+                  Text(
+                    '$noOfItems items',
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 9,
                       fontFamily: 'SFUIText',
@@ -404,14 +406,14 @@ class ExpenseScreenCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Transform.rotate(
-                    angle: 270 * math.pi / 180,
-                    child: const Icon(
-                      Icons.arrow_drop_down_circle_outlined,
-                      color: Colors.black,
-                      size: 13,
-                    ),
-                  ),
+                  // Transform.rotate(
+                  //   angle: 270 * math.pi / 180,
+                  //   child: const Icon(
+                  //     Icons.arrow_drop_down_circle_outlined,
+                  //     color: Colors.black,
+                  //     size: 13,
+                  //   ),
+                  // ),
                 ],
               ),
             ],

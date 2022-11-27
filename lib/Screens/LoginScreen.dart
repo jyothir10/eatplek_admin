@@ -61,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
       status = true;
       final token = await responseBody["result"]["token"];
       final id = await responseBody["result"]["id"];
-      print(responseBody['result']['id']);
+
       sharedPreferences.setString("token", token);
       sharedPreferences.setString("id", id);
 
