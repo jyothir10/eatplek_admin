@@ -8,10 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'Screens/EditProfileScreen.dart';
-import 'Screens/ExpensesScreen.dart';
 import 'Screens/LoginScreen.dart';
 import 'Screens/MenuChangeScreen.dart';
 import 'Screens/NotificationScreen.dart';
+import 'Screens/RevenueScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
           TimeChangeScreen.id: (context) => TimeChangeScreen(),
           SettingsSCreen.id: (context) => SettingsSCreen(),
           InventoryScreen.id: (context) => InventoryScreen(),
-          ExpensesScreen.id: (context) => ExpensesScreen(),
+          RevenueScreen.id: (context) => RevenueScreen(),
           DashboardScreen.id: (context) => DashboardScreen(),
           InvoiceScreen.id: (context) => InvoiceScreen(),
         });
