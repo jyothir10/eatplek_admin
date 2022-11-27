@@ -89,38 +89,41 @@ class _RevenueScreenState extends State<RevenueScreen> {
       length: 3,
       child: Scaffold(
         key: _scaffoldKey,
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: Color(0xff042e60),
-          title: const Text(
-            'Revenue',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontFamily: 'SFUIText',
-              fontWeight: FontWeight.w500,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(70),
+          child: AppBar(
+            centerTitle: true,
+            backgroundColor: Color(0xff042e60),
+            title: const Text(
+              'Revenue',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontFamily: 'SFUIText',
+                fontWeight: FontWeight.w500,
+              ),
             ),
-          ),
-          leading: InkWell(
-            child: const Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            ),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(
-                Icons.search,
+            leading: InkWell(
+              child: const Icon(
+                Icons.arrow_back,
                 color: Colors.white,
               ),
-              onPressed: () {
-                // do something
+              onTap: () {
+                Navigator.pop(context);
               },
-            )
-          ],
+            ),
+            actions: <Widget>[
+              IconButton(
+                icon: const Icon(
+                  Icons.search,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  // do something
+                },
+              )
+            ],
+          ),
         ),
         body: WillPopScope(
           onWillPop: () async {
@@ -133,7 +136,7 @@ class _RevenueScreenState extends State<RevenueScreen> {
               children: [
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 15),
-                  height: MediaQuery.of(context).size.width / 5,
+                  height: 70,
                   child: Center(
                     child: TextField(
                       controller: startdateInput,
@@ -171,7 +174,7 @@ class _RevenueScreenState extends State<RevenueScreen> {
                   padding: EdgeInsets.symmetric(
                     horizontal: 15,
                   ),
-                  height: MediaQuery.of(context).size.width / 5,
+                  height: 70,
                   child: Center(
                     child: TextField(
                       controller: enddateInput,
@@ -205,36 +208,40 @@ class _RevenueScreenState extends State<RevenueScreen> {
                     ),
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    BlueButton(
-                        text: "Show Revenue",
-                        onTap: () {
-                          if (startDate.isNotEmpty && endDate.isNotEmpty) {
-                            getRevenue();
-                          } else {
-                            _scaffoldKey.currentState?.showSnackBar(
-                              SnackBar(
-                                behavior: SnackBarBehavior.floating,
-                                duration: Duration(seconds: 1),
-                                content: Text(
-                                  "Enter start date and end date.",
+                SizedBox(
+                  height: 60,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      BlueButton(
+                          text: "Show Revenue",
+                          onTap: () {
+                            if (startDate.isNotEmpty && endDate.isNotEmpty) {
+                              getRevenue();
+                            } else {
+                              _scaffoldKey.currentState?.showSnackBar(
+                                SnackBar(
+                                  behavior: SnackBarBehavior.floating,
+                                  duration: Duration(seconds: 1),
+                                  content: Text(
+                                    "Enter start date and end date.",
+                                  ),
                                 ),
-                              ),
-                            );
-                          }
-                        }),
-                  ],
+                              );
+                            }
+                          }),
+                    ],
+                  ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          height: MediaQuery.of(context).size.height * .084,
+                          height: 70,
                           width: MediaQuery.of(context).size.width * .9,
                           decoration: BoxDecoration(
                             color: Color(0xffe6e6e6),
@@ -298,19 +305,22 @@ class _RevenueScreenState extends State<RevenueScreen> {
                         ),
                         const Padding(
                           padding: EdgeInsets.symmetric(vertical: 12),
-                          child: Text(
-                            'Orders',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 11,
-                              fontFamily: 'SFUIText',
-                              fontWeight: FontWeight.w500,
+                          child: SizedBox(
+                            height: 15,
+                            child: Text(
+                              'Orders',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 11,
+                                fontFamily: 'SFUIText',
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ),
                         SingleChildScrollView(
                           child: Container(
-                            height: 300,
+                            height: MediaQuery.of(context).size.height - 500,
                             width: MediaQuery.of(context).size.width,
                             child: ListView.builder(
                                 itemCount: orders.length,
