@@ -19,6 +19,7 @@ class TimeChangeScreen extends StatefulWidget {
 }
 
 class _TimeChangeScreenState extends State<TimeChangeScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   var items = ["Open", "Closed"];
   String dropdownvalue = 'Open', msg = "", open_time = "", close_time = "";
   bool open = true;
@@ -54,7 +55,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
   List opendays = [];
   static const except = {'exc': 'An error occured'};
 
-  timeChange() async {
+  timeChange(List dayList) async {
     SharedPreferences sharedpreferences = await SharedPreferences.getInstance();
     String? id = sharedpreferences.getString("id");
     String? token = sharedpreferences.getString("token");
@@ -64,7 +65,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
     };
 
     Map body1 = {
-      "days_open": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+      "days_open": dayList,
       "opening_time": open_time,
       "closing_time": close_time
     };
@@ -81,9 +82,26 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
       msg = await jsonData['message'];
 
       if (msg == "timings updated") {
-        print(msg);
+        _scaffoldKey.currentState?.showSnackBar(
+          SnackBar(
+            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 1),
+            content: Text(
+              msg,
+            ),
+          ),
+        );
       }
     } else {
+      _scaffoldKey.currentState?.showSnackBar(
+        SnackBar(
+          behavior: SnackBarBehavior.floating,
+          duration: Duration(seconds: 1),
+          content: Text(
+            "Error!",
+          ),
+        ),
+      );
       APIException(response.statusCode, except);
     }
   }
@@ -91,6 +109,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
@@ -720,8 +739,59 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                           onTap: () {
                             open_time = "$oth:$otm $dropdownval";
                             close_time = "$cth:$ctm $dropdownval1";
-                            timeChange();
-                            Navigator.pop(context);
+                            int startDay = 1;
+                            int endDay = 7;
+                            List dayList = [];
+                            switch (day) {
+                              case "Monday":
+                                startDay = 0;
+                                break;
+                              case "Tuesday":
+                                startDay = 1;
+                                break;
+                              case "Wednesday":
+                                startDay = 2;
+                                break;
+                              case "Thursday":
+                                startDay = 3;
+                                break;
+                              case "Friday":
+                                startDay = 4;
+                                break;
+                              case "Saturday":
+                                startDay = 5;
+                                break;
+                              case "Sunday":
+                                startDay = 6;
+                                break;
+                            }
+                            switch (day1) {
+                              case "Monday":
+                                endDay = 0;
+                                break;
+                              case "Tuesday":
+                                endDay = 1;
+                                break;
+                              case "Wednesday":
+                                endDay = 2;
+                                break;
+                              case "Thursday":
+                                endDay = 3;
+                                break;
+                              case "Friday":
+                                endDay = 4;
+                                break;
+                              case "Saturday":
+                                endDay = 5;
+                                break;
+                              case "Sunday":
+                                endDay = 6;
+                                break;
+                            }
+                            for (int i = startDay; i <= endDay; i++) {
+                              dayList.add(days[i]);
+                            }
+                            timeChange(dayList);
                           },
                         ),
                       )
