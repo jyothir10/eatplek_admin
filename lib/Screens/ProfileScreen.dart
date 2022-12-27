@@ -32,9 +32,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     var urlfinal = Uri.https(URL_Latest, '/restaurant/$resid');
 
     http.Response response = await http.get(urlfinal, headers: headers);
-
     if ((response.statusCode >= 200) && (response.statusCode < 300)) {
       final jsonData = jsonDecode(response.body);
+
       msg = await jsonData['message'];
       if (msg == "restaurant found") {
         profile = await jsonData['restaurant'];
@@ -42,7 +42,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }
 
       setState(() {
-        print(profile['name']);
         showSpinner = false;
         fetched = true;
       });
@@ -65,7 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Navigator.pushReplacementNamed(context, DashboardScreen.id);
+        Navigator.pop(context);
         return false;
       },
       child: Scaffold(
@@ -98,136 +97,131 @@ class _ProfileScreenState extends State<ProfileScreen> {
             color: primaryClr,
           ),
           child: SafeArea(
-            child: SingleChildScrollView(
-              child: Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 30),
-                  child: profile != null && fetched == true
-                      ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            CircleAvatar(
-                              backgroundColor: Color(0xffefeeee),
-                              radius: 51.2,
-                              child: name.isNotEmpty
-                                  ? Text(
-                                      profile['name'][0].toString(),
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 35.826087951660156,
-                                        fontFamily: 'SFUIText',
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    )
-                                  : Text(
-                                      "U",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 35.826087951660156,
-                                        fontFamily: 'SFUIText',
-                                        fontWeight: FontWeight.w500,
-                                      ),
+            child: Container(
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 30),
+                child: profile != null && fetched == true
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Color(0xffefeeee),
+                            radius: 51.2,
+                            child: name.isNotEmpty
+                                ? Text(
+                                    profile['name'][0].toString(),
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 35.826087951660156,
+                                      fontFamily: 'SFUIText',
+                                      fontWeight: FontWeight.w500,
                                     ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 9),
-                              child: name.isNotEmpty
-                                  ? Text(
-                                      name,
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 16,
-                                        fontFamily: 'SFUIText',
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    )
-                                  : Text(
-                                      "User",
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 16,
-                                        fontFamily: 'SFUIText',
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 11),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 8),
-                                    child: Text(
-                                      profile['email'],
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 10,
-                                        fontFamily: 'SFUIText',
-                                      ),
+                                  )
+                                : Text(
+                                    "U",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 35.826087951660156,
+                                      fontFamily: 'SFUIText',
+                                      fontWeight: FontWeight.w500,
                                     ),
                                   ),
-                                  Icon(
-                                    Icons.circle_rounded,
-                                    color: Color(0xff585757),
-                                    size: 9,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 9),
+                            child: name.isNotEmpty
+                                ? Text(
+                                    name,
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontFamily: 'SFUIText',
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  )
+                                : Text(
+                                    "User",
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontFamily: 'SFUIText',
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 8),
-                                    child:
-                                        profile['phone'].toString().isNotEmpty
-                                            ? Text(
-                                                profile['phone'],
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 10,
-                                                  fontFamily: 'SFUIText',
-                                                ),
-                                              )
-                                            : Text(
-                                                "+91 xxxxxxxxxx",
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 10,
-                                                  fontFamily: 'SFUIText',
-                                                ),
-                                              ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 11),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(right: 8),
+                                  child: Text(
+                                    profile['email'],
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 10,
+                                      fontFamily: 'SFUIText',
+                                    ),
                                   ),
-                                ],
-                              ),
+                                ),
+                                Icon(
+                                  Icons.circle_rounded,
+                                  color: Color(0xff585757),
+                                  size: 9,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 8),
+                                  child: profile['phone'].toString().isNotEmpty
+                                      ? Text(
+                                          profile['phone'],
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 10,
+                                            fontFamily: 'SFUIText',
+                                          ),
+                                        )
+                                      : Text(
+                                          "+91 xxxxxxxxxx",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 10,
+                                            fontFamily: 'SFUIText',
+                                          ),
+                                        ),
+                                ),
+                              ],
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 40),
-                              child: BlueButton(
-                                text: '       Log Out       ',
-                                onTap: () {
-                                  logout();
-                                  Navigator.pushReplacementNamed(
-                                      context, LoginScreen.id);
-                                },
-                              ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 90),
+                            child: BlueButton(
+                              text: '       Log Out       ',
+                              onTap: () {
+                                logout();
+                                Navigator.pushReplacementNamed(
+                                    context, LoginScreen.id);
+                              },
                             ),
-                          ],
-                        )
-                      : Center(
-                          child: fetched == true && profile == null
-                              ? Text(
-                                  "Unable to fetch profile information",
-                                  style: TextStyle(
-                                    color: Color(0xff000000),
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily: "SFUIText",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 12.0,
-                                  ),
-                                )
-                              : Container(),
-                        ),
-                ),
+                          ),
+                        ],
+                      )
+                    : Center(
+                        child: fetched == true && profile == null
+                            ? Text(
+                                "Unable to fetch profile information",
+                                style: TextStyle(
+                                  color: Color(0xff000000),
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: "SFUIText",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 12.0,
+                                ),
+                              )
+                            : Container(),
+                      ),
               ),
             ),
           ),
