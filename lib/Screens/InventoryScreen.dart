@@ -141,15 +141,21 @@ class _InventoryScreenState extends State<InventoryScreen> {
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height -
                         (MediaQuery.of(context).padding.top + kToolbarHeight),
-                    child: ListView.builder(
-                        itemCount: categories.length,
-                        itemBuilder: (context, index) {
-                          return InventoryItem(
-                            on: false,
-                            category: categories[index],
-                            categoryId: categoryids[index],
-                          );
-                        }),
+                    child: isEmpty1 == false
+                        ? ListView.builder(
+                            itemCount: categories.length,
+                            itemBuilder: (context, index) {
+                              return InventoryItem(
+                                on: false,
+                                category: categories[index],
+                                categoryId: categoryids[index],
+                              );
+                            })
+                        : Container(
+                            child: Center(
+                              child: Text("No data to show"),
+                            ),
+                          ),
                   ),
                 ),
               ),
@@ -214,6 +220,7 @@ class _InventoryItemState extends State<InventoryItem> {
       } else {
         foods = await jsonData['foods'];
         showList = true;
+        print(foods);
       }
       setState(() {});
     } else
@@ -275,8 +282,9 @@ class _InventoryItemState extends State<InventoryItem> {
                                       itemCount: foods.length,
                                       itemBuilder: (context, index) {
                                         return InventoryItems(
-                                          selected: false,
-                                          name: foods[index]['name'],
+                                          isAvail: foods[index]['is_available'],
+                                          foodName: foods[index]['name'],
+                                          foodId: foods[index]['id'],
                                         );
                                       }),
                                 )
@@ -296,13 +304,15 @@ class _InventoryItemState extends State<InventoryItem> {
 }
 
 class InventoryItems extends StatefulWidget {
-  bool selected;
-  String name;
+  bool isAvail;
+  String foodName;
+  String foodId;
 
   InventoryItems({
     Key? key,
-    required this.selected,
-    required this.name,
+    required this.isAvail,
+    required this.foodName,
+    required this.foodId,
   }) : super(key: key);
 
   @override
@@ -310,6 +320,20 @@ class InventoryItems extends StatefulWidget {
 }
 
 class _InventoryItemsState extends State<InventoryItems> {
+  changeAvail() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String? token = sharedPreferences.getString("token");
+
+    Map<String, String> headers = {
+      "Token": token.toString(),
+    };
+    var urlfinal = Uri.https(URL_Latest, '/food/availability/${widget.foodId}');
+
+    http.Response response = await http.put(urlfinal, headers: headers);
+    print(response.body);
+    if ((response.statusCode >= 200) && (response.statusCode < 300)) {}
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -323,22 +347,22 @@ class _InventoryItemsState extends State<InventoryItems> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                  color: widget.selected ? Colors.black : Color(0x7f000000),
+                  color: widget.isAvail ? Colors.black : Color(0x7f000000),
                   width: 1,
                 ),
               ),
               child: Icon(
                 Icons.circle,
                 size: 5,
-                color: widget.selected ? Colors.black : Color(0x7f000000),
+                color: widget.isAvail ? Colors.black : Color(0x7f000000),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 8),
               child: Text(
-                widget.name,
+                widget.foodName,
                 style: TextStyle(
-                  color: widget.selected ? Colors.black : Color(0x7f000000),
+                  color: widget.isAvail ? Colors.black : Color(0x7f000000),
                   fontSize: 12,
                   fontFamily: 'SFUIText',
                 ),
@@ -349,10 +373,11 @@ class _InventoryItemsState extends State<InventoryItems> {
         Row(
           children: [
             Switch(
-              value: widget.selected,
+              value: widget.isAvail,
               onChanged: (value) {
+                changeAvail();
                 setState(() {
-                  widget.selected = value;
+                  widget.isAvail = value;
                 });
               },
               activeColor: Color(0xffffb800),
