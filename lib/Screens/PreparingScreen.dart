@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Exceptions/api_exception.dart';
+import 'InvoiceScreen.dart';
 
 class PreparingScreen extends StatefulWidget {
   const PreparingScreen({Key? key}) : super(key: key);
@@ -23,6 +24,7 @@ class _PreparingScreenState extends State<PreparingScreen> {
   List preparingOrders = [];
   int i = 0;
   static const except = {'exc': 'An error occured'};
+
   getOrders() async {
     SharedPreferences sharedpreferences = await SharedPreferences.getInstance();
     String? id = sharedpreferences.getString("id");
@@ -101,8 +103,16 @@ class _PreparingScreenState extends State<PreparingScreen> {
                                       .toString(),
                                   phone: preparingOrders[index]['user']
                                       ['phone'],
-                                  isDelivered: false,
-                                  onTap: () {},
+                                  isDelivered: orders[index]['status'],
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => InvoiceScreen(
+                                              orderId: orders[index]['id'])),
+                                    );
+                                  },
+                                  orderId: orders[index]['id'],
                                 );
                               });
                         } // builder should also handle the case when data is not fetched yet

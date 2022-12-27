@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
     ]);
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: MenuChangeScreen.id,
+        initialRoute: OnboardingScreen.id,
         routes: {
           OnboardingScreen.id: (context) => OnboardingScreen(),
           LoginScreen.id: (context) => LoginScreen(),
@@ -39,7 +39,9 @@ class MyApp extends StatelessWidget {
           InventoryScreen.id: (context) => InventoryScreen(),
           RevenueScreen.id: (context) => RevenueScreen(),
           DashboardScreen.id: (context) => DashboardScreen(),
-          InvoiceScreen.id: (context) => InvoiceScreen(),
+          InvoiceScreen.id: (context) => InvoiceScreen(
+                orderId: "",
+              ),
         });
   }
 }
