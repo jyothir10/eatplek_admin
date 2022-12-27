@@ -2,6 +2,7 @@ import 'package:eatplek_admin/Screens/DashboardScreen.dart';
 import 'package:eatplek_admin/Screens/InventoryScreen.dart';
 import 'package:eatplek_admin/Screens/InvoiceScreen.dart';
 import 'package:eatplek_admin/Screens/OnboardingScreen.dart';
+import 'package:eatplek_admin/Screens/ProfileScreen.dart';
 import 'package:eatplek_admin/Screens/SettingsSCreen.dart';
 import 'package:eatplek_admin/Screens/TimeChangeScreen.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
           InventoryScreen.id: (context) => InventoryScreen(),
           RevenueScreen.id: (context) => RevenueScreen(),
           DashboardScreen.id: (context) => DashboardScreen(),
+          ProfileScreen.id: (context) => ProfileScreen(),
           InvoiceScreen.id: (context) => InvoiceScreen(
                 orderId: "",
               ),
