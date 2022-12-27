@@ -103,7 +103,7 @@ class _PreparingScreenState extends State<PreparingScreen> {
                                       .toString(),
                                   phone: preparingOrders[index]['user']
                                       ['phone'],
-                                  isDelivered: false,
+                                  isDelivered: orders[index]['status'],
                                   onTap: () {
                                     Navigator.push(
                                       context,
@@ -112,6 +112,7 @@ class _PreparingScreenState extends State<PreparingScreen> {
                                               orderId: orders[index]['id'])),
                                     );
                                   },
+                                  orderId: orders[index]['id'],
                                 );
                               });
                         } // builder should also handle the case when data is not fetched yet

@@ -20,6 +20,7 @@ class AllOrderScreen extends StatefulWidget {
 class _AllOrderScreenState extends State<AllOrderScreen> {
   bool isEmpty1 = false;
   bool showList1 = false;
+  bool isDelivered = false;
   List orders = [];
   static const except = {'exc': 'An error occured'};
   getOrders() async {
@@ -38,7 +39,6 @@ class _AllOrderScreenState extends State<AllOrderScreen> {
     if ((response.statusCode >= 200) && (response.statusCode < 300)) {
       final jsonData = jsonDecode(response.body);
       orders = await jsonData['result'];
-
       if (jsonData['result'] == null) {
         isEmpty1 = true;
         showList1 = true;
@@ -85,6 +85,7 @@ class _AllOrderScreenState extends State<AllOrderScreen> {
 
                                 var formatter = new DateFormat('dd-MM-yyyy');
                                 String formattedDate = formatter.format(d);
+
                                 return DashBoardCard(
                                   name: orders[index]['user']['name'],
                                   time: orders[index]['cart']['time'],
@@ -93,7 +94,8 @@ class _AllOrderScreenState extends State<AllOrderScreen> {
                                           ['number_of_guests']
                                       .toString(),
                                   phone: orders[index]['user']['phone'],
-                                  isDelivered: false,
+                                  isDelivered: orders[index]['status'],
+                                  orderId: orders[index]['id'],
                                   onTap: () {
                                     Navigator.push(
                                       context,

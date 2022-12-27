@@ -101,7 +101,7 @@ class _DelayedOrdersScreenState extends State<DelayedOrdersScreen> {
                                           ['number_of_guests']
                                       .toString(),
                                   phone: delayedOrders[index]['user']['phone'],
-                                  isDelivered: false,
+                                  isDelivered: orders[index]['status'],
                                   onTap: () {
                                     Navigator.push(
                                       context,
@@ -110,6 +110,7 @@ class _DelayedOrdersScreenState extends State<DelayedOrdersScreen> {
                                               orderId: orders[index]['id'])),
                                     );
                                   },
+                                  orderId: orders[index]['id'],
                                 );
                               });
                         } // builder should also handle the case when data is not fetched yet
