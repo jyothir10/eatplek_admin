@@ -3,7 +3,7 @@ import 'package:eatplek_admin/Components/SettingsCard.dart';
 import 'package:eatplek_admin/Screens/DashboardScreen.dart';
 import 'package:eatplek_admin/Screens/EditProfileScreen.dart';
 import 'package:eatplek_admin/Screens/MenuChangeScreen.dart';
-import 'package:eatplek_admin/Screens/NotificationScreen.dart';
+import 'package:eatplek_admin/Screens/ProfileScreen.dart';
 import 'package:eatplek_admin/Screens/TimeChangeScreen.dart';
 import 'package:flutter/material.dart';
 
@@ -79,6 +79,12 @@ class _SettingsSCreenState extends State<SettingsSCreen> {
                   thickness: 1,
                 ),
                 SettingsCard(
+                  text: 'View Profile',
+                  onTap: () {
+                    Navigator.pushNamed(context, ProfileScreen.id);
+                  },
+                ),
+                SettingsCard(
                   text: 'Edit Profile',
                   onTap: () {
                     Navigator.pushNamed(context, EditProfileScreen.id);
@@ -90,60 +96,40 @@ class _SettingsSCreenState extends State<SettingsSCreen> {
                     Navigator.pushNamed(context, MenuChangeScreen.id);
                   },
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 9, horizontal: 18),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: const [
-                      Text(
-                        'Account Setting',
-                        style: TextStyle(
-                          color: Color(0x91000000),
-                          fontSize: 12,
-                          fontFamily: 'SFUIText',
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const Divider(
-                  thickness: 1,
-                ),
+
                 SettingsCard(
                   text: "Time change",
                   onTap: () {
                     Navigator.pushNamed(context, TimeChangeScreen.id);
                   },
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 9, horizontal: 18),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: const [
-                      Text(
-                        'App Setting',
-                        style: TextStyle(
-                          color: Color(0x91000000),
-                          fontSize: 12,
-                          fontFamily: 'SFUIText',
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const Divider(
-                  thickness: 1,
-                ),
-                SettingsCard(
-                  text: "Notifications",
-                  onTap: () {
-                    Navigator.pushNamed(context, NotificationScreen.id);
-                  },
-                ),
+                // Padding(
+                //   padding:
+                //       const EdgeInsets.symmetric(vertical: 9, horizontal: 18),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.start,
+                //     children: const [
+                //       Text(
+                //         'App Setting',
+                //         style: TextStyle(
+                //           color: Color(0x91000000),
+                //           fontSize: 12,
+                //           fontFamily: 'SFUIText',
+                //           fontWeight: FontWeight.w500,
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // const Divider(
+                //   thickness: 1,
+                // ),
+                // SettingsCard(
+                //   text: "Notifications",
+                //   onTap: () {
+                //     Navigator.pushNamed(context, NotificationScreen.id);
+                //   },
+                // ),
               ],
             ),
           ),
