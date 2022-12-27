@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:eatplek_admin/Components/BottomBar.dart';
-import 'package:eatplek_admin/Components/OutofStockCard.dart';
 import 'package:eatplek_admin/Constants.dart';
 import 'package:eatplek_admin/Screens/DashboardScreen.dart';
 import 'package:flutter/material.dart';
@@ -27,8 +26,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
   List categorylist = [];
   List categoryids = [];
   static const except = {'exc': 'An error occured'};
-  bool isEmpty = false;
-  bool showList = false;
+
   bool isEmpty1 = false;
   bool showList1 = false;
   bool isCategory = false;
@@ -47,7 +45,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
     http.Response response = await http.get(urlfinal, headers: headers);
     if ((response.statusCode >= 200) && (response.statusCode < 300)) {
       final jsonData = jsonDecode(response.body);
-      print(jsonData);
+
       if (jsonData['foods'] == null) {
         isEmpty1 = true;
         showList1 = true;
@@ -61,6 +59,9 @@ class _InventoryScreenState extends State<InventoryScreen> {
           categories.add(foods[i]['category_name']);
           categorylist.add(foods[i]['category_name']);
           categoryids.add(foods[i]['category_id']);
+        }
+        for (int i = 0; i < foods.length; i++) {
+          print(categories[i]);
         }
       }
 
@@ -132,143 +133,21 @@ class _InventoryScreenState extends State<InventoryScreen> {
           child: SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height * .05,
-                    width: MediaQuery.of(context).size.width,
-                    color: Color(0xfff0ecec),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 5),
-                      child: InkWell(
-                        onTap: () {
-                          setState(() {
-                            if (expanded == true) {
-                              expanded = false;
-                            } else {
-                              expanded = true;
-                            }
-                          });
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              'Out of stock items',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 13,
-                                fontFamily: 'SFUIText',
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            Row(
-                              children: const [
-                                Padding(
-                                  padding: EdgeInsets.only(right: 8),
-                                  child: Text(
-                                    '2',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 13,
-                                      fontFamily: 'SFUIText',
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                                Icon(
-                                  Icons.arrow_drop_down_circle_outlined,
-                                  color: Colors.black,
-                                  size: 16,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  expanded
-                      ? Container(
-                          height: MediaQuery.of(context).size.height *
-                              (outofstock * .039),
-                          width: MediaQuery.of(context).size.width,
-                          color: Color(0xfff3f3f3),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 10),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                OutofStockCard(
-                                  item: 'Biriyani',
-                                  price: '₹ 160',
-                                ),
-                                OutofStockCard(
-                                  item: 'Biriyani',
-                                  price: '₹ 160',
-                                )
-                              ],
-                            ),
-                          ),
-                        )
-                      : Container(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(
-                            setFries
-                                ? Icons.keyboard_arrow_down_outlined
-                                : Icons.keyboard_arrow_right_outlined,
-                            size: 18,
-                            color: setFries ? Colors.black : Color(0x7f000000),
-                          ),
-                          Text(
-                            'Fries',
-                            style: TextStyle(
-                              color:
-                                  setFries ? Colors.black : Color(0x7f000000),
-                              fontSize: 13,
-                              fontFamily: 'SFUIText',
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Switch(
-                        value: setFries,
-                        onChanged: (value) {
-                          setState(() {
-                            setFries = value;
-                          });
-                        },
-                        activeColor: Color(0xffffb800),
-                        activeTrackColor: Color(0xfff0ecec),
-                      ),
-                    ],
-                  ),
-                  setFries
-                      ? Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          child: Column(
-                            children: [
-                              InventoryItems(
-                                selected: fries[0],
-                                name: "Plain Fries",
-                                rate: "₹ 60",
-                              ),
-                              InventoryItems(
-                                selected: fries[1],
-                                name: "Masala Fries",
-                                rate: "₹ 160",
-                              ),
-                            ],
-                          ),
-                        )
-                      : Container(),
-                ],
+              child: SingleChildScrollView(
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height -
+                      (MediaQuery.of(context).padding.top + kToolbarHeight),
+                  child: ListView.builder(
+                      itemCount: categories.length,
+                      itemBuilder: (context, index) {
+                        return InventoryItem(
+                          on: false,
+                          category: categories[index],
+                          categoryId: categoryids[index],
+                        );
+                      }),
+                ),
               ),
             ),
           ),
@@ -281,15 +160,145 @@ class _InventoryScreenState extends State<InventoryScreen> {
   }
 }
 
+class InventoryItem extends StatefulWidget {
+  bool on;
+  String category;
+  String categoryId;
+
+  InventoryItem(
+      {Key? key,
+      required this.on,
+      required this.category,
+      required this.categoryId})
+      : super(key: key);
+
+  @override
+  State<InventoryItem> createState() => _InventoryItemState();
+}
+
+class _InventoryItemState extends State<InventoryItem> {
+  bool isEmpty = false;
+  bool showList = false;
+  List foods = [];
+  static const except = {'exc': 'An error occured'};
+
+  getCategoryFood(String categoryId) async {
+    SharedPreferences sharedpreferences = await SharedPreferences.getInstance();
+    String? id = sharedpreferences.getString("id");
+    setState(() {
+      isEmpty = false;
+      showList = false;
+    });
+
+    Map<String, String> headers = {
+      "Content-Type": "application/json",
+    };
+    final Map<String, String> _queryParameters = <String, String>{
+      'category': categoryId,
+    };
+    var urlfinal =
+        Uri.https(URL_Latest, '/food/filter/restaurant/$id', _queryParameters);
+
+    http.Response response = await http.get(urlfinal, headers: headers);
+
+    if ((response.statusCode >= 200) && (response.statusCode < 300)) {
+      final jsonData = jsonDecode(response.body);
+
+      if (jsonData['foods'] == null) {
+        isEmpty = true;
+        showList = true;
+      } else {
+        foods = await jsonData['foods'];
+        showList = true;
+      }
+      setState(() {});
+    } else
+      APIException(response.statusCode, except);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  widget.on
+                      ? Icons.keyboard_arrow_down_outlined
+                      : Icons.keyboard_arrow_right_outlined,
+                  size: 18,
+                  color: widget.on ? Colors.black : Color(0x7f000000),
+                ),
+                Text(
+                  widget.category,
+                  style: TextStyle(
+                    color: widget.on ? Colors.black : Color(0x7f000000),
+                    fontSize: 13,
+                    fontFamily: 'SFUIText',
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+            Switch(
+              value: widget.on,
+              onChanged: (value) {
+                getCategoryFood(widget.categoryId);
+                setState(() {
+                  widget.on = value;
+                });
+              },
+              activeColor: Color(0xffffb800),
+              activeTrackColor: Color(0xfff0ecec),
+            ),
+          ],
+        ),
+        widget.on
+            ? Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: SingleChildScrollView(
+                  child: isEmpty
+                      ? Container()
+                      : Container(
+                          child: showList
+                              ? Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 150,
+                                  child: ListView.builder(
+                                      itemCount: foods.length,
+                                      itemBuilder: (context, index) {
+                                        return InventoryItems(
+                                          selected: false,
+                                          name: foods[index]['name'],
+                                        );
+                                      }),
+                                )
+                              : SizedBox(
+                                  height: 30,
+                                  width: 30,
+                                  child: CircularProgressIndicator(
+                                    color: primaryClr,
+                                  ),
+                                ),
+                        ),
+                ))
+            : Container(),
+      ],
+    );
+  }
+}
+
 class InventoryItems extends StatefulWidget {
   bool selected;
   String name;
-  String rate;
+
   InventoryItems({
     Key? key,
     required this.selected,
     required this.name,
-    required this.rate,
   }) : super(key: key);
 
   @override
@@ -335,14 +344,6 @@ class _InventoryItemsState extends State<InventoryItems> {
         ),
         Row(
           children: [
-            Text(
-              widget.rate,
-              style: TextStyle(
-                color: widget.selected ? Colors.black : Color(0x7f000000),
-                fontSize: 11,
-                fontFamily: 'SFUIText',
-              ),
-            ),
             Switch(
               value: widget.selected,
               onChanged: (value) {
