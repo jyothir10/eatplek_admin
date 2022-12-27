@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:eatplek_admin/Components/DashBoardCard.dart';
 import 'package:eatplek_admin/Constants.dart';
+import 'package:eatplek_admin/Screens/InvoiceScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -93,7 +94,14 @@ class _AllOrderScreenState extends State<AllOrderScreen> {
                                       .toString(),
                                   phone: orders[index]['user']['phone'],
                                   isDelivered: false,
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => InvoiceScreen(
+                                              orderId: orders[index]['id'])),
+                                    );
+                                  },
                                 );
                               });
                         } // builder should also handle the case when data is not fetched yet

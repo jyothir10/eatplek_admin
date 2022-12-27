@@ -11,3 +11,16 @@ const TextStyle editprofilestyle = TextStyle(
 const Color primaryClr = Color(0xff042e60);
 
 const URL_Latest = 'eatplek.onrender.com';
+
+const TextStyle invoiceListStyle = TextStyle(
+    color: const Color(0xff000000),
+    fontWeight: FontWeight.w400,
+    fontFamily: "SFUIText",
+    fontStyle: FontStyle.normal,
+    fontSize: 10.0);
+const TextStyle invoiceStyle = const TextStyle(
+    color: primaryClr,
+    fontWeight: FontWeight.w600,
+    fontFamily: "SFUIText",
+    fontStyle: FontStyle.normal,
+    fontSize: 10.0);

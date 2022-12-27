@@ -47,7 +47,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
     http.Response response = await http.get(urlfinal, headers: headers);
     if ((response.statusCode >= 200) && (response.statusCode < 300)) {
       final jsonData = jsonDecode(response.body);
-
+      print(jsonData);
       if (jsonData['foods'] == null) {
         isEmpty1 = true;
         showList1 = true;
@@ -63,8 +63,6 @@ class _InventoryScreenState extends State<InventoryScreen> {
           categoryids.add(foods[i]['category_id']);
         }
       }
-
-      print(categories);
 
       setState(() {
         isCategory = false;

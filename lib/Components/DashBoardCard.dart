@@ -236,23 +236,26 @@ class _DashBoardCardState extends State<DashBoardCard> {
                           ),
                     widget.isDelivered == true
                         ? Container()
-                        : const Padding(
-                            padding: EdgeInsets.only(top: 5),
-                            child: Text(
-                              'View Bill',
-                              style: TextStyle(
-                                shadows: [
-                                  Shadow(
-                                      color: Color(0xff284aff),
-                                      offset: Offset(0, -5))
-                                ],
-                                color: Colors.transparent,
-                                fontSize: 8,
-                                fontFamily: 'SFUIText',
-                                fontWeight: FontWeight.w500,
-                                decoration: TextDecoration.underline,
-                                decorationColor: Color(0xff284aff),
-                                decorationThickness: 5,
+                        : Padding(
+                            padding: const EdgeInsets.only(top: 5),
+                            child: InkWell(
+                              onTap: widget.onTap,
+                              child: const Text(
+                                'View Bill',
+                                style: TextStyle(
+                                  shadows: [
+                                    Shadow(
+                                        color: Color(0xff284aff),
+                                        offset: Offset(0, -5))
+                                  ],
+                                  color: Colors.transparent,
+                                  fontSize: 8,
+                                  fontFamily: 'SFUIText',
+                                  fontWeight: FontWeight.w500,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: Color(0xff284aff),
+                                  decorationThickness: 5,
+                                ),
                               ),
                             ),
                           ),

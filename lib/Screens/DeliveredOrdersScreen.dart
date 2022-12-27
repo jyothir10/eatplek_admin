@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Exceptions/api_exception.dart';
+import 'InvoiceScreen.dart';
 
 class DeliveredOrdersScreen extends StatefulWidget {
   const DeliveredOrdersScreen({Key? key}) : super(key: key);
@@ -101,8 +102,15 @@ class _DeliveredOrdersScreenState extends State<DeliveredOrdersScreen> {
                                       .toString(),
                                   phone: deliveredOrders[index]['user']
                                       ['phone'],
-                                  isDelivered: false,
-                                  onTap: () {},
+                                  isDelivered: true,
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => InvoiceScreen(
+                                              orderId: orders[index]['id'])),
+                                    );
+                                  },
                                 );
                               });
                         } // builder should also handle the case when data is not fetched yet
