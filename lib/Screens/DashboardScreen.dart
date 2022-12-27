@@ -7,6 +7,7 @@ import 'package:eatplek_admin/Screens/AllOrderScreen.dart';
 import 'package:eatplek_admin/Screens/DelayedOrdersScreen.dart';
 import 'package:eatplek_admin/Screens/DeliveredOrdersScreen.dart';
 import 'package:eatplek_admin/Screens/PreparingScreen.dart';
+import 'package:eatplek_admin/Screens/TimeChangeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -165,7 +166,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           left: 12, top: 7),
                                       child: InkWell(
                                         onTap: () {
-                                          //todo:change
+                                          Navigator.pushNamed(
+                                              context, TimeChangeScreen.id);
                                         },
                                         child: const Text(
                                           'Change',

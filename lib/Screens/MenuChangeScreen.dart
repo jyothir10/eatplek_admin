@@ -114,7 +114,7 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
       "Content-Type": "application/json",
       "Token": sharedPreferences.getString("token").toString(),
     };
-    var urlfinal = Uri.https(URL_Latest, '/request');
+    var urlfinal = Uri.https(URL_Latest, '/food/');
 
     print(urlfinal);
 
@@ -129,7 +129,7 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
     final body = jsonEncode(body1);
 
     http.Response response =
-        await http.post(urlfinal, headers: headers, body: body);
+        await http.put(urlfinal, headers: headers, body: body);
 
     print(response.body);
     print(response.statusCode);
