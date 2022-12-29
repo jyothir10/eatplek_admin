@@ -22,6 +22,10 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
   TextEditingController itemnamecontroller = TextEditingController();
   TextEditingController ratecontroller = TextEditingController();
   TextEditingController descriptioncontroller = TextEditingController();
+
+  TextEditingController updateACRateController = TextEditingController();
+  TextEditingController updateNonacRateController = TextEditingController();
+  TextEditingController updateDescriptionController = TextEditingController();
   var restaurant;
   String? id;
   String resname = "";
@@ -58,8 +62,6 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
       "Token": sharedPreferences.getString("token").toString(),
     };
     var urlfinal = Uri.https(URL_Latest, '/request');
-
-    print(urlfinal);
 
     Map body1 = {
       "user_id": sharedPreferences.getString("id"),
@@ -114,15 +116,13 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
       "Content-Type": "application/json",
       "Token": sharedPreferences.getString("token").toString(),
     };
-    var urlfinal = Uri.https(URL_Latest, '/food/');
+    var urlfinal = Uri.https(URL_Latest, '/food/'); //todo:food id/
 
     Map body1 = {
-      "user_id": sharedPreferences.getString("id"),
-      "name": itemnamecontroller.text.trim(),
-      "price": ratecontroller.text.trim(),
-      "description": descriptioncontroller.text.trim(),
-      "restaurant": resname,
-      "restaurant_id": id
+      "name": dropdownvalue,
+      "description": updateDescriptionController.text.trim(),
+      "non_ac_price": updateNonacRateController.text.trim(),
+      "ac_price": updateACRateController.text.trim(),
     };
     final body = jsonEncode(body1);
 
@@ -133,31 +133,29 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
     print(response.statusCode);
 
     if ((response.statusCode >= 200) && (response.statusCode < 300)) {
-      print("Hello");
       final jsonData = await jsonDecode(response.body);
       print(jsonData);
-      print(jsonData['message']);
 
-      if (jsonData['message'] == "request created") {
+      if (jsonData['message'] == "food updated") {
         _scaffoldKey.currentState?.showSnackBar(
           const SnackBar(
             behavior: SnackBarBehavior.floating,
             duration: Duration(seconds: 1),
             content: Text(
-              "Successfully placed add item request",
+              "Successfully updated item",
             ),
           ),
         );
-        itemnamecontroller.clear();
-        ratecontroller.clear();
-        descriptioncontroller.clear();
+        updateDescriptionController.clear();
+        updateACRateController.clear();
+        updateNonacRateController.clear();
       } else {
         _scaffoldKey.currentState?.showSnackBar(
           const SnackBar(
             behavior: SnackBarBehavior.floating,
             duration: Duration(seconds: 1),
             content: Text(
-              "Error in placing add item request",
+              "Error in updating item ",
             ),
           ),
         );
@@ -248,21 +246,21 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
             expanded1
                 ? Container(
                     color: Colors.white,
-                    height: 250,
+                    height: 255,
                     width: MediaQuery.of(context).size.width,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 22),
                       child: Column(
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 5),
-                                    child: Text(
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 21),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
                                       'Name',
                                       style: TextStyle(
                                         color: Colors.black,
@@ -270,10 +268,49 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
                                         fontFamily: 'SFUIText',
                                       ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 32),
-                                    child: Text(
+                                    Container(
+                                      height: 30,
+                                      width: MediaQuery.of(context).size.width *
+                                          .49,
+                                      child: TextField(
+                                        textAlign: TextAlign.center,
+                                        controller: itemnamecontroller,
+                                        cursorColor: primaryClr,
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 12,
+                                          fontFamily: 'SFUIText',
+                                        ),
+                                        keyboardType: TextInputType.name,
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Color(0xff17000000),
+                                          contentPadding: EdgeInsets.all(5),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            borderSide: const BorderSide(
+                                              width: 0,
+                                              style: BorderStyle.none,
+                                            ),
+                                          ),
+                                          hintText: "Name of new item",
+                                          hintStyle: const TextStyle(
+                                            color: Color(0xff8a8a8a),
+                                            fontSize: 12,
+                                            fontFamily: 'SFUIText',
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
                                       'Rate',
                                       style: TextStyle(
                                         color: Colors.black,
@@ -281,164 +318,134 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
                                         fontFamily: 'SFUIText',
                                       ),
                                     ),
-                                  ),
-                                  Text(
-                                    'Description',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 13,
-                                      fontFamily: 'SFUIText',
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    height: 30,
-                                    width:
-                                        MediaQuery.of(context).size.width * .49,
-                                    child: TextField(
-                                      controller: itemnamecontroller,
-                                      cursorColor: primaryClr,
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 12,
-                                        fontFamily: 'SFUIText',
-                                      ),
-                                      keyboardType: TextInputType.name,
-                                      decoration: InputDecoration(
-                                        filled: true,
-                                        fillColor: Color(0xff17000000),
-                                        contentPadding: EdgeInsets.all(5),
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                          borderSide: const BorderSide(
-                                            width: 0,
-                                            style: BorderStyle.none,
-                                          ),
-                                        ),
-                                        hintText: "Name of new item",
-                                        hintStyle: const TextStyle(
-                                          color: Color(0xff8a8a8a),
-                                          fontSize: 12,
-                                          fontFamily: 'SFUIText',
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 15),
-                                    child: Row(
-                                      children: [
-                                        const Text(
-                                          'RS  ',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 12,
-                                            fontFamily: 'SFUIText',
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                        Container(
-                                          height: 30,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              .15,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                          ),
-                                          child: TextField(
-                                            controller: ratecontroller,
-                                            cursorColor: primaryClr,
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 15),
+                                      child: Row(
+                                        children: [
+                                          const Text(
+                                            'RS  ',
+                                            style: TextStyle(
                                               color: Colors.black,
-                                              fontWeight: FontWeight.w500,
                                               fontSize: 12,
                                               fontFamily: 'SFUIText',
+                                              fontWeight: FontWeight.w500,
                                             ),
-                                            keyboardType: TextInputType.number,
-                                            decoration: InputDecoration(
-                                              filled: true,
-                                              fillColor: Color(0xff17000000),
-                                              contentPadding: EdgeInsets.all(5),
-                                              border: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                                borderSide: const BorderSide(
-                                                  width: 0,
-                                                  style: BorderStyle.none,
-                                                ),
-                                              ),
-                                              hintText: "Rate",
-                                              hintStyle: const TextStyle(
-                                                color: Color(0xff8a8a8a),
+                                          ),
+                                          Container(
+                                            height: 30,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                .15,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                            ),
+                                            child: TextField(
+                                              textAlign: TextAlign.center,
+                                              controller: ratecontroller,
+                                              cursorColor: primaryClr,
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w500,
                                                 fontSize: 12,
                                                 fontFamily: 'SFUIText',
                                               ),
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              decoration: InputDecoration(
+                                                filled: true,
+                                                fillColor: Color(0xff17000000),
+                                                contentPadding:
+                                                    EdgeInsets.all(5),
+                                                border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                  borderSide: const BorderSide(
+                                                    width: 0,
+                                                    style: BorderStyle.none,
+                                                  ),
+                                                ),
+                                                hintText: "Rate",
+                                                hintStyle: const TextStyle(
+                                                  color: Color(0xff8a8a8a),
+                                                  fontSize: 12,
+                                                  fontFamily: 'SFUIText',
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        .633,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    child: TextField(
-                                      controller: descriptioncontroller,
-                                      cursorColor: primaryClr,
-                                      style: const TextStyle(
-                                        height: 1.5,
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Description',
+                                      style: TextStyle(
                                         color: Colors.black,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 12,
+                                        fontSize: 13,
                                         fontFamily: 'SFUIText',
                                       ),
-                                      keyboardType: TextInputType.multiline,
-                                      maxLines: 3,
-                                      decoration: InputDecoration(
-                                        contentPadding:
-                                            EdgeInsets.only(left: 5, right: 3),
-                                        filled: true,
-                                        fillColor: Color(0xff17000000),
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                          borderSide: const BorderSide(
-                                            width: 0,
-                                            style: BorderStyle.none,
-                                          ),
-                                        ),
-                                        hintText: "Short description",
-                                        hintStyle: const TextStyle(
-                                          color: Color(0xff8a8a8a),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          .633,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: TextField(
+                                        textAlign: TextAlign.center,
+                                        controller: descriptioncontroller,
+                                        cursorColor: primaryClr,
+                                        style: const TextStyle(
+                                          height: 1.5,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500,
                                           fontSize: 12,
                                           fontFamily: 'SFUIText',
                                         ),
+                                        keyboardType: TextInputType.multiline,
+                                        maxLines: 3,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              left: 5, right: 3),
+                                          filled: true,
+                                          fillColor: Color(0xff17000000),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            borderSide: const BorderSide(
+                                              width: 0,
+                                              style: BorderStyle.none,
+                                            ),
+                                          ),
+                                          hintText: "Short description",
+                                          hintStyle: const TextStyle(
+                                            color: Color(0xff8a8a8a),
+                                            fontSize: 12,
+                                            fontFamily: 'SFUIText',
+                                            height: 3,
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(vertical: 5),
+                                    const EdgeInsets.only(bottom: 2, top: 15),
                                 child: BlueButton(
                                   text: "Add Item",
                                   onTap: () {
@@ -495,21 +502,21 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
             expanded2
                 ? Container(
                     color: Colors.white,
-                    height: 250,
+                    height: 315,
                     width: MediaQuery.of(context).size.width,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 22),
                       child: Column(
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 5),
-                                    child: Text(
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 21),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
                                       'Name',
                                       style: TextStyle(
                                         color: Colors.black,
@@ -517,184 +524,274 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
                                         fontFamily: 'SFUIText',
                                       ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 28),
-                                    child: Text(
-                                      'Rate',
+                                    Container(
+                                      height: 30,
+                                      width: MediaQuery.of(context).size.width *
+                                          .49,
+                                      decoration: BoxDecoration(
+                                        color: Color(0xff17000000),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: DropdownButtonHideUnderline(
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          child: DropdownButton(
+                                              hint: const Text(
+                                                'Name of item',
+                                                style: TextStyle(
+                                                  color: Color(0xff8a8a8a),
+                                                  fontSize: 12,
+                                                  fontFamily: 'SFUIText',
+                                                ),
+                                              ),
+                                              value: dropdownvalue,
+                                              iconSize: 18,
+                                              iconEnabledColor:
+                                                  Color(0xff8a8a8a),
+                                              iconDisabledColor:
+                                                  Color(0xff8a8a8a),
+                                              icon: Icon(Icons
+                                                  .keyboard_arrow_down_outlined),
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12,
+                                                fontFamily: 'SFUIText',
+                                              ),
+                                              items: items.map((String items) {
+                                                return DropdownMenuItem(
+                                                  value: items,
+                                                  child: Text(items),
+                                                );
+                                              }).toList(),
+                                              onChanged: (String? value) {
+                                                setState(() {
+                                                  dropdownvalue = value!;
+                                                });
+                                              }),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'AC Rate',
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 13,
                                         fontFamily: 'SFUIText',
                                       ),
                                     ),
-                                  ),
-                                  Text(
-                                    'Description',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 13,
-                                      fontFamily: 'SFUIText',
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    height: 30,
-                                    width:
-                                        MediaQuery.of(context).size.width * .49,
-                                    decoration: BoxDecoration(
-                                      color: Color(0xff17000000),
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    child: DropdownButtonHideUnderline(
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        child: DropdownButton(
-                                            hint: const Text(
-                                              'Name of item',
-                                              style: TextStyle(
-                                                color: Color(0xff8a8a8a),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 15),
+                                      child: Row(
+                                        children: [
+                                          const Text(
+                                            'RS  ',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 12,
+                                              fontFamily: 'SFUIText',
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 30,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                .15,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                            ),
+                                            child: TextField(
+                                              controller:
+                                                  updateACRateController,
+                                              cursorColor: primaryClr,
+                                              textAlign: TextAlign.center,
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w500,
                                                 fontSize: 12,
                                                 fontFamily: 'SFUIText',
                                               ),
-                                            ),
-                                            value: dropdownvalue,
-                                            iconSize: 18,
-                                            iconEnabledColor: Color(0xff8a8a8a),
-                                            iconDisabledColor:
-                                                Color(0xff8a8a8a),
-                                            icon: Icon(Icons
-                                                .keyboard_arrow_down_outlined),
-                                            style: const TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 12,
-                                              fontFamily: 'SFUIText',
-                                            ),
-                                            items: items.map((String items) {
-                                              return DropdownMenuItem(
-                                                value: items,
-                                                child: Text(items),
-                                              );
-                                            }).toList(),
-                                            onChanged: (String? value) {
-                                              setState(() {
-                                                dropdownvalue = value!;
-                                              });
-                                            }),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 15),
-                                    child: Row(
-                                      children: [
-                                        const Text(
-                                          'RS  ',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 12,
-                                            fontFamily: 'SFUIText',
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                        Container(
-                                          height: 30,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              .15,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                          ),
-                                          child: TextField(
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 12,
-                                              fontFamily: 'SFUIText',
-                                            ),
-                                            keyboardType: TextInputType.number,
-                                            decoration: InputDecoration(
-                                              filled: true,
-                                              fillColor: Color(0xff17000000),
-                                              contentPadding: EdgeInsets.all(5),
-                                              border: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                                borderSide: const BorderSide(
-                                                  width: 0,
-                                                  style: BorderStyle.none,
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              decoration: InputDecoration(
+                                                filled: true,
+                                                fillColor: Color(0xff17000000),
+                                                contentPadding:
+                                                    EdgeInsets.all(5),
+                                                border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                  borderSide: const BorderSide(
+                                                    width: 0,
+                                                    style: BorderStyle.none,
+                                                  ),
+                                                ),
+                                                hintText: "Rate",
+                                                hintStyle: const TextStyle(
+                                                  color: Color(0xff8a8a8a),
+                                                  fontSize: 12,
+                                                  fontFamily: 'SFUIText',
                                                 ),
                                               ),
-                                              hintText: "Rate",
-                                              hintStyle: const TextStyle(
-                                                color: Color(0xff8a8a8a),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Non-AC Rate',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontFamily: 'SFUIText',
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 15),
+                                      child: Row(
+                                        children: [
+                                          const Text(
+                                            'RS  ',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 12,
+                                              fontFamily: 'SFUIText',
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 30,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                .15,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                            ),
+                                            child: TextField(
+                                              controller:
+                                                  updateNonacRateController,
+                                              cursorColor: primaryClr,
+                                              textAlign: TextAlign.center,
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w500,
                                                 fontSize: 12,
                                                 fontFamily: 'SFUIText',
                                               ),
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              decoration: InputDecoration(
+                                                filled: true,
+                                                fillColor: Color(0xff17000000),
+                                                contentPadding:
+                                                    EdgeInsets.all(5),
+                                                border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                  borderSide: const BorderSide(
+                                                    width: 0,
+                                                    style: BorderStyle.none,
+                                                  ),
+                                                ),
+                                                hintText: "Rate",
+                                                hintStyle: const TextStyle(
+                                                  color: Color(0xff8a8a8a),
+                                                  fontSize: 12,
+                                                  fontFamily: 'SFUIText',
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        .633,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    child: TextField(
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 12,
-                                        fontFamily: 'SFUIText',
-                                        height: 1.5,
+                                        ],
                                       ),
-                                      keyboardType: TextInputType.multiline,
-                                      maxLines: 3,
-                                      decoration: InputDecoration(
-                                        contentPadding:
-                                            EdgeInsets.only(left: 5),
-                                        filled: true,
-                                        fillColor: Color(0xff17000000),
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                          borderSide: const BorderSide(
-                                            width: 0,
-                                            style: BorderStyle.none,
-                                          ),
-                                        ),
-                                        hintText: "Short description",
-                                        hintStyle: const TextStyle(
-                                          color: Color(0xff8a8a8a),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Description',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontFamily: 'SFUIText',
+                                      ),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          .633,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: TextField(
+                                        textAlign: TextAlign.center,
+                                        controller: updateDescriptionController,
+                                        cursorColor: primaryClr,
+                                        style: const TextStyle(
+                                          height: 1.5,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500,
                                           fontSize: 12,
                                           fontFamily: 'SFUIText',
                                         ),
+                                        keyboardType: TextInputType.multiline,
+                                        maxLines: 3,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              left: 5, right: 3),
+                                          filled: true,
+                                          fillColor: Color(0xff17000000),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            borderSide: const BorderSide(
+                                              width: 0,
+                                              style: BorderStyle.none,
+                                            ),
+                                          ),
+                                          hintText: "Short description",
+                                          hintStyle: const TextStyle(
+                                            color: Color(0xff8a8a8a),
+                                            fontSize: 12,
+                                            fontFamily: 'SFUIText',
+                                            height: 3,
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(vertical: 5),
+                                    const EdgeInsets.only(bottom: 2, top: 15),
                                 child: BlueButton(
                                   text: "Update Item",
                                   onTap: () {
