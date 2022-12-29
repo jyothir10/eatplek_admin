@@ -116,8 +116,6 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
     };
     var urlfinal = Uri.https(URL_Latest, '/food/');
 
-    print(urlfinal);
-
     Map body1 = {
       "user_id": sharedPreferences.getString("id"),
       "name": itemnamecontroller.text.trim(),

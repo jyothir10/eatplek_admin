@@ -56,7 +56,6 @@ class _LoginScreenState extends State<LoginScreen> {
     var res = await http.post(urlfinal, headers: headers, body: body);
 
     final responseBody = json.decode(res.body);
-    print(res.body);
 
     if (isRequestSucceeded(res.statusCode)) {
       status = true;
@@ -91,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
           setState(() {
             showSpinner = false;
           });
-          print(status);
+          
         }
         throw APIException(res.statusCode, jsonDecode(res.body));
       }

@@ -31,6 +31,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   bool showList = false;
   bool isEmpty1 = false;
   bool showList1 = false;
+  bool open = true;
   int i = 0;
   static const except = {'exc': 'An error occured'};
 
@@ -73,9 +74,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
       APIException(response.statusCode, except);
   }
 
+  getRestaurantStatus() async {
+    SharedPreferences sharedpreferences = await SharedPreferences.getInstance();
+    String? id = sharedpreferences.getString("id");
+    Map<String, String> headers = {
+      "Content-Type": "application/json",
+    };
+    var urlfinal = Uri.https(URL_Latest, '/restaurant/status/$id');
+
+    http.Response response = await http.get(urlfinal, headers: headers);
+
+    if ((response.statusCode >= 200) && (response.statusCode < 300)) {
+      final jsonData = jsonDecode(response.body);
+      open = jsonData['open'];
+      setState(() {});
+    } else
+      APIException(response.statusCode, except);
+  }
+
   @override
   void initState() {
     // TODO: implement initState
+    getRestaurantStatus();
     getRestaurant();
     super.initState();
   }
@@ -160,7 +180,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 ),
                                 Row(
                                   children: [
-                                    YellowButton(text: "Open", onTap: () {}),
+                                    YellowButton(
+                                        text: open ? "Open" : "Closed",
+                                        onTap: () {}),
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           left: 12, top: 7),
