@@ -73,7 +73,6 @@ class _LoginScreenState extends State<LoginScreen> {
       });
 
       if (token != null) {
-        print(token);
         Navigator.pushReplacementNamed(context, DashboardScreen.id);
       } else {
         if (status == false) {

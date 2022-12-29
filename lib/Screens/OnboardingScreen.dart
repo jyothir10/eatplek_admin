@@ -4,7 +4,9 @@ import 'package:eatplek_admin/Constants.dart';
 import 'package:eatplek_admin/Screens/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'DashBoardScreen.dart';
 import 'LoginScreen.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -18,6 +20,7 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   DateTime? currentBackPressTime;
+  String? id = "";
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   void initState() {
     // TODO: implement initState
@@ -26,10 +29,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   startTime() async {
-    var _duration = Duration(seconds: 4);
+    var _duration = Duration(seconds: 3);
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    id = (await sharedPreferences.getString("id"));
     return Timer(_duration, () {
-      //Navigate to another screen or anyOther function, like i set duration 4 sec so this function run after 4 sec
-      Navigator.pushReplacementNamed(context, LoginScreen.id);
+      if (id == null) {
+        Navigator.pushReplacementNamed(context, LoginScreen.id);
+      } else {
+        Navigator.pushNamedAndRemoveUntil(
+            context, DashboardScreen.id, (route) => false);
+      }
     });
   }
 
