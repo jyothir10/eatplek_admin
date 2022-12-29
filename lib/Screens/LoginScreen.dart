@@ -37,6 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
   signin() async {
     setState(() {
       showSpinner = true;
+      FocusManager.instance.primaryFocus?.unfocus();
     });
     String url = "${URL_Latest}/restaurant/login/";
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -83,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
               behavior: SnackBarBehavior.floating,
               duration: Duration(seconds: 1),
               content: Text(
-                responseBody["message"].toString(),
+                "Could not login, username/password incorrect!",
               ),
             ),
           );
