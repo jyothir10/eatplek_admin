@@ -7,7 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Components/BlueButton.dart';
 import '../Constants.dart';
-import 'DashBoardScreen.dart';
 import 'LoginScreen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -83,7 +82,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           leading: InkWell(
             onTap: () {
-              Navigator.pushReplacementNamed(context, DashboardScreen.id);
+              Navigator.pop(context);
             },
             child: const Icon(
               Icons.arrow_back_outlined,
