@@ -32,6 +32,7 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
   String? id;
   String resname = "";
   String dropdownvalue = "";
+  int index = 0;
   var items = ['item1', 'item2'];
   var foods = [];
   List<String> foodNames = [];
@@ -81,7 +82,6 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
         foodIds.add(foods[i]['id'].toString());
         foodNames.add(foods[i]['name'].toString());
       }
-      print(foodNames);
       setState(() {
         dropdownvalue = foodNames[0];
         showSpinner = false;
@@ -91,6 +91,7 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
   }
 
   requestAddItem() async {
+    FocusManager.instance.primaryFocus?.unfocus();
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, String> headers = {
       "Content-Type": "application/json",
@@ -145,13 +146,14 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
   }
 
   requestUpdateItem() async {
-    //todo: Update item API
+    FocusManager.instance.primaryFocus?.unfocus();
+    String foodid = foodIds[index];
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, String> headers = {
       "Content-Type": "application/json",
       "Token": sharedPreferences.getString("token").toString(),
     };
-    var urlfinal = Uri.https(URL_Latest, '/food/'); //todo:food id/
+    var urlfinal = Uri.https(URL_Latest, '/food/$foodid');
 
     Map body1 = {
       "name": dropdownvalue,
@@ -164,12 +166,8 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
     http.Response response =
         await http.put(urlfinal, headers: headers, body: body);
 
-    print(response.body);
-    print(response.statusCode);
-
     if ((response.statusCode >= 200) && (response.statusCode < 300)) {
       final jsonData = await jsonDecode(response.body);
-      print(jsonData);
 
       if (jsonData['message'] == "food updated") {
         _scaffoldKey.currentState?.showSnackBar(
@@ -565,7 +563,7 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
+                                      const Text(
                                         'Name',
                                         style: TextStyle(
                                           color: Colors.black,
@@ -602,7 +600,7 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
                                                     Color(0xff8a8a8a),
                                                 iconDisabledColor:
                                                     Color(0xff8a8a8a),
-                                                icon: Icon(Icons
+                                                icon: const Icon(Icons
                                                     .keyboard_arrow_down_outlined),
                                                 style: const TextStyle(
                                                   color: Colors.black,
@@ -620,6 +618,8 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
                                                 onChanged: (String? value) {
                                                   setState(() {
                                                     dropdownvalue = value!;
+                                                    index = foodNames
+                                                        .indexOf(dropdownvalue);
                                                   });
                                                 }),
                                           ),
