@@ -90,7 +90,6 @@ class _LoginScreenState extends State<LoginScreen> {
           setState(() {
             showSpinner = false;
           });
-          
         }
         throw APIException(res.statusCode, jsonDecode(res.body));
       }
@@ -126,6 +125,13 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Color buttonColour = Color(0xffc6c6cc);
+
+  @override
+  void dispose() {
+    namecontroller.dispose();
+    passwordcontroller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

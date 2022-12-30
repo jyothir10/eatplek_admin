@@ -208,6 +208,17 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
   }
 
   @override
+  void dispose() {
+    itemnamecontroller.dispose();
+    ratecontroller.dispose();
+    descriptioncontroller.dispose();
+    updateDescriptionController.dispose();
+    updateACRateController.dispose();
+    updateNonacRateController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
