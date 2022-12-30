@@ -37,6 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
   signin() async {
     setState(() {
       showSpinner = true;
+      FocusManager.instance.primaryFocus?.unfocus();
     });
     String url = "${URL_Latest}/restaurant/login/";
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -55,7 +56,6 @@ class _LoginScreenState extends State<LoginScreen> {
     var res = await http.post(urlfinal, headers: headers, body: body);
 
     final responseBody = json.decode(res.body);
-    print(res.body);
 
     if (isRequestSucceeded(res.statusCode)) {
       status = true;
@@ -73,7 +73,6 @@ class _LoginScreenState extends State<LoginScreen> {
       });
 
       if (token != null) {
-        print(token);
         Navigator.pushReplacementNamed(context, DashboardScreen.id);
       } else {
         if (status == false) {
@@ -84,14 +83,13 @@ class _LoginScreenState extends State<LoginScreen> {
               behavior: SnackBarBehavior.floating,
               duration: Duration(seconds: 1),
               content: Text(
-                responseBody["message"].toString(),
+                "Could not login, username/password incorrect!",
               ),
             ),
           );
           setState(() {
             showSpinner = false;
           });
-          print(status);
         }
         throw APIException(res.statusCode, jsonDecode(res.body));
       }
@@ -127,6 +125,13 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Color buttonColour = Color(0xffc6c6cc);
+
+  @override
+  void dispose() {
+    namecontroller.dispose();
+    passwordcontroller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -12,7 +12,7 @@ class YellowButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * .18,
+      width: MediaQuery.of(context).size.width * .19,
       height: 19,
       child: ElevatedButton(
         onPressed: onTap,

@@ -67,7 +67,8 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
     Map body1 = {
       "days_open": dayList,
       "opening_time": open_time,
-      "closing_time": close_time
+      "closing_time": close_time,
+      "open": open,
     };
 
     final body = jsonEncode(body1);
@@ -198,6 +199,9 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                     onChanged: (String? newValue) {
                                       setState(() {
                                         dropdownvalue = newValue!;
+                                        if (dropdownvalue == "Closed") {
+                                          open = false;
+                                        }
                                       });
                                     },
                                   ),
