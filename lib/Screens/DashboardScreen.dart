@@ -61,8 +61,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
     var urlfinal = Uri.https(URL_Latest, '/restaurant/$id');
 
     http.Response response = await http.get(urlfinal, headers: headers);
+    print(response.statusCode);
+
+    print(response.body);
 
     if ((response.statusCode >= 200) && (response.statusCode < 300)) {
+      print("Hi3");
       final jsonData = jsonDecode(response.body);
       restaurant = await jsonData['restaurant'];
 
@@ -126,14 +130,34 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
+  sendDeviceToken() async {
+    SharedPreferences sharedpreferences = await SharedPreferences.getInstance();
+    String? token = sharedpreferences.getString("token");
+    Map<String, String> headers = {
+      "Content-Type": "application/json",
+      "Token": token.toString(),
+    };
+    Map body1 = {"device_token": mtoken, "type": "mobile"};
+
+    final body = jsonEncode(body1);
+    var urlfinal = Uri.https(URL_Latest, '/restaurant/token');
+
+    http.Response response =
+        await http.patch(urlfinal, headers: headers, body: body);
+    if ((response.statusCode >= 200) && (response.statusCode < 300)) {
+      print("Token send successfully");
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
-    getRestaurantStatus();
     getRestaurant();
+    getRestaurantStatus();
     LocalNotificationService.initialise();
     requestPermission();
     getToken();
+    sendDeviceToken();
     super.initState();
     //terminated msg
     FirebaseMessaging.instance.getInitialMessage().then((event) {
@@ -277,9 +301,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             ),
                           ),
                         )
-                      : Container(
-                          child: const CircularProgressIndicator(
-                            color: Colors.white,
+                      : Center(
+                          child: Container(
+                            child: SizedBox(
+                              width: 18,
+                              height: 18,
+                              child: const CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
                         ),
                   (const TabBar(
