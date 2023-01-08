@@ -99,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
           behavior: SnackBarBehavior.floating,
           duration: Duration(seconds: 1),
           content: Text(
-            responseBody["error"].toString(),
+            "Incorrect username or password",
           ),
         ),
       );
