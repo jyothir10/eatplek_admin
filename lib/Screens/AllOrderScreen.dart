@@ -115,7 +115,11 @@ class _AllOrderScreenState extends State<AllOrderScreen> {
             )
           : Center(
               child: SizedBox(
-                  height: 30, width: 30, child: CircularProgressIndicator()),
+                  height: 30,
+                  width: 30,
+                  child: CircularProgressIndicator(
+                    color: primaryClr,
+                  )),
             ),
     );
   }
