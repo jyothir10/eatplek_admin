@@ -279,7 +279,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         )
                       : Container(
                           child: const CircularProgressIndicator(
-                            color: primaryClr,
+                            color: Colors.white,
                           ),
                         ),
                   (const TabBar(
