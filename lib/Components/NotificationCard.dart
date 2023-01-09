@@ -7,6 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationCard extends StatefulWidget {
   String title, noOfGuests, type, time, description, userId;
+  void Function()? onTap;
+
   NotificationCard({
     required this.title,
     required this.time,
@@ -14,6 +16,7 @@ class NotificationCard extends StatefulWidget {
     required this.noOfGuests,
     required this.description,
     required this.userId,
+    required this.onTap,
     Key? key,
   }) : super(key: key);
 
@@ -37,7 +40,10 @@ class _NotificationCardState extends State<NotificationCard> {
     http.Response response =
         await http.put(urlfinal, headers: headers, body: body);
     if ((response.statusCode >= 200) && (response.statusCode < 300)) {
-      setState(() {});
+      print(response.body);
+      setState(() {
+        widget.onTap!();
+      });
     }
   }
 

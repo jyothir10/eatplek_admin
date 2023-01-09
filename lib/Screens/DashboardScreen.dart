@@ -61,9 +61,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     var urlfinal = Uri.https(URL_Latest, '/restaurant/$id');
 
     http.Response response = await http.get(urlfinal, headers: headers);
-    print(response.statusCode);
-
-    print(response.body);
 
     if ((response.statusCode >= 200) && (response.statusCode < 300)) {
       print("Hi3");
