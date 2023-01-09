@@ -24,3 +24,10 @@ const TextStyle invoiceStyle = const TextStyle(
     fontFamily: "SFUIText",
     fontStyle: FontStyle.normal,
     fontSize: 10.0);
+
+const TextStyle notificationStyle = const TextStyle(
+    color: Color(0xff000000),
+    fontWeight: FontWeight.w400,
+    fontFamily: "SFUIText",
+    fontStyle: FontStyle.normal,
+    fontSize: 11.0);

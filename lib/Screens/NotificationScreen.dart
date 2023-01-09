@@ -1,4 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../Components/NotificationCard.dart';
+import '../Constants.dart';
+import '../Exceptions/api_exception.dart';
 
 class NotificationScreen extends StatefulWidget {
   static const String id = '/notifi';
@@ -9,198 +18,126 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
+  var notifications = [];
+  bool isEmpty1 = false;
+  bool showList1 = false;
+  bool showSpinner = true;
+  static const except = {'exc': 'An error occured'};
+
+  getNotifications() async {
+    setState(() {
+      showSpinner = true;
+    });
+    SharedPreferences sharedpreferences = await SharedPreferences.getInstance();
+    String? token = sharedpreferences.getString("token");
+    Map<String, String> headers = {
+      "Content-Type": "application/json",
+      "Token": token.toString(),
+    };
+    var urlfinal = Uri.https(URL_Latest, '/restaurant/requests');
+
+    http.Response response = await http.get(urlfinal, headers: headers);
+
+    if ((response.statusCode >= 200) && (response.statusCode < 300)) {
+      final jsonData = jsonDecode(response.body);
+      notifications = await jsonData['requests'];
+      print(notifications);
+      if (jsonData['requests'] == null) {
+        isEmpty1 = true;
+        showList1 = true;
+      } else if (notifications.length == 0) {
+        isEmpty1 = true;
+        showList1 = true;
+      } else {
+        showList1 = true;
+      }
+    } else {
+      isEmpty1 = true;
+      showList1 = true;
+      APIException(response.statusCode, except);
+    }
+    setState(() {
+      showSpinner = false;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getNotifications();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Color(0xffececec),
-          centerTitle: true,
-          leading: InkWell(
-            onTap: (){
-              Navigator.pop(context);
-            },
-            child: const Icon(
-              Icons.arrow_back_outlined,
-              color: Color(0xff000000),
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Color(0xffececec),
+        centerTitle: true,
+        leading: InkWell(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: const Icon(
+            Icons.arrow_back_outlined,
+            color: Color(0xff000000),
           ),
-          title: const Text("Notifications",
-              style: TextStyle(
-                  color: Color(0xff000000),
-                  fontWeight: FontWeight.w600,
-                  fontFamily: "SFUIText",
-                  fontStyle: FontStyle.normal,
-                  fontSize: 14.0),
-              textAlign: TextAlign.left),
         ),
-        body: Center(
-          child: Container(
-            color: Color(0xffececec),
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * .885,
-                    height: MediaQuery.of(context).size.height * .1,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      border: Border(
-                        top: BorderSide(
-                          color: Colors.white,
-                        ),
-                        bottom: BorderSide(color: Colors.white),
-                        right: BorderSide(color: Colors.white),
-                        left: BorderSide(color: Color(0xff61ff8d), width: 5),
-                      ),
+        title: const Text("Notifications",
+            style: TextStyle(
+                color: Color(0xff000000),
+                fontWeight: FontWeight.w600,
+                fontFamily: "SFUIText",
+                fontStyle: FontStyle.normal,
+                fontSize: 14.0),
+            textAlign: TextAlign.left),
+      ),
+      body: ModalProgressHUD(
+        inAsyncCall: showSpinner,
+        progressIndicator: CircularProgressIndicator(
+          color: primaryClr,
+        ),
+        child: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              child: showList1 == true
+                  ? Container(
+                      color: Color(0xffececec),
+                      height: MediaQuery.of(context).size.height - 70,
+                      width: MediaQuery.of(context).size.width,
+                      child: isEmpty1 == false
+                          ? Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 18),
+                              child: ListView.builder(
+                                  itemCount: notifications.length,
+                                  itemBuilder: (context, index) {
+                                    return NotificationCard(
+                                      title: "Order Request",
+                                      time: notifications[index]['time']
+                                          .toString(),
+                                      type: notifications[index]['type']
+                                          .toString(),
+                                      noOfGuests: notifications[index]
+                                              ['number_of_guests']
+                                          .toString(),
+                                      description: "",
+                                      userId: notifications[index]['user_id']
+                                          .toString(),
+                                      onTap: () {
+                                        getNotifications();
+                                      },
+                                    );
+                                  }),
+                            )
+                          : Center(child: Text("No new notifications")),
+                    )
+                  : Container(
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                      child: Center(child: Text("Fetching notifications")),
                     ),
-                    child: Card(
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            // Order delivered
-                            Text("Order delivered",
-                                style: TextStyle(
-                                    color: Color(0xff000000),
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: "SFUIText",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 12.0),
-                                textAlign: TextAlign.left),
-                            // Your order has been delivered. Kindly rate us on Play store or App Store
-                            Text(
-                                "Your order has been delivered. Kindly rate us on Play store\n or App Store",
-                                style: TextStyle(
-                                    color: Color(0xff000000),
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: "SFUIText",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 10.0),
-                                textAlign: TextAlign.left)
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * .885,
-                    height: MediaQuery.of(context).size.height * .1,
-                    decoration: const BoxDecoration(
-                      color: Color(0xffF7F7F7),
-                      border: Border(
-                        top: BorderSide(
-                            color: Color(0xffececec)
-                        ),
-                        bottom: BorderSide(color: Color(0xffececec)),
-                        right: BorderSide(color: Color(0xffececec)),
-                        left: BorderSide(color: Color(0xff61ff8d), width: 5),
-                      ),
-                    ),
-                    child: Card(
-                      elevation: 0,
-                      color: const Color(0xffF7F7F7),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            // Order delivered
-                            Text("Order delivered",
-                                style: TextStyle(
-                                    color: Color(0xff000000),
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: "SFUIText",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 12.0),
-                                textAlign: TextAlign.left),
-                            // Your order has been delivered. Kindly rate us on Play store or App Store
-                            Text(
-                                "Your order has been delivered. Kindly rate us on Play store \nor App Store",
-                                style: TextStyle(
-                                    color: Color(0xff000000),
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: "SFUIText",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 10.0),
-                                textAlign: TextAlign.left)
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * .885,
-                    height: MediaQuery.of(context).size.height * .1,
-                    decoration: const BoxDecoration(
-                      color: Color(0xffF7F7F7),
-                      border: Border(
-                        top: BorderSide(
-                            color: Color(0xffececec)
-                        ),
-                        bottom: BorderSide(color: Color(0xffececec)),
-                        right: BorderSide(color: Color(0xffececec)),
-                        left: BorderSide(color: Color(0xff61ff8d), width: 5),
-                      ),
-                    ),
-                    child: Card(
-                      elevation: 0,
-                      color: const Color(0xffF7F7F7),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            // Order delivered
-                            Text("Order delivered",
-                                style: TextStyle(
-                                    color: Color(0xff000000),
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: "SFUIText",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 12.0),
-                                textAlign: TextAlign.left),
-                            // Your order has been delivered. Kindly rate us on Play store or App Store
-                            Text(
-                                "Your order has been delivered. Kindly rate us on Play store \nor App Store",
-                                style: TextStyle(
-                                    color: Color(0xff000000),
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: "SFUIText",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 10.0),
-                                textAlign: TextAlign.left)
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
             ),
           ),
         ),

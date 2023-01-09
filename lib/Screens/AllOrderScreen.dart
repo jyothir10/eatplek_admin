@@ -23,6 +23,7 @@ class _AllOrderScreenState extends State<AllOrderScreen> {
   bool isDelivered = false;
   List orders = [];
   static const except = {'exc': 'An error occured'};
+
   getOrders() async {
     SharedPreferences sharedpreferences = await SharedPreferences.getInstance();
     String? id = sharedpreferences.getString("id");
