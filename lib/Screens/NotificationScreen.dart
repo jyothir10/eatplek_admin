@@ -123,7 +123,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                               ['number_of_guests']
                                           .toString(),
                                       description: "",
-                                      userId: notifications[index]['userid']
+                                      userId: notifications[index]['user_id']
                                           .toString(),
                                       onTap: () {
                                         getNotifications();
