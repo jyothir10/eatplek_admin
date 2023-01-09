@@ -132,6 +132,9 @@ class _RevenueScreenState extends State<RevenueScreen> {
           },
           child: ModalProgressHUD(
             inAsyncCall: showSpinner,
+            progressIndicator: CircularProgressIndicator(
+              color: primaryClr,
+            ),
             child: Column(
               children: [
                 Container(
