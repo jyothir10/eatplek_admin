@@ -63,7 +63,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     http.Response response = await http.get(urlfinal, headers: headers);
 
     if ((response.statusCode >= 200) && (response.statusCode < 300)) {
-      print("Hi3");
       final jsonData = jsonDecode(response.body);
       restaurant = await jsonData['restaurant'];
 
