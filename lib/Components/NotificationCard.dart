@@ -53,7 +53,7 @@ class _NotificationCardState extends State<NotificationCard> {
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: Container(
         width: MediaQuery.of(context).size.width * .885,
-        height: MediaQuery.of(context).size.height * .21,
+        height: MediaQuery.of(context).size.height * .19,
         // decoration: const BoxDecoration(
         //   color: Colors.white,
         //   border: Border(
@@ -86,8 +86,8 @@ class _NotificationCardState extends State<NotificationCard> {
                         fontSize: 12.0),
                     textAlign: TextAlign.left),
                 // Your order has been delivered. Kindly rate us on Play store or App Store
-                Text(widget.description,
-                    style: notificationStyle, textAlign: TextAlign.left),
+                // Text(widget.description,
+                //     style: notificationStyle, textAlign: TextAlign.left),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
