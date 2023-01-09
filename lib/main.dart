@@ -16,6 +16,8 @@ import 'Screens/MenuChangeScreen.dart';
 import 'Screens/NotificationScreen.dart';
 import 'Screens/RevenueScreen.dart';
 
+GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('Handling a background message ${message.messageId}');
 }
@@ -38,6 +40,7 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
     return MaterialApp(
+        navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
         initialRoute: OnboardingScreen.id,
         routes: {

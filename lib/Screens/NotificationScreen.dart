@@ -10,7 +10,7 @@ import '../Constants.dart';
 import '../Exceptions/api_exception.dart';
 
 class NotificationScreen extends StatefulWidget {
-  static const String id = '/notifi';
+  static const String id = '/notification';
   const NotificationScreen({Key? key}) : super(key: key);
 
   @override
