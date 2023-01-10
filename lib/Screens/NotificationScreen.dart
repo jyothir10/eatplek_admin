@@ -30,6 +30,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     });
     SharedPreferences sharedpreferences = await SharedPreferences.getInstance();
     String? token = sharedpreferences.getString("token");
+
     Map<String, String> headers = {
       "Content-Type": "application/json",
       "Token": token.toString(),
@@ -40,15 +41,16 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
     if ((response.statusCode >= 200) && (response.statusCode < 300)) {
       final jsonData = jsonDecode(response.body);
-      notifications = await jsonData['requests'];
-      print(notifications);
+
       if (jsonData['requests'] == null) {
         isEmpty1 = true;
         showList1 = true;
-      } else if (notifications.length == 0) {
+      } else if (jsonData['requests'] == 0) {
         isEmpty1 = true;
         showList1 = true;
       } else {
+        notifications = await jsonData['requests'];
+        print(notifications);
         showList1 = true;
       }
     } else {

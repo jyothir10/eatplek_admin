@@ -159,8 +159,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
     super.initState();
     //terminated msg
     FirebaseMessaging.instance.getInitialMessage().then((event) {
+      print(event?.data);
       if (event != null) {
-        if (event.data["navigation"] == "/notification") {
+        if (event.data != null) {
           BuildContext? context = navigatorKey.currentState?.context;
           if (context != null) {
             Navigator.push(context,
@@ -176,6 +177,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
     //Foreground msg
     FirebaseMessaging.onMessage.listen((event) {
+      print(event.data);
       LocalNotificationService.showNotificationOnForeground(event);
       setState(() {
         notificationMsg = "${event.notification!.body}";
@@ -184,7 +186,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
     //bground msg
     FirebaseMessaging.onMessageOpenedApp.listen((event) {
-      if (event.data["navigation"] == "/notification") {
+      print(event.data);
+      if (true) {
+        //event.data["navigation"] == "/notification"
         BuildContext? context = navigatorKey.currentState?.context;
         if (context != null) {
           Navigator.push(context,
