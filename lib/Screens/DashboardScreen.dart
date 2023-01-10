@@ -6,6 +6,7 @@ import 'package:eatplek_admin/Constants.dart';
 import 'package:eatplek_admin/Screens/AllOrderScreen.dart';
 import 'package:eatplek_admin/Screens/DelayedOrdersScreen.dart';
 import 'package:eatplek_admin/Screens/DeliveredOrdersScreen.dart';
+import 'package:eatplek_admin/Screens/NotificationScreen.dart';
 import 'package:eatplek_admin/Screens/PreparingScreen.dart';
 import 'package:eatplek_admin/Screens/TimeChangeScreen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -14,6 +15,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Exceptions/api_exception.dart';
+import '../main.dart';
 import '../services/local_notifications.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -157,7 +159,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
     super.initState();
     //terminated msg
     FirebaseMessaging.instance.getInitialMessage().then((event) {
+      print(event?.data);
       if (event != null) {
+        if (event.data != null) {
+          BuildContext? context = navigatorKey.currentState?.context;
+          if (context != null) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => NotificationScreen()));
+          }
+        }
+
         setState(() {
           notificationMsg = "${event.notification!.body}";
           print("Foreground msg");
@@ -166,6 +177,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
     //Foreground msg
     FirebaseMessaging.onMessage.listen((event) {
+      print(event.data);
       LocalNotificationService.showNotificationOnForeground(event);
       setState(() {
         notificationMsg = "${event.notification!.body}";
@@ -174,6 +186,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
     //bground msg
     FirebaseMessaging.onMessageOpenedApp.listen((event) {
+      print(event.data);
+      if (true) {
+        //event.data["navigation"] == "/notification"
+        BuildContext? context = navigatorKey.currentState?.context;
+        if (context != null) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => NotificationScreen()));
+        }
+      }
+
       setState(() {
         notificationMsg = "${event.notification!.body}";
         print("bground msg");

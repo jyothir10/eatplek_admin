@@ -1,5 +1,9 @@
+import 'package:eatplek_admin/Screens/NotificationScreen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+import '../main.dart';
 
 class LocalNotificationService {
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
@@ -11,7 +15,11 @@ class LocalNotificationService {
             android: AndroidInitializationSettings("@mipmap/ic_launcher"));
     _notificationsPlugin.initialize(initializationSettings,
         onSelectNotification: (String? payload) {
-      print(payload);
+      BuildContext? context = navigatorKey.currentState?.context;
+      if (context != null) {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => NotificationScreen()));
+      }
     });
   }
 
