@@ -119,29 +119,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
-  getToken() async {
+  sendDeviceToken() async {
     await FirebaseMessaging.instance.getToken().then((token) {
       setState(() {
         mtoken = token;
         print("Device token: $mtoken");
       });
     });
-  }
-
-  sendDeviceToken() async {
     SharedPreferences sharedpreferences = await SharedPreferences.getInstance();
     String? token = sharedpreferences.getString("token");
     Map<String, String> headers = {
       "Content-Type": "application/json",
       "Token": token.toString(),
     };
+    print(mtoken);
     Map body1 = {"device_token": mtoken, "type": "mobile"};
-
     final body = jsonEncode(body1);
     var urlfinal = Uri.https(URL_Latest, '/restaurant/token');
 
     http.Response response =
         await http.patch(urlfinal, headers: headers, body: body);
+    print(response.body);
     if ((response.statusCode >= 200) && (response.statusCode < 300)) {
       print("Token send successfully");
     }
@@ -154,12 +152,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
     getRestaurantStatus();
     LocalNotificationService.initialise();
     requestPermission();
-    getToken();
     sendDeviceToken();
     super.initState();
     //terminated msg
     FirebaseMessaging.instance.getInitialMessage().then((event) {
-      print(event?.data);
       if (event != null) {
         if (event.data != null) {
           BuildContext? context = navigatorKey.currentState?.context;
