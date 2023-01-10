@@ -99,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
           behavior: SnackBarBehavior.floating,
           duration: Duration(seconds: 1),
           content: Text(
-            responseBody["error"].toString(),
+            "Incorrect username or password",
           ),
         ),
       );
@@ -141,6 +141,9 @@ class _LoginScreenState extends State<LoginScreen> {
         key: _scaffoldKey,
         body: ModalProgressHUD(
           inAsyncCall: showSpinner,
+          progressIndicator: CircularProgressIndicator(
+            color: Colors.white,
+          ),
           color: primaryClr,
           child: Container(
             height: MediaQuery.of(context).size.height,

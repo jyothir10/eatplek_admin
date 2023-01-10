@@ -8,11 +8,13 @@ import 'package:eatplek_admin/Screens/DelayedOrdersScreen.dart';
 import 'package:eatplek_admin/Screens/DeliveredOrdersScreen.dart';
 import 'package:eatplek_admin/Screens/PreparingScreen.dart';
 import 'package:eatplek_admin/Screens/TimeChangeScreen.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Exceptions/api_exception.dart';
+import '../services/local_notifications.dart';
 
 class DashboardScreen extends StatefulWidget {
   static const String id = '/dashboard';
@@ -34,6 +36,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   bool open = true;
   int i = 0;
   static const except = {'exc': 'An error occured'};
+  String? mtoken = "", notificationMsg = "";
 
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
@@ -92,12 +95,90 @@ class _DashboardScreenState extends State<DashboardScreen> {
       APIException(response.statusCode, except);
   }
 
+  requestPermission() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print("User granted permission");
+    } else if (settings.authorizationStatus ==
+        AuthorizationStatus.provisional) {
+      print("User granted provisional permission");
+    } else {
+      print("User declined permission");
+    }
+  }
+
+  getToken() async {
+    await FirebaseMessaging.instance.getToken().then((token) {
+      setState(() {
+        mtoken = token;
+        print("Device token: $mtoken");
+      });
+    });
+  }
+
+  sendDeviceToken() async {
+    SharedPreferences sharedpreferences = await SharedPreferences.getInstance();
+    String? token = sharedpreferences.getString("token");
+    Map<String, String> headers = {
+      "Content-Type": "application/json",
+      "Token": token.toString(),
+    };
+    Map body1 = {"device_token": mtoken, "type": "mobile"};
+
+    final body = jsonEncode(body1);
+    var urlfinal = Uri.https(URL_Latest, '/restaurant/token');
+
+    http.Response response =
+        await http.patch(urlfinal, headers: headers, body: body);
+    if ((response.statusCode >= 200) && (response.statusCode < 300)) {
+      print("Token send successfully");
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
-    getRestaurantStatus();
     getRestaurant();
+    getRestaurantStatus();
+    LocalNotificationService.initialise();
+    requestPermission();
+    getToken();
+    sendDeviceToken();
     super.initState();
+    //terminated msg
+    FirebaseMessaging.instance.getInitialMessage().then((event) {
+      if (event != null) {
+        setState(() {
+          notificationMsg = "${event.notification!.body}";
+          print("Foreground msg");
+        });
+      }
+    });
+    //Foreground msg
+    FirebaseMessaging.onMessage.listen((event) {
+      LocalNotificationService.showNotificationOnForeground(event);
+      setState(() {
+        notificationMsg = "${event.notification!.body}";
+        print("Foreground msg");
+      });
+    });
+    //bground msg
+    FirebaseMessaging.onMessageOpenedApp.listen((event) {
+      setState(() {
+        notificationMsg = "${event.notification!.body}";
+        print("bground msg");
+      });
+    });
   }
 
   @override
@@ -216,8 +297,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             ),
                           ),
                         )
-                      : Container(
-                          child: CircularProgressIndicator(),
+                      : Center(
+                          child: Container(
+                            child: SizedBox(
+                              width: 18,
+                              height: 18,
+                              child: const CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
                         ),
                   (const TabBar(
                     indicatorColor: Color(0xff59f5ff),

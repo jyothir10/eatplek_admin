@@ -7,6 +7,8 @@ import 'package:eatplek_admin/Screens/ProfileScreen.dart';
 import 'package:eatplek_admin/Screens/TimeChangeScreen.dart';
 import 'package:flutter/material.dart';
 
+import 'NotificationScreen.dart';
+
 class SettingsSCreen extends StatefulWidget {
   static const String id = '/settings';
   const SettingsSCreen({Key? key}) : super(key: key);
@@ -96,40 +98,39 @@ class _SettingsSCreenState extends State<SettingsSCreen> {
                     Navigator.pushNamed(context, MenuChangeScreen.id);
                   },
                 ),
-
                 SettingsCard(
                   text: "Time change",
                   onTap: () {
                     Navigator.pushNamed(context, TimeChangeScreen.id);
                   },
                 ),
-                // Padding(
-                //   padding:
-                //       const EdgeInsets.symmetric(vertical: 9, horizontal: 18),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.start,
-                //     children: const [
-                //       Text(
-                //         'App Setting',
-                //         style: TextStyle(
-                //           color: Color(0x91000000),
-                //           fontSize: 12,
-                //           fontFamily: 'SFUIText',
-                //           fontWeight: FontWeight.w500,
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // const Divider(
-                //   thickness: 1,
-                // ),
-                // SettingsCard(
-                //   text: "Notifications",
-                //   onTap: () {
-                //     Navigator.pushNamed(context, NotificationScreen.id);
-                //   },
-                // ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 9, horizontal: 18),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: const [
+                      Text(
+                        'App Setting',
+                        style: TextStyle(
+                          color: Color(0x91000000),
+                          fontSize: 12,
+                          fontFamily: 'SFUIText',
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const Divider(
+                  thickness: 1,
+                ),
+                SettingsCard(
+                  text: "Notifications",
+                  onTap: () {
+                    Navigator.pushNamed(context, NotificationScreen.id);
+                  },
+                ),
               ],
             ),
           ),
