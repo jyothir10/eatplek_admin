@@ -29,7 +29,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   startTime() async {
-    var _duration = Duration(seconds: 3);
+    var _duration = Duration(seconds: 1);
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     id = (await sharedPreferences.getString("id"));
     return Timer(_duration, () {
