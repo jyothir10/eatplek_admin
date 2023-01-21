@@ -67,52 +67,80 @@ class _AllOrderScreenState extends State<AllOrderScreen> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 18, left: 18, right: 18),
+      padding: const EdgeInsets.only(top: 12, left: 18, right: 18),
       child: showList1 == true
-          ? SingleChildScrollView(
-              child: Container(
-                height: 500, //todo: height
-                child: isEmpty1 == false
-                    ? StreamBuilder(
-                        stream: Stream.periodic(Duration(seconds: 5)).asyncMap(
-                            (i) =>
-                                getOrders()), // i is null here (check periodic docs)
-                        builder: (context, snapshot) {
-                          return ListView.builder(
-                              itemCount: orders.length,
-                              itemBuilder: (context, index) {
-                                DateTime d =
-                                    DateTime.parse(orders[index]["created_at"]);
+          ? Column(
+              children: [
+                SizedBox(
+                  height: 30,
+                  width: MediaQuery.of(context).size.width,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 5, bottom: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          "No of orders: ${orders.length}",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontFamily: 'SFUIText',
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SingleChildScrollView(
+                  child: Container(
+                    height: MediaQuery.of(context).size.height - 321,
+                    child: isEmpty1 == false
+                        ? StreamBuilder(
+                            stream: Stream.periodic(Duration(seconds: 5))
+                                .asyncMap((i) =>
+                                    getOrders()), // i is null here (check periodic docs)
+                            builder: (context, snapshot) {
+                              return ListView.builder(
+                                  itemCount: orders.length,
+                                  itemBuilder: (context, index) {
+                                    DateTime d = DateTime.parse(
+                                        orders[index]["created_at"]);
 
-                                var formatter = new DateFormat('dd-MM-yyyy');
-                                String formattedDate = formatter.format(d);
+                                    var formatter =
+                                        new DateFormat('dd-MM-yyyy');
+                                    String formattedDate = formatter.format(d);
 
-                                return DashBoardCard(
-                                  name: orders[index]['user']['name'],
-                                  time: orders[index]['cart']['time'],
-                                  date: formattedDate,
-                                  guest: orders[index]['cart']
-                                          ['number_of_guests']
-                                      .toString(),
-                                  phone: orders[index]['user']['phone'],
-                                  isDelivered: orders[index]['status'],
-                                  orderId: orders[index]['id'],
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => InvoiceScreen(
-                                              orderId: orders[index]['id'])),
+                                    return DashBoardCard(
+                                      name: orders[index]['user']['name'],
+                                      time: orders[index]['cart']['time'],
+                                      date: formattedDate,
+                                      guest: orders[index]['cart']
+                                              ['number_of_guests']
+                                          .toString(),
+                                      phone: orders[index]['user']['phone'],
+                                      isDelivered: orders[index]['status'],
+                                      orderId: orders[index]['id'],
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  InvoiceScreen(
+                                                      orderId: orders[index]
+                                                          ['id'])),
+                                        );
+                                      },
                                     );
-                                  },
-                                );
-                              });
-                        } // builder should also handle the case when data is not fetched yet
-                        )
-                    : Container(
-                        child: Text("No orders"),
-                      ),
-              ),
+                                  });
+                            } // builder should also handle the case when data is not fetched yet
+                            )
+                        : Container(
+                            child: Text("No orders"),
+                          ),
+                  ),
+                ),
+              ],
             )
           : Center(
               child: SizedBox(

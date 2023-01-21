@@ -77,57 +77,87 @@ class _PreparingScreenState extends State<PreparingScreen> {
     return Padding(
       padding: const EdgeInsets.only(top: 18, left: 18, right: 18),
       child: showList1 == true
-          ? SingleChildScrollView(
-              child: Container(
-                height: 500, //todo: height
-                child: isEmpty1 == false
-                    ? StreamBuilder(
-                        stream: Stream.periodic(Duration(seconds: 5)).asyncMap(
-                            (i) =>
-                                getOrders()), // i is null here (check periodic docs)
-                        builder: (context, snapshot) {
-                          return ListView.builder(
-                              itemCount: preparingOrders.length,
-                              itemBuilder: (context, index) {
-                                DateTime d = DateTime.parse(
-                                    preparingOrders[index]["created_at"]);
-
-                                var formatter = new DateFormat('dd-MM-yyyy');
-                                String formattedDate = formatter.format(d);
-                                return DashBoardCard(
-                                  name: preparingOrders[index]['user']['name'],
-                                  time: preparingOrders[index]['cart']['time'],
-                                  date: formattedDate,
-                                  guest: preparingOrders[index]['cart']
-                                          ['number_of_guests']
-                                      .toString(),
-                                  phone: preparingOrders[index]['user']
-                                      ['phone'],
-                                  isDelivered: orders[index]['status'],
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => InvoiceScreen(
-                                              orderId: orders[index]['id'])),
-                                    );
-                                  },
-                                  orderId: orders[index]['id'],
-                                );
-                              });
-                        } // builder should also handle the case when data is not fetched yet
-                        )
-                    : Container(
-                        child: Center(
-                          child: Text(
-                            "No preparing orders",
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
+          ? Column(
+              children: [
+                SizedBox(
+                  height: 30,
+                  width: MediaQuery.of(context).size.width,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 5, bottom: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          "No of preparing orders: ${preparingOrders.length}",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontFamily: 'SFUIText',
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
-                      ),
-              ),
+                      ],
+                    ),
+                  ),
+                ),
+                SingleChildScrollView(
+                  child: Container(
+                    height: MediaQuery.of(context).size.height - 321,
+                    child: isEmpty1 == false
+                        ? StreamBuilder(
+                            stream: Stream.periodic(Duration(seconds: 5))
+                                .asyncMap((i) =>
+                                    getOrders()), // i is null here (check periodic docs)
+                            builder: (context, snapshot) {
+                              return ListView.builder(
+                                  itemCount: preparingOrders.length,
+                                  itemBuilder: (context, index) {
+                                    DateTime d = DateTime.parse(
+                                        preparingOrders[index]["created_at"]);
+
+                                    var formatter =
+                                        new DateFormat('dd-MM-yyyy');
+                                    String formattedDate = formatter.format(d);
+                                    return DashBoardCard(
+                                      name: preparingOrders[index]['user']
+                                          ['name'],
+                                      time: preparingOrders[index]['cart']
+                                          ['time'],
+                                      date: formattedDate,
+                                      guest: preparingOrders[index]['cart']
+                                              ['number_of_guests']
+                                          .toString(),
+                                      phone: preparingOrders[index]['user']
+                                          ['phone'],
+                                      isDelivered: orders[index]['status'],
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  InvoiceScreen(
+                                                      orderId: orders[index]
+                                                          ['id'])),
+                                        );
+                                      },
+                                      orderId: orders[index]['id'],
+                                    );
+                                  });
+                            } // builder should also handle the case when data is not fetched yet
+                            )
+                        : Container(
+                            child: Center(
+                              child: Text(
+                                "No preparing orders",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                          ),
+                  ),
+                ),
+              ],
             )
           : Center(
               child: SizedBox(
