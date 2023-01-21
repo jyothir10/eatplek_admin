@@ -207,148 +207,158 @@ class _DashboardScreenState extends State<DashboardScreen> {
         length: 4,
         child: Scaffold(
           key: _scaffoldKey,
-          bottomNavigationBar: BottomBar(
-            index: 0,
-          ),
-          appBar: AppBar(
-            centerTitle: true,
-            backgroundColor: primaryClr,
-            title: const Text(
-              'Order Summary',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontFamily: 'SFUIText',
-                fontWeight: FontWeight.w500,
-              ),
+          bottomNavigationBar: SizedBox(
+            height: 50,
+            child: BottomBar(
+              index: 0,
             ),
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(
-                  Icons.search,
+          ),
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(180),
+            child: AppBar(
+              centerTitle: true,
+              backgroundColor: primaryClr,
+              title: const Text(
+                'Order Summary',
+                style: TextStyle(
                   color: Colors.white,
+                  fontSize: 16,
+                  fontFamily: 'SFUIText',
+                  fontWeight: FontWeight.w500,
                 ),
-                onPressed: () {
-                  // do something
-                },
-              )
-            ],
-            bottom: PreferredSize(
-              preferredSize: Size.fromHeight(125),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  showList == true
-                      ? Container(
-                          height: 65,
-                          width: MediaQuery.of(context).size.width * .943,
-                          decoration: BoxDecoration(
-                            color: Color(0x23ffffff),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 18),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      restaurant["name"],
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: 'SFUIText',
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 13),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 5),
-                                      child: Text(
-                                        restaurant["location"],
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 9,
-                                          fontFamily: 'SFUIText',
-                                        ),
+              ),
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(
+                    Icons.search,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    // do something
+                  },
+                )
+              ],
+              bottom: PreferredSize(
+                preferredSize: Size.fromHeight(125),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    showList == true
+                        ? Container(
+                            height: 65,
+                            width: MediaQuery.of(context).size.width * .943,
+                            decoration: BoxDecoration(
+                              color: Color(0x23ffffff),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 18),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        restaurant["name"],
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'SFUIText',
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 13),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    YellowButton(
-                                        text: open ? "Open" : "Closed",
-                                        onTap: () {}),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 12, top: 7),
-                                      child: InkWell(
-                                        onTap: () {
-                                          Navigator.pushNamed(
-                                              context, TimeChangeScreen.id);
-                                        },
-                                        child: const Text(
-                                          'Change',
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 5),
+                                        child: Text(
+                                          restaurant["location"],
                                           style: TextStyle(
-                                            shadows: [
-                                              Shadow(
-                                                  color: Colors.white,
-                                                  offset: Offset(0, -5))
-                                            ],
-                                            color: Colors.transparent,
-                                            decoration:
-                                                TextDecoration.underline,
-                                            decorationColor: Color(0x23ffffff),
-                                            decorationThickness: 5,
+                                            color: Colors.white,
                                             fontSize: 9,
                                             fontFamily: 'SFUIText',
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                )
-                              ],
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      YellowButton(
+                                          text: open ? "Open" : "Closed",
+                                          onTap: () {}),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 12, top: 7),
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.pushNamed(
+                                                context, TimeChangeScreen.id);
+                                          },
+                                          child: const Text(
+                                            'Change',
+                                            style: TextStyle(
+                                              shadows: [
+                                                Shadow(
+                                                    color: Colors.white,
+                                                    offset: Offset(0, -5))
+                                              ],
+                                              color: Colors.transparent,
+                                              decoration:
+                                                  TextDecoration.underline,
+                                              decorationColor:
+                                                  Color(0x23ffffff),
+                                              decorationThickness: 5,
+                                              fontSize: 9,
+                                              fontFamily: 'SFUIText',
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                        )
-                      : Center(
-                          child: Container(
-                            child: SizedBox(
-                              width: 18,
-                              height: 18,
-                              child: const CircularProgressIndicator(
-                                color: Colors.white,
+                          )
+                        : Center(
+                            child: Container(
+                              child: SizedBox(
+                                width: 18,
+                                height: 18,
+                                child: const CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
+                    (const TabBar(
+                      indicatorColor: Color(0xff59f5ff),
+                      labelStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontFamily: 'SFUIText',
+                      ),
+                      tabs: [
+                        Tab(
+                          text: "All",
                         ),
-                  (const TabBar(
-                    indicatorColor: Color(0xff59f5ff),
-                    labelStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontFamily: 'SFUIText',
-                    ),
-                    tabs: [
-                      Tab(
-                        text: "All",
-                      ),
-                      Tab(
-                        text: "Preparing",
-                      ),
-                      Tab(
-                        text: "Delivered",
-                      ),
-                      Tab(
-                        text: "Delay",
-                      ),
-                    ],
-                  )),
-                ],
+                        Tab(
+                          text: "Preparing",
+                        ),
+                        Tab(
+                          text: "Delivered",
+                        ),
+                        Tab(
+                          text: "Delay",
+                        ),
+                      ],
+                    )),
+                  ],
+                ),
               ),
             ),
           ),
