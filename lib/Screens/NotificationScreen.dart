@@ -106,7 +106,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               child: showList1 == true
                   ? Container(
                       color: Color(0xffececec),
-                      height: MediaQuery.of(context).size.height - 70,
+                      height: MediaQuery.of(context).size.height - 95,
                       width: MediaQuery.of(context).size.width,
                       child: isEmpty1 == false
                           ? Padding(
