@@ -74,7 +74,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       final jsonData = jsonDecode(response.body);
       msg = await jsonData['message'];
       if (msg == "profile updated") {
-        _scaffoldKey.currentState?.showSnackBar(const SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             behavior: SnackBarBehavior.floating,
             duration: Duration(seconds: 1),
             content: Text("Restaurant profile updated successfully")));
@@ -82,7 +82,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         phoneController.clear();
         locationController.clear();
       } else {
-        _scaffoldKey.currentState?.showSnackBar(const SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             behavior: SnackBarBehavior.floating,
             duration: Duration(seconds: 1),
             content: Text("Could not update restaurant")));

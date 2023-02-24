@@ -222,7 +222,7 @@ class _RevenueScreenState extends State<RevenueScreen> {
                             if (startDate.isNotEmpty && endDate.isNotEmpty) {
                               getRevenue();
                             } else {
-                              _scaffoldKey.currentState?.showSnackBar(
+                              ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   behavior: SnackBarBehavior.floating,
                                   duration: Duration(seconds: 1),

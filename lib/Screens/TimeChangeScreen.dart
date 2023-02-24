@@ -83,7 +83,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
       msg = await jsonData['message'];
 
       if (msg == "timings updated") {
-        _scaffoldKey.currentState?.showSnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             behavior: SnackBarBehavior.floating,
             duration: Duration(seconds: 1),
@@ -94,7 +94,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
         );
       }
     } else {
-      _scaffoldKey.currentState?.showSnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           behavior: SnackBarBehavior.floating,
           duration: Duration(seconds: 1),
