@@ -116,7 +116,7 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
       final jsonData = await jsonDecode(response.body);
 
       if (jsonData['message'] == "request created") {
-        _scaffoldKey.currentState?.showSnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             behavior: SnackBarBehavior.floating,
             duration: Duration(seconds: 1),
@@ -129,7 +129,7 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
         ratecontroller.clear();
         descriptioncontroller.clear();
       } else {
-        _scaffoldKey.currentState?.showSnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             behavior: SnackBarBehavior.floating,
             duration: Duration(seconds: 1),
@@ -170,7 +170,7 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
       final jsonData = await jsonDecode(response.body);
 
       if (jsonData['message'] == "food updated") {
-        _scaffoldKey.currentState?.showSnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             behavior: SnackBarBehavior.floating,
             duration: Duration(seconds: 1),
@@ -183,7 +183,7 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
         updateACRateController.clear();
         updateNonacRateController.clear();
       } else {
-        _scaffoldKey.currentState?.showSnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             behavior: SnackBarBehavior.floating,
             duration: Duration(seconds: 1),
