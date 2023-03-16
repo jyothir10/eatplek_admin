@@ -25,6 +25,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
   String dropdownvalue = 'Open', msg = "", open_time = "", close_time = "";
   bool open = true, showSpinner = true;
   bool setTimer = false;
+  bool isOpen = true;
   int oth = 2;
   int otm = 5;
   int cth = 2;
@@ -68,8 +69,11 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
 
     if ((response.statusCode >= 200) && (response.statusCode < 300)) {
       final jsonData = jsonDecode(response.body);
-      open = jsonData['open'];
+      isOpen = jsonData['open'];
       setState(() {
+        if (!isOpen) {
+          dropdownvalue = "Closed";
+        }
         showSpinner = false;
       });
     } else
@@ -234,6 +238,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                           dropdownvalue = newValue!;
                                           if (dropdownvalue == "Closed") {
                                             open = false;
+                                            isOpen = false;
                                           }
                                         });
                                       },
