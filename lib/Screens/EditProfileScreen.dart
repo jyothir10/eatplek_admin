@@ -156,27 +156,32 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           const CircleAvatar(
                             backgroundColor: Color(0xffefeeee),
                             radius: 51.2,
-                            child: Text(
-                              "S",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 35.826087951660156,
-                                fontFamily: 'SFUIText',
-                                fontWeight: FontWeight.w500,
-                              ),
+                            child: Icon(
+                              Icons.person,
+                              color: Colors.black54,
+                              size: 43,
                             ),
+                            // child: Text(
+                            //   "S",
+                            //   style: TextStyle(
+                            //     color: Colors.black,
+                            //     fontSize: 35.826087951660156,
+                            //     fontFamily: 'SFUIText',
+                            //     fontWeight: FontWeight.w500,
+                            //   ),
+                            // ),
                           ),
-                          Positioned(
-                            top: 65,
-                            left: 65,
-                            child: InkWell(
-                              onTap: () {},
-                              child: Image.asset(
-                                "images/edit_profile.png",
-                                height: 45,
-                              ),
-                            ),
-                          )
+                          // Positioned(
+                          //   top: 65,
+                          //   left: 65,
+                          //   child: InkWell(
+                          //     onTap: () {},
+                          //     child: Image.asset(
+                          //       "images/edit_profile.png",
+                          //       height: 45,
+                          //     ),
+                          //   ),
+                          // )
                         ],
                       )
                     : Container(),
