@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
-        initialRoute: TimeChangeScreen.id,
+        initialRoute: OnboardingScreen.id,
         routes: {
           OnboardingScreen.id: (context) => OnboardingScreen(),
           LoginScreen.id: (context) => LoginScreen(),
