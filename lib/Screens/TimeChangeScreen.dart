@@ -26,10 +26,14 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
   bool open = true, showSpinner = true;
   bool setTimer = false;
   bool isOpen = true;
-  int oth = 2;
-  int otm = 5;
-  int cth = 2;
-  int ctm = 5;
+  int oth = 1;
+  int otm = 0;
+  int cth = 1;
+  int ctm = 0;
+  int openhr = 2;
+  int closehr = 2;
+  int openmin = 5;
+  int closemin = 5;
   final list = ['AM', 'PM'];
   String dropdownval = "AM";
   final list1 = ['AM', 'PM'];
@@ -421,12 +425,17 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                                     zeroPad: true,
                                                     haptics: true,
                                                     infiniteLoop: true,
-                                                    value: oth,
-                                                    minValue: 1,
+                                                    value: openhr,
+                                                    minValue: 01,
                                                     maxValue: 12,
                                                     onChanged: (value) {
                                                       setState(() {
-                                                        oth = value;
+                                                        openhr = value;
+                                                        oth = openhr - 1;
+                                                        if (oth == 0) {
+                                                          oth = 12;
+                                                        }
+                                                        print(oth);
                                                       });
                                                     }),
                                               ),
@@ -477,12 +486,17 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                                     ),
                                                     haptics: true,
                                                     infiniteLoop: true,
-                                                    value: otm,
+                                                    value: openmin,
                                                     minValue: 0,
                                                     maxValue: 59,
                                                     onChanged: (value) {
                                                       setState(() {
-                                                        otm = value;
+                                                        openmin = value;
+                                                        otm = openmin - 5;
+                                                        if (otm == -5) {
+                                                          otm = 55;
+                                                        }
+                                                        print(otm);
                                                       });
                                                     }),
                                               ),
@@ -581,12 +595,16 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                                     zeroPad: true,
                                                     haptics: true,
                                                     infiniteLoop: true,
-                                                    value: cth,
+                                                    value: closehr,
                                                     minValue: 1,
                                                     maxValue: 12,
                                                     onChanged: (value) {
                                                       setState(() {
-                                                        cth = value;
+                                                        closehr = value;
+                                                        cth = closehr - 1;
+                                                        if (cth == 0) {
+                                                          cth = 12;
+                                                        }
                                                       });
                                                     }),
                                               ),
@@ -637,12 +655,16 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                                     ),
                                                     haptics: true,
                                                     infiniteLoop: true,
-                                                    value: ctm,
+                                                    value: closemin,
                                                     minValue: 0,
                                                     maxValue: 59,
                                                     onChanged: (value) {
                                                       setState(() {
-                                                        ctm = value;
+                                                        closemin = value;
+                                                        ctm = closemin - 5;
+                                                        if (ctm == -5) {
+                                                          ctm = 55;
+                                                        }
                                                       });
                                                     }),
                                               ),
