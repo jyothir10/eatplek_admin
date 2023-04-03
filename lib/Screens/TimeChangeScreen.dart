@@ -62,6 +62,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
   static const except = {'exc': 'An error occured'};
 
   getRestaurantStatus() async {
+    showSpinner = true;
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String? token = sharedPreferences.getString("token");
 
@@ -75,7 +76,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
 
     if ((response.statusCode >= 200) && (response.statusCode < 300)) {
       final jsonData = jsonDecode(response.body);
-      print(response.body);
+
       isOpen = jsonData['timings']['open'];
       openingTime = jsonData['timings']['opening_time'];
       closingTime = jsonData['timings']['closing_time'];
@@ -126,6 +127,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
             ),
           ),
         );
+        getRestaurantStatus();
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -266,7 +268,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(bottom: 10),
+                              padding: const EdgeInsets.only(bottom: 12.5),
                               child: Text(
                                 "Opening Time : $openingTime",
                                 style: TextStyle(
@@ -847,8 +849,25 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                           child: BlueButton(
                             text: "Save",
                             onTap: () {
-                              open_time = "$oth:$otm $dropdownval";
-                              close_time = "$cth:$ctm $dropdownval1";
+                              if (oth < 10) {
+                                if (otm < 10) {
+                                  open_time = "0$oth:0$otm $dropdownval";
+                                } else {
+                                  open_time = "0$oth:$otm $dropdownval";
+                                }
+                              } else {
+                                open_time = "$oth:$otm $dropdownval";
+                              }
+                              if (cth < 10) {
+                                if (ctm < 10) {
+                                  close_time = "0$cth:0$ctm $dropdownval1";
+                                } else {
+                                  close_time = "0$cth:$ctm $dropdownval1";
+                                }
+                              } else {
+                                close_time = "$cth:$ctm $dropdownval1";
+                              }
+
                               int startDay = 1;
                               int endDay = 7;
                               List dayList = [];
