@@ -53,23 +53,28 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
     'Saturday',
     'Sunday'
   ];
-  String day1 = 'Monday';
+  String day1 = 'Monday', openingTime = "", closingTime = "";
   List opendays = [];
   static const except = {'exc': 'An error occured'};
 
   getRestaurantStatus() async {
-    SharedPreferences sharedpreferences = await SharedPreferences.getInstance();
-    String? id = sharedpreferences.getString("id");
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String? token = sharedPreferences.getString("token");
+
     Map<String, String> headers = {
       "Content-Type": "application/json",
+      "Token": token.toString(),
     };
-    var urlfinal = Uri.https(URL_Latest, '/restaurant/status/$id');
+    var urlfinal = Uri.https(URL_Latest, '/restaurant/timings');
 
     http.Response response = await http.get(urlfinal, headers: headers);
 
     if ((response.statusCode >= 200) && (response.statusCode < 300)) {
       final jsonData = jsonDecode(response.body);
-      isOpen = jsonData['open'];
+      print(response.body);
+      isOpen = jsonData['timings']['open'];
+      openingTime = jsonData['timings']['opening_time'];
+      closingTime = jsonData['timings']['closing_time'];
       setState(() {
         if (!isOpen) {
           dropdownvalue = "Closed";
@@ -179,6 +184,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(bottom: 12),
@@ -250,6 +256,33 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                           ],
                         ),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: Text(
+                                "Opening Time : $openingTime",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 13.5,
+                                  fontFamily: 'SFUIText',
+                                ),
+                              ),
+                            ),
+                            Text(
+                              "Closing Time : $closingTime",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 13.5,
+                                fontFamily: 'SFUIText',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       Row(
                         children: [
                           setTimer == false
@@ -264,7 +297,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                   size: 14,
                                 ),
                           const Text(
-                            'Set Timer',
+                            'Update Time',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 13.5,
