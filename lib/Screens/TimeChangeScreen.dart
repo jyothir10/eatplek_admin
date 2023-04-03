@@ -22,7 +22,13 @@ class TimeChangeScreen extends StatefulWidget {
 class _TimeChangeScreenState extends State<TimeChangeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   var items = ["Open", "Closed"];
-  String dropdownvalue = 'Open', msg = "", open_time = "", close_time = "";
+  String dropdownvalue = 'Open',
+      msg = "",
+      open_time = "",
+      close_time = "",
+      daysFrom = "",
+      daysTo = "";
+  List dayArr = [];
   bool open = true, showSpinner = true;
   bool setTimer = false;
   bool isOpen = true;
@@ -80,6 +86,13 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
       isOpen = jsonData['timings']['open'];
       openingTime = jsonData['timings']['opening_time'];
       closingTime = jsonData['timings']['closing_time'];
+      dayArr = jsonData['timings']["days_open"];
+      daysFrom = jsonData['timings']["days_open"][0];
+      int n = dayArr.length;
+      daysTo = dayArr[n - 1];
+      day = daysFrom; //for drop down.
+      day1 = daysTo; //for drop down.
+
       setState(() {
         if (!isOpen) {
           dropdownvalue = "Closed";
@@ -198,11 +211,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                           children: [
                             const Text(
                               'Status',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 13.5,
-                                fontFamily: 'SFUIText',
-                              ),
+                              style: TimeChangeTextStyle,
                             ),
                             Padding(
                               padding: const EdgeInsets.only(left: 30),
@@ -267,24 +276,21 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Text(
+                              "Opening Time : $openingTime",
+                              style: TimeChangeTextStyle,
+                            ),
                             Padding(
-                              padding: const EdgeInsets.only(bottom: 12.5),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 12.5),
                               child: Text(
-                                "Opening Time : $openingTime",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 13.5,
-                                  fontFamily: 'SFUIText',
-                                ),
+                                "Closing Time : $closingTime",
+                                style: TimeChangeTextStyle,
                               ),
                             ),
                             Text(
-                              "Closing Time : $closingTime",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 13.5,
-                                fontFamily: 'SFUIText',
-                              ),
+                              "Open From : $daysFrom - $daysTo",
+                              style: TimeChangeTextStyle,
                             ),
                           ],
                         ),
@@ -304,11 +310,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                 ),
                           const Text(
                             'Update Time',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 13.5,
-                              fontFamily: 'SFUIText',
-                            ),
+                            style: TimeChangeTextStyle,
                           ),
                           Padding(
                             padding: const EdgeInsets.only(right: 7),
@@ -343,41 +345,25 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                       children: const [
                                         Text(
                                           'Opening Time',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 13,
-                                            fontFamily: 'SFUIText',
-                                          ),
+                                          style: TimeChangeTextStyle,
                                         ),
                                         Padding(
                                           padding: EdgeInsets.only(top: 5),
                                           child: Text(
                                             'Closing Time',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 13,
-                                              fontFamily: 'SFUIText',
-                                            ),
+                                            style: TimeChangeTextStyle,
                                           ),
                                         ),
                                         Padding(
                                           padding: EdgeInsets.only(top: 3),
                                           child: Text(
                                             'From',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 13,
-                                              fontFamily: 'SFUIText',
-                                            ),
+                                            style: TimeChangeTextStyle,
                                           ),
                                         ),
                                         Text(
                                           'To',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 13,
-                                            fontFamily: 'SFUIText',
-                                          ),
+                                          style: TimeChangeTextStyle,
                                         ),
                                       ],
                                     ),
@@ -856,7 +842,11 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                   open_time = "0$oth:$otm $dropdownval";
                                 }
                               } else {
-                                open_time = "$oth:$otm $dropdownval";
+                                if (otm < 10) {
+                                  open_time = "$oth:0$otm $dropdownval";
+                                } else {
+                                  open_time = "$oth:$otm $dropdownval";
+                                }
                               }
                               if (cth < 10) {
                                 if (ctm < 10) {
@@ -865,7 +855,11 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                   close_time = "0$cth:$ctm $dropdownval1";
                                 }
                               } else {
-                                close_time = "$cth:$ctm $dropdownval1";
+                                if (ctm < 10) {
+                                  close_time = "$cth:0$ctm $dropdownval1";
+                                } else {
+                                  close_time = "$cth:$ctm $dropdownval1";
+                                }
                               }
 
                               int startDay = 1;

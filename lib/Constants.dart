@@ -31,3 +31,9 @@ const TextStyle notificationStyle = const TextStyle(
     fontFamily: "SFUIText",
     fontStyle: FontStyle.normal,
     fontSize: 11.0);
+
+const TextStyle TimeChangeTextStyle = TextStyle(
+  color: Colors.black,
+  fontSize: 13.5,
+  fontFamily: 'SFUIText',
+);
