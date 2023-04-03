@@ -26,10 +26,14 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
   bool open = true, showSpinner = true;
   bool setTimer = false;
   bool isOpen = true;
-  int oth = 2;
-  int otm = 5;
-  int cth = 2;
-  int ctm = 5;
+  int oth = 1;
+  int otm = 0;
+  int cth = 1;
+  int ctm = 0;
+  int openhr = 2;
+  int closehr = 2;
+  int openmin = 5;
+  int closemin = 5;
   final list = ['AM', 'PM'];
   String dropdownval = "AM";
   final list1 = ['AM', 'PM'];
@@ -53,23 +57,29 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
     'Saturday',
     'Sunday'
   ];
-  String day1 = 'Monday';
+  String day1 = 'Monday', openingTime = "", closingTime = "";
   List opendays = [];
   static const except = {'exc': 'An error occured'};
 
   getRestaurantStatus() async {
-    SharedPreferences sharedpreferences = await SharedPreferences.getInstance();
-    String? id = sharedpreferences.getString("id");
+    showSpinner = true;
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String? token = sharedPreferences.getString("token");
+
     Map<String, String> headers = {
       "Content-Type": "application/json",
+      "Token": token.toString(),
     };
-    var urlfinal = Uri.https(URL_Latest, '/restaurant/status/$id');
+    var urlfinal = Uri.https(URL_Latest, '/restaurant/timings');
 
     http.Response response = await http.get(urlfinal, headers: headers);
 
     if ((response.statusCode >= 200) && (response.statusCode < 300)) {
       final jsonData = jsonDecode(response.body);
-      isOpen = jsonData['open'];
+
+      isOpen = jsonData['timings']['open'];
+      openingTime = jsonData['timings']['opening_time'];
+      closingTime = jsonData['timings']['closing_time'];
       setState(() {
         if (!isOpen) {
           dropdownvalue = "Closed";
@@ -117,6 +127,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
             ),
           ),
         );
+        getRestaurantStatus();
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -179,6 +190,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(bottom: 12),
@@ -250,6 +262,33 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                           ],
                         ),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 12.5),
+                              child: Text(
+                                "Opening Time : $openingTime",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 13.5,
+                                  fontFamily: 'SFUIText',
+                                ),
+                              ),
+                            ),
+                            Text(
+                              "Closing Time : $closingTime",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 13.5,
+                                fontFamily: 'SFUIText',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       Row(
                         children: [
                           setTimer == false
@@ -264,7 +303,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                   size: 14,
                                 ),
                           const Text(
-                            'Set Timer',
+                            'Update Time',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 13.5,
@@ -388,12 +427,17 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                                     zeroPad: true,
                                                     haptics: true,
                                                     infiniteLoop: true,
-                                                    value: oth,
-                                                    minValue: 1,
+                                                    value: openhr,
+                                                    minValue: 01,
                                                     maxValue: 12,
                                                     onChanged: (value) {
                                                       setState(() {
-                                                        oth = value;
+                                                        openhr = value;
+                                                        oth = openhr - 1;
+                                                        if (oth == 0) {
+                                                          oth = 12;
+                                                        }
+                                                        print(oth);
                                                       });
                                                     }),
                                               ),
@@ -444,12 +488,17 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                                     ),
                                                     haptics: true,
                                                     infiniteLoop: true,
-                                                    value: otm,
+                                                    value: openmin,
                                                     minValue: 0,
                                                     maxValue: 59,
                                                     onChanged: (value) {
                                                       setState(() {
-                                                        otm = value;
+                                                        openmin = value;
+                                                        otm = openmin - 5;
+                                                        if (otm == -5) {
+                                                          otm = 55;
+                                                        }
+                                                        print(otm);
                                                       });
                                                     }),
                                               ),
@@ -548,12 +597,16 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                                     zeroPad: true,
                                                     haptics: true,
                                                     infiniteLoop: true,
-                                                    value: cth,
+                                                    value: closehr,
                                                     minValue: 1,
                                                     maxValue: 12,
                                                     onChanged: (value) {
                                                       setState(() {
-                                                        cth = value;
+                                                        closehr = value;
+                                                        cth = closehr - 1;
+                                                        if (cth == 0) {
+                                                          cth = 12;
+                                                        }
                                                       });
                                                     }),
                                               ),
@@ -604,12 +657,16 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                                                     ),
                                                     haptics: true,
                                                     infiniteLoop: true,
-                                                    value: ctm,
+                                                    value: closemin,
                                                     minValue: 0,
                                                     maxValue: 59,
                                                     onChanged: (value) {
                                                       setState(() {
-                                                        ctm = value;
+                                                        closemin = value;
+                                                        ctm = closemin - 5;
+                                                        if (ctm == -5) {
+                                                          ctm = 55;
+                                                        }
                                                       });
                                                     }),
                                               ),
@@ -792,8 +849,25 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
                           child: BlueButton(
                             text: "Save",
                             onTap: () {
-                              open_time = "$oth:$otm $dropdownval";
-                              close_time = "$cth:$ctm $dropdownval1";
+                              if (oth < 10) {
+                                if (otm < 10) {
+                                  open_time = "0$oth:0$otm $dropdownval";
+                                } else {
+                                  open_time = "0$oth:$otm $dropdownval";
+                                }
+                              } else {
+                                open_time = "$oth:$otm $dropdownval";
+                              }
+                              if (cth < 10) {
+                                if (ctm < 10) {
+                                  close_time = "0$cth:0$ctm $dropdownval1";
+                                } else {
+                                  close_time = "0$cth:$ctm $dropdownval1";
+                                }
+                              } else {
+                                close_time = "$cth:$ctm $dropdownval1";
+                              }
+
                               int startDay = 1;
                               int endDay = 7;
                               List dayList = [];
