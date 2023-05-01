@@ -103,7 +103,7 @@ class _NotificationCardState extends State<NotificationCard> {
                               style: notificationStyle,
                               textAlign: TextAlign.left),
                         ),
-                        Text("No:of Guests : ",
+                        Text("No of Guests : ",
                             style: notificationStyle,
                             textAlign: TextAlign.left),
                       ],
