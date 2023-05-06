@@ -140,7 +140,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height -
-                        (MediaQuery.of(context).padding.top + kToolbarHeight),
+                        (MediaQuery.of(context).padding.top) - 170,
                     child: isEmpty1 == false
                         ? ListView.builder(
                             itemCount: categories.length,
