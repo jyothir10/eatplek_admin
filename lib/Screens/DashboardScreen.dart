@@ -120,9 +120,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   sendDeviceToken() async {
-    await FirebaseMessaging.instance.getToken().then((token) {
+    await FirebaseMessaging.instance.getToken().then((devtoken) {
       setState(() {
-        mtoken = token;
+        mtoken = devtoken;
         print("Device token: $mtoken");
       });
     });
@@ -132,7 +132,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       "Content-Type": "application/json",
       "Token": token.toString(),
     };
-    print(mtoken);
     Map body1 = {"device_token": mtoken, "type": "mobile"};
     final body = jsonEncode(body1);
     var urlfinal = Uri.https(URL_Latest, '/restaurant/token');
@@ -272,14 +271,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             fontWeight: FontWeight.w500,
                                             fontSize: 13),
                                       ),
-                                      Padding(
-                                        padding: EdgeInsets.only(top: 5),
-                                        child: Text(
-                                          restaurant["location"],
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 9,
-                                            fontFamily: 'SFUIText',
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width -
+                                                200,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(top: 5),
+                                          child: Text(
+                                            restaurant["location"],
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 9,
+                                              fontFamily: 'SFUIText',
+                                            ),
                                           ),
                                         ),
                                       ),
