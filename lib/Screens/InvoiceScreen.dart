@@ -44,7 +44,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
       "Content-Type": "application/json",
       "Token": token.toString(),
     };
-    var urlfinal = Uri.https(URL_Latest, '/order/${widget.orderId}');
+    var urlfinal = Uri.http(URL_Latest, '/order/${widget.orderId}');
 
     http.Response response = await http.get(urlfinal, headers: headers);
     if ((response.statusCode >= 200) && (response.statusCode < 300)) {
@@ -224,7 +224,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(location+" ",
+                                    Text(location + " ",
                                         style: const TextStyle(
                                             color: Color(0xff000000),
                                             fontWeight: FontWeight.w400,
