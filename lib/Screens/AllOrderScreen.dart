@@ -32,24 +32,26 @@ class _AllOrderScreenState extends State<AllOrderScreen> {
       "Content-Type": "application/json",
       "Token": token.toString(),
     };
-    var urlfinal =
-        Uri.https(URL_Latest, '/order/filter/restaurant/$id'); //todo:change id.
+    var urlfinal = Uri.https(URL_Latest, '/order/filter/restaurant/$id');
 
     http.Response response = await http.get(urlfinal, headers: headers);
 
     if ((response.statusCode >= 200) && (response.statusCode < 300)) {
       final jsonData = jsonDecode(response.body);
-      orders = await jsonData['result'];
       if (jsonData['result'] == null) {
         isEmpty1 = true;
         showList1 = true;
-      } else if (orders.length == 0) {
-        isEmpty1 = true;
-        showList1 = true;
+        setState(() {});
       } else {
-        showList1 = true;
+        orders = await jsonData['result'];
+        if (orders.length == 0) {
+          isEmpty1 = true;
+          showList1 = true;
+        } else {
+          showList1 = true;
+        }
+        setState(() {});
       }
-      setState(() {});
     } else {
       isEmpty1 = true;
       showList1 = true;
@@ -136,7 +138,13 @@ class _AllOrderScreenState extends State<AllOrderScreen> {
                             } // builder should also handle the case when data is not fetched yet
                             )
                         : Container(
-                            child: Text("No orders"),
+                            child: Center(
+                                child: Text(
+                              "No orders",
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
+                            )),
                           ),
                   ),
                 ),
