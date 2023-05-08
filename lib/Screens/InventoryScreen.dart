@@ -41,7 +41,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
     Map<String, String> headers = {
       "Content-Type": "application/json",
     };
-    var urlfinal = Uri.https(URL_Latest, '/food/filter/restaurant/$id');
+    var urlfinal = Uri.http(URL_Latest, '/food/filter/restaurant/$id');
 
     http.Response response = await http.get(urlfinal, headers: headers);
     if ((response.statusCode >= 200) && (response.statusCode < 300)) {
@@ -208,7 +208,7 @@ class _InventoryItemState extends State<InventoryItem> {
       'usertype': 'admin',
     };
     var urlfinal =
-        Uri.https(URL_Latest, '/food/filter/restaurant/$id', _queryParameters);
+        Uri.http(URL_Latest, '/food/filter/restaurant/$id', _queryParameters);
 
     http.Response response = await http.get(urlfinal, headers: headers);
 
@@ -328,7 +328,7 @@ class _InventoryItemsState extends State<InventoryItems> {
     Map<String, String> headers = {
       "Token": token.toString(),
     };
-    var urlfinal = Uri.https(URL_Latest, '/food/availability/${widget.foodId}');
+    var urlfinal = Uri.http(URL_Latest, '/food/availability/${widget.foodId}');
 
     http.Response response = await http.put(urlfinal, headers: headers);
     print(response.body);

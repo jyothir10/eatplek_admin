@@ -60,7 +60,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     Map<String, String> headers = {
       "Content-Type": "application/json",
     };
-    var urlfinal = Uri.https(URL_Latest, '/restaurant/$id');
+    var urlfinal = Uri.http(URL_Latest, '/restaurant/$id');
 
     http.Response response = await http.get(urlfinal, headers: headers);
 
@@ -85,7 +85,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     Map<String, String> headers = {
       "Content-Type": "application/json",
     };
-    var urlfinal = Uri.https(URL_Latest, '/restaurant/status/$id');
+    var urlfinal = Uri.http(URL_Latest, '/restaurant/status/$id');
 
     http.Response response = await http.get(urlfinal, headers: headers);
 
@@ -134,11 +134,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
     };
     Map body1 = {"device_token": mtoken, "type": "mobile"};
     final body = jsonEncode(body1);
-    var urlfinal = Uri.https(URL_Latest, '/restaurant/token');
+    var urlfinal = Uri.http(URL_Latest, '/restaurant/token');
 
     http.Response response =
         await http.patch(urlfinal, headers: headers, body: body);
-    print(response.body);
+
     if ((response.statusCode >= 200) && (response.statusCode < 300)) {
       print("Token send successfully");
     }

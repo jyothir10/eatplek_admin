@@ -24,10 +24,10 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
   TextEditingController itemnamecontroller = TextEditingController();
   TextEditingController ratecontroller = TextEditingController();
   TextEditingController descriptioncontroller = TextEditingController();
-
   TextEditingController updateACRateController = TextEditingController();
   TextEditingController updateNonacRateController = TextEditingController();
   TextEditingController updateDescriptionController = TextEditingController();
+
   var restaurant;
   String? id;
   String resname = "";
@@ -46,7 +46,7 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
     Map<String, String> headers = {
       "Content-Type": "application/json",
     };
-    var urlfinal = Uri.https(URL_Latest, '/restaurant/$id');
+    var urlfinal = Uri.http(URL_Latest, '/restaurant/$id');
 
     http.Response response = await http.get(urlfinal, headers: headers);
 
@@ -70,7 +70,7 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
     final Map<String, String> _queryParameters = <String, String>{
       'foredit': 'true',
     };
-    var urlfinal = Uri.https(URL_Latest, '/food/filter/restaurant/$id',
+    var urlfinal = Uri.http(URL_Latest, '/food/filter/restaurant/$id',
         _queryParameters); //todo: change res id.
 
     http.Response response = await http.get(urlfinal, headers: headers);
@@ -97,7 +97,7 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
       "Content-Type": "application/json",
       "Token": sharedPreferences.getString("token").toString(),
     };
-    var urlfinal = Uri.https(URL_Latest, '/request');
+    var urlfinal = Uri.http(URL_Latest, '/request');
 
     Map body1 = {
       "user_id": sharedPreferences.getString("id"),
@@ -153,7 +153,7 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
       "Content-Type": "application/json",
       "Token": sharedPreferences.getString("token").toString(),
     };
-    var urlfinal = Uri.https(URL_Latest, '/food/$foodid');
+    var urlfinal = Uri.http(URL_Latest, '/food/$foodid');
 
     Map body1 = {
       "name": dropdownvalue,

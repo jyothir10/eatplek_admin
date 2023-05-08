@@ -32,6 +32,7 @@ class _RevenueScreenState extends State<RevenueScreen> {
   String total = "0";
   int noOfOrders = 0;
   List orders = [];
+
   getRevenue() async {
     setState(() {
       showSpinner = true;
@@ -50,7 +51,7 @@ class _RevenueScreenState extends State<RevenueScreen> {
 
     final body = jsonEncode(body1);
 
-    var urlfinal = Uri.https(URL_Latest, '/hotel/revenue'); //todo:change id.
+    var urlfinal = Uri.http(URL_Latest, '/hotel/revenue'); //todo:change id.
 
     http.Response response =
         await http.post(urlfinal, headers: headers, body: body);

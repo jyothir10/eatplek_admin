@@ -45,7 +45,7 @@ class _DashBoardCardState extends State<DashBoardCard> {
     Map body1 = {"id": widget.orderId, "status": 0};
 
     final body = jsonEncode(body1);
-    var urlfinal = Uri.https(URL_Latest, '/order/status');
+    var urlfinal = Uri.http(URL_Latest, '/order/status');
 
     http.Response response =
         await http.put(urlfinal, headers: headers, body: body);

@@ -35,7 +35,7 @@ class _NotificationCardState extends State<NotificationCard> {
     Map body1 = {"userid": widget.userId, "status": status};
 
     final body = jsonEncode(body1);
-    var urlfinal = Uri.https(URL_Latest, '/cart/status');
+    var urlfinal = Uri.http(URL_Latest, '/cart/status');
 
     http.Response response =
         await http.put(urlfinal, headers: headers, body: body);

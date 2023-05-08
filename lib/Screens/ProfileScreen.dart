@@ -28,7 +28,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Map<String, String> headers = {
       "Content-Type": "application/json",
     };
-    var urlfinal = Uri.https(URL_Latest, '/restaurant/$resid');
+    var urlfinal = Uri.http(URL_Latest, '/restaurant/$resid');
 
     http.Response response = await http.get(urlfinal, headers: headers);
     if ((response.statusCode >= 200) && (response.statusCode < 300)) {

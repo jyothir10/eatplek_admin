@@ -32,7 +32,7 @@ class _AllOrderScreenState extends State<AllOrderScreen> {
       "Content-Type": "application/json",
       "Token": token.toString(),
     };
-    var urlfinal = Uri.https(URL_Latest, '/order/filter/restaurant/$id');
+    var urlfinal = Uri.http(URL_Latest, '/order/filter/restaurant/$id');
 
     http.Response response = await http.get(urlfinal, headers: headers);
 

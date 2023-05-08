@@ -51,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     final body = jsonEncode(body1);
 
-    var urlfinal = Uri.https(URL_Latest, '/restaurant/login');
+    var urlfinal = Uri.http(URL_Latest, '/restaurant/login');
 
     var res = await http.post(urlfinal, headers: headers, body: body);
 

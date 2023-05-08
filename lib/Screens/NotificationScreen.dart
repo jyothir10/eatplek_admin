@@ -35,7 +35,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       "Content-Type": "application/json",
       "Token": token.toString(),
     };
-    var urlfinal = Uri.https(URL_Latest, '/restaurant/requests');
+    var urlfinal = Uri.http(URL_Latest, '/restaurant/requests');
 
     http.Response response = await http.get(urlfinal, headers: headers);
 

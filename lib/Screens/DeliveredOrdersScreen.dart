@@ -33,7 +33,7 @@ class _DeliveredOrdersScreenState extends State<DeliveredOrdersScreen> {
       "Token": token.toString(),
     };
     var urlfinal =
-        Uri.https(URL_Latest, '/order/filter/restaurant/$id'); //todo:change id.
+        Uri.http(URL_Latest, '/order/filter/restaurant/$id'); //todo:change id.
 
     http.Response response = await http.get(urlfinal, headers: headers);
 

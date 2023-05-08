@@ -35,7 +35,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     Map<String, String> headers = {
       "Content-Type": "application/json",
     };
-    var urlfinal = Uri.https(URL_Latest, '/restaurant/$id');
+    var urlfinal = Uri.http(URL_Latest, '/restaurant/$id');
 
     http.Response response = await http.get(urlfinal, headers: headers);
 
@@ -65,7 +65,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     };
 
     final body = jsonEncode(body1);
-    var urlfinal = Uri.https(URL_Latest, '/restaurant/profile');
+    var urlfinal = Uri.http(URL_Latest, '/restaurant/profile');
 
     http.Response response =
         await http.put(urlfinal, headers: headers, body: body);
