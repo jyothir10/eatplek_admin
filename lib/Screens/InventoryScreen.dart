@@ -41,7 +41,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
     Map<String, String> headers = {
       "Content-Type": "application/json",
     };
-    var urlfinal = Uri.https(URL_Latest, '/food/filter/restaurant/$id');
+    var urlfinal = Uri.http(URL_Latest, '/food/filter/restaurant/$id');
 
     http.Response response = await http.get(urlfinal, headers: headers);
     if ((response.statusCode >= 200) && (response.statusCode < 300)) {
@@ -140,7 +140,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height -
-                        (MediaQuery.of(context).padding.top) - 170,
+                        (MediaQuery.of(context).padding.top + 170),
                     child: isEmpty1 == false
                         ? ListView.builder(
                             itemCount: categories.length,
@@ -205,9 +205,10 @@ class _InventoryItemState extends State<InventoryItem> {
     };
     final Map<String, String> _queryParameters = <String, String>{
       'category': categoryId,
+      'usertype': 'admin',
     };
     var urlfinal =
-        Uri.https(URL_Latest, '/food/filter/restaurant/$id', _queryParameters);
+        Uri.http(URL_Latest, '/food/filter/restaurant/$id', _queryParameters);
 
     http.Response response = await http.get(urlfinal, headers: headers);
 
@@ -327,7 +328,7 @@ class _InventoryItemsState extends State<InventoryItems> {
     Map<String, String> headers = {
       "Token": token.toString(),
     };
-    var urlfinal = Uri.https(URL_Latest, '/food/availability/${widget.foodId}');
+    var urlfinal = Uri.http(URL_Latest, '/food/availability/${widget.foodId}');
 
     http.Response response = await http.put(urlfinal, headers: headers);
     print(response.body);

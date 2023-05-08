@@ -35,14 +35,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
       "Content-Type": "application/json",
       "Token": token.toString(),
     };
-    var urlfinal = Uri.https(URL_Latest, '/restaurant/requests');
+    var urlfinal = Uri.http(URL_Latest, '/restaurant/requests');
 
     http.Response response = await http.get(urlfinal, headers: headers);
 
     if ((response.statusCode >= 200) && (response.statusCode < 300)) {
       final jsonData = jsonDecode(response.body);
-
-      print(response.body);
 
       if (jsonData['requests'] == null) {
         isEmpty1 = true;
@@ -52,7 +50,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
         showList1 = true;
       } else {
         notifications = await jsonData['requests'];
-        print(notifications);
         showList1 = true;
       }
     } else {

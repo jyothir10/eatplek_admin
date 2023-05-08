@@ -76,7 +76,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
       "Content-Type": "application/json",
       "Token": token.toString(),
     };
-    var urlfinal = Uri.https(URL_Latest, '/restaurant/timings');
+    var urlfinal = Uri.http(URL_Latest, '/restaurant/timings');
 
     http.Response response = await http.get(urlfinal, headers: headers);
 
@@ -121,7 +121,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
 
     final body = jsonEncode(body1);
 
-    var urlfinal = Uri.https(URL_Latest, '/restaurant/timings');
+    var urlfinal = Uri.http(URL_Latest, '/restaurant/timings');
 
     http.Response response =
         await http.put(urlfinal, headers: headers, body: body);

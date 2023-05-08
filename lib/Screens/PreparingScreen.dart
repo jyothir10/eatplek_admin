@@ -34,18 +34,18 @@ class _PreparingScreenState extends State<PreparingScreen> {
       "Token": token.toString(),
     };
     var urlfinal =
-        Uri.https(URL_Latest, '/order/filter/restaurant/$id'); //todo:change id.
+        Uri.http(URL_Latest, '/order/filter/restaurant/$id'); //todo:change id.
 
     http.Response response = await http.get(urlfinal, headers: headers);
 
     if ((response.statusCode >= 200) && (response.statusCode < 300)) {
       final jsonData = jsonDecode(response.body);
-      orders = await jsonData['result'];
 
       if (jsonData['result'] == null) {
         isEmpty1 = true;
         showList1 = true;
       } else {
+        orders = await jsonData['result'];
         for (i = 0; i < orders.length; i++) {
           if (orders[i]['status'] == -1) {
             preparingOrders.add(orders[i]);
