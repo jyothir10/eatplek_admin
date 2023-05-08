@@ -42,8 +42,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
     if ((response.statusCode >= 200) && (response.statusCode < 300)) {
       final jsonData = jsonDecode(response.body);
 
-      print(response.body);
-
       if (jsonData['requests'] == null) {
         isEmpty1 = true;
         showList1 = true;
@@ -52,7 +50,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
         showList1 = true;
       } else {
         notifications = await jsonData['requests'];
-        print(notifications);
         showList1 = true;
       }
     } else {
