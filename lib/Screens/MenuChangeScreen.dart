@@ -586,7 +586,7 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
                                         height: 30,
                                         width:
                                             MediaQuery.of(context).size.width *
-                                                .49,
+                                                .5,
                                         decoration: BoxDecoration(
                                           color: Color(0xff17000000),
                                           borderRadius:
@@ -594,9 +594,10 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
                                         ),
                                         child: DropdownButtonHideUnderline(
                                           child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10),
+                                            padding: const EdgeInsets.only(
+                                                right: 10, left: 5),
                                             child: DropdownButton(
+                                                isExpanded: true,
                                                 hint: const Text(
                                                   'Name of item',
                                                   style: TextStyle(
@@ -621,6 +622,7 @@ class _MenuChangeScreenState extends State<MenuChangeScreen> {
                                                 ),
                                                 items: foodNames
                                                     .map((String items) {
+                                                  print(items);
                                                   return DropdownMenuItem(
                                                     value: items,
                                                     child: Text(items),
