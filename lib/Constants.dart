@@ -10,7 +10,7 @@ const TextStyle editprofilestyle = TextStyle(
 
 const Color primaryClr = Color(0xff042e60);
 
-const URL_Latest = '35.154.72.170:8080';
+const URL_Latest = 'api.eatplek.com';
 
 const TextStyle invoiceListStyle = TextStyle(
     color: const Color(0xff000000),
