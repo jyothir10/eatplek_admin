@@ -79,6 +79,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
     var urlfinal = Uri.http(URL_Latest, '/restaurant/timings');
 
     http.Response response = await http.get(urlfinal, headers: headers);
+    print(response.body);
 
     if ((response.statusCode >= 200) && (response.statusCode < 300)) {
       final jsonData = jsonDecode(response.body);
@@ -125,6 +126,7 @@ class _TimeChangeScreenState extends State<TimeChangeScreen> {
 
     http.Response response =
         await http.put(urlfinal, headers: headers, body: body);
+
 
     if ((response.statusCode >= 200) && (response.statusCode < 300)) {
       final jsonData = jsonDecode(response.body);
