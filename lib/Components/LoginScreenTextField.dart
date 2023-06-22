@@ -34,6 +34,7 @@ class LoginScreenTextField extends StatelessWidget {
         keyboardType: type,
         controller: controller,
         textAlign: TextAlign.center,
+        cursorColor: Color(0xff042e60),
         style: const TextStyle(
           color: Color(0xff042e60),
           fontFamily: 'SFUIText',
