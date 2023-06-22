@@ -4,6 +4,7 @@ import 'package:eatplek_admin/Components/LoginButton.dart';
 import 'package:eatplek_admin/Components/LoginScreenTextField.dart';
 import 'package:eatplek_admin/Constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -175,8 +176,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   Column(
                     children: [
                       LoginScreenTextField(
+                          maxLength: 33,
                           controller: namecontroller,
                           text: "Username",
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp("[a-zA-Z]")),
+                          ],
                           onchanged: (value) {
                             username = value;
                             if (username.isNotEmpty && password.isNotEmpty) {
@@ -190,6 +196,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Padding(
                         padding: const EdgeInsets.only(top: 25),
                         child: LoginScreenTextField(
+                          maxLength: 30,
                           controller: passwordcontroller,
                           text: "Password",
                           onchanged: (value) {
