@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:eatplek_admin/Components/EditProfileTextField.dart';
 import 'package:eatplek_admin/Components/ProfileButton.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -189,16 +190,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   myController: nameController,
                   text: 'Name',
                   type: TextInputType.name,
+                  maxLength: 33,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                  ],
                 ),
                 EditProfileTextField(
                   myController: phoneController,
                   text: 'Phone',
                   type: TextInputType.number,
+                  maxLength: 10,
                 ),
                 EditProfileTextField(
                   myController: locationController,
                   text: 'Location',
                   type: TextInputType.streetAddress,
+                  maxLength: 30,
                 ),
                 ProfileButton(
                     text: "       Save       ",

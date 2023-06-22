@@ -1,15 +1,21 @@
 import 'package:eatplek_admin/Constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class EditProfileTextField extends StatelessWidget {
   final TextEditingController myController;
   final String text;
   final TextInputType type;
+  final List<TextInputFormatter>? inputFormatters;
+  final int maxLength;
+
   const EditProfileTextField({
     Key? key,
     required this.myController,
     required this.text,
     required this.type,
+    required this.maxLength,
+    this.inputFormatters,
   }) : super(key: key);
 
   @override
@@ -28,6 +34,8 @@ class EditProfileTextField extends StatelessWidget {
             ],
           ),
           TextField(
+            maxLength: maxLength,
+            inputFormatters: inputFormatters,
             controller: myController,
             keyboardType: type,
             cursorColor: const Color(0x80000000),
