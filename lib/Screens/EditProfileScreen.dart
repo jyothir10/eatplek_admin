@@ -192,7 +192,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   type: TextInputType.name,
                   maxLength: 33,
                   inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                    FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
                   ],
                 ),
                 EditProfileTextField(

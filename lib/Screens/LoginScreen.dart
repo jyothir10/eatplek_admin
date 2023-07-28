@@ -181,7 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           text: "Username",
                           inputFormatters: [
                             FilteringTextInputFormatter.allow(
-                                RegExp("[a-zA-Z]")),
+                                RegExp("[a-zA-Z ]")),
                           ],
                           onchanged: (value) {
                             username = value;
